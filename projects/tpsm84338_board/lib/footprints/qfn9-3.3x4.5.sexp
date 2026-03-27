@@ -1,0 +1,12 @@
+(footprint "QFN9-3.3x4.5"
+  (description "9-pin QFN, 3.3x4.5mm body")
+  (pad 1 smd rect (pos -1.25 1.75) (size 0.70 0.30))
+  (pad 2 smd rect (pos -1.25 0.75) (size 0.70 0.30))
+  (pad 3 smd rect (pos -1.25 -0.25) (size 0.70 0.30))
+  (pad 4 smd rect (pos 0.00 -1.85) (size 0.30 0.70))
+  (pad 5 smd rect (pos 1.25 -0.25) (size 0.70 0.30))
+  (pad 6 smd rect (pos 1.25 0.75) (size 0.70 0.30))
+  (pad 7 smd rect (pos 1.25 1.75) (size 0.70 0.30))
+  (pad 8 smd rect (pos 0.50 1.85) (size 0.30 0.70))
+  (pad 9 smd rect (pos -0.50 1.85) (size 0.30 0.70))
+  (courtyard (rect -2.0 -2.5 2.0 2.5)))

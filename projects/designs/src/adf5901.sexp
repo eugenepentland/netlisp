@@ -1,0 +1,138 @@
+(import adf5901acpz)
+(import res-0402)
+(import res-0805)
+(import cap-0402)
+(import cap-0805)
+
+(design-block "ADF5901 24GHz Tx MMIC"
+
+  (instance "U1" adf5901acpz
+    (pin 1 3 6 8 10 12 13 19 33 "GND")
+    (pin 4 5 14 16 17 30 "AVDD_TX")
+    (pin 2 "TX_OUT1")
+    (pin 7 "TX_OUT2")
+    (pin 9 "ATEST")
+    (pin 11 "LO_OUT")
+    (pin 15 "REFIN")
+    (pin 18 "VREG")
+    (pin 20 "CE") (pin 21 "CLK") (pin 22 "DATA") (pin 23 "LE")
+    (pin 24 "DOUT") (pin 25 "MUXOUT")
+    (pin 26 "RSET")
+    (pin 27 "AUX") (pin 28 "AUXB")
+    (pin 29 "VTUNE"))
+
+  ;; TX_AHI bypass
+  (instance "C1" (cap-0402 "100nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C2" (cap-0402 "1nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+
+  ;; AHI bypass
+  (instance "C3" (cap-0402 "100nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C4" (cap-0402 "1nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C5" (cap-0402 "10pF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+
+  ;; RF_AHI bypass
+  (instance "C6" (cap-0402 "100nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C7" (cap-0402 "1nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C8" (cap-0402 "10pF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+
+  ;; VCO_AHI bypass
+  (instance "C9" (cap-0402 "100nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C10" (cap-0402 "1nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+  (instance "C11" (cap-0402 "10pF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+
+  ;; VREG bypass
+  (instance "C12" (cap-0402 "47nF")
+    (pin 1 "VREG")
+    (pin 2 "GND"))
+  (instance "C13" (cap-0402 "220nF")
+    (pin 1 "VREG")
+    (pin 2 "GND"))
+
+  ;; REFIN network
+  (instance "C14" (cap-0402 "1nF")
+    (pin 1 "REFIN")
+    (pin 2 "REFIN_AC"))
+  (instance "C15" (cap-0402 "1nF")
+    (pin 1 "REFIN")
+    (pin 2 "REFIN_AC"))
+  (instance "R2" (res-0402 "5.1k")
+    (pin 1 "REFIN")
+    (pin 2 "GND"))
+
+  ;; DVDD bypass
+  (instance "C16" (cap-0402 "100nF")
+    (pin 1 "AVDD_TX")
+    (pin 2 "GND"))
+
+  ;; Bias
+  (instance "R1" (res-0402 "5.1k")
+    (pin 1 "RSET")
+    (pin 2 "GND"))
+
+  ;; Loop filter
+  (instance "R3" (res-0805 "510R")
+    (pin 1 "CPOUT")
+    (pin 2 "LF1"))
+  (instance "R4" (res-0805 "0R")
+    (pin 1 "LF1")
+    (pin 2 "LF2"))
+  (instance "R5" (res-0805 "0R")
+    (pin 1 "LF2")
+    (pin 2 "VTUNE"))
+  (instance "C17" (cap-0805 "3.3nF")
+    (pin 1 "LF1")
+    (pin 2 "GND"))
+  (instance "C18" (cap-0805 "220pF")
+    (pin 1 "CPOUT")
+    (pin 2 "GND"))
+  (instance "C19" (cap-0805 "100pF")
+    (pin 1 "LF2")
+    (pin 2 "GND"))
+
+  ;; Ports
+  (port "AVDD_TX" "AVDD_TX" in (rated 3.15 3.45))
+  (port "REFIN"   "REFIN"   in)
+  (port "CPOUT"   "CPOUT"   in)
+  (port "TX_OUT1" "TX_OUT1" out)
+  (port "TX_OUT2" "TX_OUT2" out)
+  (port "LO_OUT"  "LO_OUT"  out)
+  (port "AUX"     "AUX"     out)
+  (port "AUXB"    "AUXB"    out)
+  (port "CE"      "CE"      in)
+  (port "CLK"     "CLK"     in)
+  (port "DATA"    "DATA"    in)
+  (port "LE"      "LE"      in)
+  (port "DOUT"    "DOUT"    out)
+  (port "MUXOUT"  "MUXOUT"  out)
+  (port "GND"     "GND"     bidi)
+
+  ;; Groups
+  (group "TX_AHI Bypass" ("C1" "C2"))
+  (group "AHI Bypass" ("C3" "C4" "C5"))
+  (group "RF_AHI Bypass" ("C6" "C7" "C8"))
+  (group "VCO_AHI Bypass" ("C9" "C10" "C11"))
+  (group "VREG Bypass" ("C12" "C13"))
+  (group "REFIN Network" ("C14" "C15" "R2"))
+  (group "Loop Filter" ("R3" "R4" "R5" "C17" "C18" "C19")))
