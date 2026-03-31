@@ -1,422 +1,414 @@
-(import stm32n657l0h3q)
-(import cap-0201)
-(import cap-0402)
-(import cap-0402-np0)
-(import cap-0402-x7r)
-(import cap-0805)
-(import res-0402)
-(import ind-2016)
-(import crystal)
-(import esd-usb)
-(import led-0402)
-(import connector-swd)
-(import amphenol-10164986)
+(import stm32n657l0h3q
+        cap-0201 cap-0402 cap-0603 cap-0805
+        res-0402 ind-1616 ind-2016 led-0402
+        abm8 fc-135 ecmf02-2amx6 connector-swd amphenol-10164986
+        mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
+        icm-20948 lsh-020-01-g-d-a-k-tr
+        tps63806 lp5907mfx-1-8-nopb)
 
 (design-block "STM32N657L0H3Q Minimal Schematic"
 
-  ;; Grid layout
-  (section "VDD Power"          (row 0) (col 0))
-  (section "SMPS Power"         (row 0) (col 1))
-  (section "Analog & I/O Rails" (row 1) (col 0))
-  (section "Boot & Reset"       (row 1) (col 1))
-  (section "SWD Debug"          (row 2) (col 0))
-  (section "HSE (Main Clock)"   (row 2) (col 1))
-  (section "LSE (RTC Clock)"    (row 3) (col 0))
-  (section "USB"                (row 3) (col 1))
+  (instance "U1" stm32n657l0h3q)
 
-  ;; ============================================================
-  ;; MCU Instance
-  ;; ============================================================
-  (instance "U1" stm32n657l0h3q
+  (section "VDD Power"
+    (in "VDD" power 3.3)
+    (in "V1P8" power 1.8)
+    (pins "U1"
+      (pin J14 K14 L14 "VDD")
+      (pin F1 "VDD")
+      (pin H6 "VDDA18AON")
+      (pin A19 F12 H14 N16 P8 P12 P14 W1 W19 "GND")
+      (pin N6 "VSSA")
+      (pin G6 "VSSAON")
+      (pin H2 "VSSAPMU"))
+    (decouple (cap-0201 "100nF") 1 per-pin U1 "VDD" "VDDA18AON")
+    (short "VSSA" "GND")
+    (short "VSSAON" "GND")
+    (short "VSSAPMU" "GND")
+    (note "F1 (VBAT) tied to VDD — no backup battery")
+    (note "VSSA/VSSAON/VSSAPMU are separate nets for PCB routing, shorted to GND"))
 
-    (part "VDD Power" (row 0) (col 0)
-      (pin 1 2 3 4 5 "VDD")
-      (pin 26 "VBAT")
-      (pin 15 "VDDA18AON")
-      (pin 27 28 29 30 31 32 33 34 35 36 37 38 39 40 "GND"))
+  (section "SMPS Power"
+    (description "Internal 0.8V core regulator")
+    (in "VDD" power 3.3)
+    (out "VDDCORE" power 0.8)
+    (pins "U1"
+      (pin H1 "VDDA18PMU")
+      (pin L1 L2 L3 L4 L5 "VDDSMPS")
+      (pin K1 K2 K3 K4 K5 "VLXSMPS")
+      (pin G2 "VDDCORE")
+      (pin J1 J2 J3 J4 J5 "VSSSMPS")
+      (pin P7 P9 P10 P11 P13 "VDDCORE")
+      (pin W6 "VDDCORE")
+      (pin G4 "PWR_ON"))
+    (short "VSSSMPS" "GND")
+    ;; VDDCORE: 4x15uF bulk on pin P7 + 1uF per-pin bypass (AN5967 Table 4)
+    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin U1 P7)
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin U1)
+    ;; VDDSMPS: 2x10uF + 2x1uF + 2x100nF on pin L1 (AN5967 Table 4)
+    (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin U1 L1)
+    (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin U1 L1)
+    (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin U1 L1)
+    ;; SMPS output inductor + snubber
+    (instance "L1" (ind-2016 "1uH")
+      (pin 1 "VLXSMPS")
+      (pin 2 "VDDCORE"))
+    (instance "C18" (cap-0402 "2.2nF" x7r)
+      (pin 1 "VLXSMPS")
+      (pin 2 "SNUB1"))
+    (to-gnd "R1" (res-0402 "2R") "SNUB1")
+    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin U1)
+    (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
+    (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2")
+    (note "VSSSMPS (J1-J5) separate net for high-current SMPS loop routing")
+    (note "SMPS output: inductor L1 + RC snubber (C18, R1)")
+    (note "Bulk caps are absolute count per AN5967 Table 4, not per-pin")
+    (note "PWR_ON (G4): goes high after POR. Production design should gate VDDA18PMU/VDDSMPS enable.")
+    (note "WARNING: Static supplies risk SMPS starting before POR completes (AN5967 section 3.7)"))
 
-    (part "SMPS" (row 0) (col 1)
-      (pin 16 "VDDA18PMU")
-      (pin 12 "VDDSMPS")
-      (pin 13 "VLXSMPS")
-      (pin 14 "VFBSMPS")
-      (pin 41 "VSSSMPS")
-      (pin 6 7 8 9 10 11 "VDDCORE")
-      (pin 23 "VDDCSI"))
+  (section "Analog & I/O Rails"
+    (in "V1P8" power 1.8)
+    (in "VDD" power 3.3)
+    (pins "U1"
+      (pin M6 "VDDA18PLL")
+      (pin P6 "VDDA18ADC")
+      (pin V6 "VDDA18CSI")
+      (pin W2 "VREF+")
+      (pin V2 "VSSA")
+      (pin H16 J16 K16 L16 "VDDIO2")
+      (pin M14 M16 "VDDIO3")
+      (pin F7 F8 "VDDIO4")
+      (pin G1 "V08CAP"))
+    (decouple (cap-0201 "100nF") 1 per-pin U1
+      "VDDA18PLL" "VDDA18USB" "VDDA18ADC" "VDDA18CSI" "VDDIO2" "VDDIO3" "VDDIO4")
+    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin U1)
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin U1 W6)
+    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin U1)
+    (decouple "VREF+"
+      (bulk   (cap-0201 "1uF")   1 per-pin U1)
+      (bypass (cap-0201 "100nF") 1 per-pin U1))
+    (note "V2 (VREF-) tied to VSSA — required for ADC reference")
+    (note "VDDA18CSI (V6) decoupled even if camera interface unused")
+    (note "T6 (CSI_REXT) left NC — CSI PHY unused. Verify datasheet if REXT needs termination.")
+    (note "CSI lanes V3/W3, V4/W4, V5/W5 left floating — CSI unused"))
 
-    (part "Analog & IO" (row 1) (col 0)
-      (pin 17 "VDDA18PLL")
-      (pin 19 "VDDA18ADC")
-      (pin 25 "VREF+")
-      (pin 20 "VDDIO2")
-      (pin 21 "VDDIO3")
-      (pin 24 "V08CAP"))
+  (section "Boot & Reset"
+    (in "V1P8" power 1.8)
+    (out "NRST" signal role reset)
+    (pins "U1"
+      (pin F2 "NRST")
+      (pin A1 "VDDA18AON")
+      (pin F4 "BOOT0")
+      (pin T10 "PA6")
+      (pin T12 "PG10"))
+    (to-gnd "C35" (cap-0201 "100nF") "NRST")
+    (to-gnd (res-0402 "10k") "BOOT0" "PA6")
+    (instance "SW1" (res-0402 "0R")
+      (pin 1 "NRST")
+      (pin 2 "GND"))
+    (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
+    (note "SW1: placeholder for reset push button (momentary to GND, C35 provides debounce)")
+    (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
 
-    (part "System" (row 1) (col 1)
-      (pin 42 "NRST")
-      (pin 43 "PDR_ON")
-      (pin 44 "BOOT0")
-      (pin 45 "PA6")
-      (pin 55 "PG10"))
+  (section "SWD Debug"
+    (in "VDD" power 3.3)
+    (io "SWDIO" "SWCLK" "SWO" protocol SWD)
+    (pins "U1"
+      (pin W7 "SWDIO_MCU")
+      (pin V7 "SWCLK_MCU")
+      (pin T14 "SWO_MCU"))
+    (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO")
+    (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK")
+    (series "R6" (res-0402 "33R") "SWO_MCU" "SWO")
+    (instance "J1" connector-swd
+      (pin SWDIO "SWDIO")
+      (pin SWCLK "SWCLK")
+      (pin SWO "SWO")
+      (pin VDD "VDD")
+      (pin GND "GND"))
+    (note "T14 (PB5/TRACESWO) routed to J1 SWO for trace output")
+    (note "33R series resistors for signal integrity"))
 
-    (part "SWD Debug" (row 2) (col 0)
-      (pin 46 "PA13")
-      (pin 47 "PA14"))
+  (section "HSE (Main Clock)"
+    (description "24 MHz crystal for USB HS PHY")
+    (in "V1P8" power 1.8)
+    (out "OSC_IN" clock)
+    (calc "Load capacitors"
+      (let cl 10.0)
+      (let cstray 5.0)
+      (let cload (* 2.0 (- cl cstray))))
+    (pins "U1"
+      (pin A5 "OSC_IN")
+      (pin B5 "OSC_OUT"))
+    (instance "Y1" abm8
+      (pin X1 "OSC_IN")
+      (pin GND_1 GND_2 "GND")
+      (pin X2 "OSC_OUT"))
+    (to-gnd (cap-0402 "10pF" np0) "OSC_IN" "OSC_OUT")
+    (note "USB HS PHY requires HSE = 19.2, 20, or 24 MHz (RM0486)")
+    (note "CL=10pF, Cstray~5pF => CL1=CL2=2*(10-5)=10pF. NP0/C0G."))
 
-    (part "HSE" (row 2) (col 1)
-      (pin 48 "OSC_IN")
-      (pin 49 "OSC_OUT"))
+  (section "LSE (RTC Clock)"
+    (description "32.768 kHz crystal")
+    (in "V1P8" power 1.8)
+    (out "OSC32_IN" clock)
+    (calc "Load capacitors"
+      (let cl 7.0)
+      (let cstray 3.0)
+      (let cload (* 2.0 (- cl cstray))))
+    (pins "U1"
+      (pin E1 "OSC32_IN")
+      (pin D1 "OSC32_OUT"))
+    (instance "Y2" fc-135
+      (pin 1 "OSC32_IN")
+      (pin 2 "OSC32_OUT"))
+    (to-gnd (cap-0402 "6.8pF" np0) "OSC32_IN" "OSC32_OUT")
+    (note "CL=7pF, Cstray~3pF => CL1=CL2=2*(7-3)=8pF. 6.8pF acceptable for RTC."))
 
-    (part "LSE" (row 3) (col 0)
-      (pin 50 "OSC32_IN")
-      (pin 51 "OSC32_OUT"))
+  (section "USB"
+    (description "USB 2.0 High-Speed with Type-C connector")
+    (in "VDDA18USB" power 1.8)
+    (in "VDD33USB" power 3.3)
+    (io "USB_DP" "USB_DM" protocol USB2.0-HS)
+    (pins "U1"
+      (pin D4 "VDDA18USB")
+      (pin C3 "VDD33USB")
+      (pin C1 "USB_DP")
+      (pin C2 "USB_DM")
+      (pin E2 "TXRTUNE"))
+    (instance "U2" ecmf02-2amx6
+      (pin D_1 "USB_DP")
+      (pin D_2 "USB_DM")
+      (pin GND "GND")
+      (pin "D-" "USB_DM_CONN")
+      (pin "D+" "USB_DP_CONN"))
+    (instance "J2" amphenol-10164986
+      (pin GND_A GND_A__1 GND_B GND_B__1 "GND")
+      (pin VBUS_A VBUS_A__1 VBUS_B VBUS_B__1 "VBUS")
+      (pin CC1 "CC1")
+      (pin CC2 "CC2")
+      (pin "D1+" "D2+" "USB_DP_CONN")
+      (pin "D1-" "D2-" "USB_DM_CONN")
+      (pin SHIELD SHIELD__1 SHIELD__2 SHIELD__3 "GND"))
+    (to-gnd (res-0402 "5.1k") "CC1" "CC2")
+    (to-gnd "R8" (res-0402 "200R") "TXRTUNE")
+    (note "5.1k pull-downs on CC1/CC2 for UFP (device) role")
+    (note "200R on TXRTUNE per datasheet HS PHY tuning")
+    (note "E4 (OTG2_ID) left NC — not needed with CC1/CC2 UFP detection")
+    (note "D2, B1 are NC analog pads — must be left floating on PCB (no trace/via/pour)"))
 
-    (part "USB" (row 3) (col 1)
-      (pin 18 "VDDA18USB")
-      (pin 22 "VDD33USB")
-      (pin 52 "USB_DP")
-      (pin 53 "USB_DM")
-      (pin 54 "TXRTUNE")))
+  (section "Debug LED"
+    (in "VDD" power 3.3)
+    (instance "R9" (res-0402 "330R")
+      (pin 1 "PG10")
+      (pin 2 "LED_NET"))
+    (instance "D1" (led-0402 "green")
+      (pin 1 "LED_NET")
+      (pin 2 "GND")))
 
-  ;; ============================================================
-  ;; Section 1: Power Supply Decoupling
-  ;; ============================================================
+  (section "XSPI2 NOR Flash"
+    (description "MX66UW1G45G 1Gbit OctoSPI NOR")
+    (in "VDDIO3" power)
+    (in "NRST" signal role reset)
+    (io "FLASH_IO" data protocol OctoSPI)
+    (in "FLASH_CLK" clock)
+    (pins "U1"
+      (pin PN1 "FLASH_NCS")
+      (pin PN6 "FLASH_CLK")
+      (pin PN7 "FLASH_NCLK")
+      (pin PN0 "FLASH_DQS")
+      (bus "FLASH_IO" PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11))
+    (instance "U3" mx66uw1g45gxdi00
+      (pin VCC VCCQ__1 VCCQ "VDDIO3")
+      (pin GND VSSQ VSSQ__1 "GND")
+      (pin "~{CS}" "FLASH_NCS")
+      (pin SCLK "FLASH_CLK")
+      (pin DQS "FLASH_DQS")
+      (pin "SI/SIO0" "FLASH_IO0")
+      (pin "SO/SIO1" "FLASH_IO1")
+      (pin SIO2 "FLASH_IO2")
+      (pin SIO3 "FLASH_IO3")
+      (pin SIO4 "FLASH_IO4")
+      (pin SIO5 "FLASH_IO5")
+      (pin SIO6 "FLASH_IO6")
+      (pin SIO7 "FLASH_IO7")
+      (pin "~{RESET}" "FLASH_RESET"))
+    (decouple "VDDIO3" (cap-0201 "100nF") 1 per-pin U3)
+    (to-rail "R10" (res-0402 "10k") "FLASH_RESET" "VDDIO3")
+    (to-rail "R11" (res-0402 "10k") "FLASH_NCS" "VDDIO3")
+    (instance "D2" (diode-0402 "PMEG2005AEA")
+      (pin 1 "NRST")
+      (pin 2 "FLASH_RESET"))
+    (note "PN7 (XSPIM_P2_NCLK) reserved — flash has no SCLK# (STR mode only)")
+    (note "10k pull-ups on RESET and NCS for safe boot")
+    (note "D2: reverse diode NRST->FLASH_RESET for simultaneous reset (AN5967 14.4.3)")
+    (note "FW: If VDDIO3=1.8V, set OTP124 bit 15 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
 
-  ;; --- VDD: 100nF per pin (5 pins) ---
-  (instance "C1" (cap-0402 "100nF")
-    (pin 1 "VDD")
-    (pin 2 "GND"))
-  (instance "C2" (cap-0402 "100nF")
-    (pin 1 "VDD")
-    (pin 2 "GND"))
-  (instance "C3" (cap-0402 "100nF")
-    (pin 1 "VDD")
-    (pin 2 "GND"))
-  (instance "C4" (cap-0402 "100nF")
-    (pin 1 "VDD")
-    (pin 2 "GND"))
-  (instance "C5" (cap-0402 "100nF")
-    (pin 1 "VDD")
-    (pin 2 "GND"))
+  (section "XSPI1 PSRAM"
+    (description "APS256XXN 256Mbit OctoSPI PSRAM")
+    (in "VDDIO2" power)
+    (io "PSRAM_IO" data protocol OctoSPI)
+    (in "PSRAM_CLK" clock)
+    (pins "U1"
+      (pin PO0 "PSRAM_NCS")
+      (pin PO4 "PSRAM_CLK")
+      (pin G16 "PSRAM_NCLK")
+      (pin PO2 "PSRAM_DQS0")
+      (pin PO3 "PSRAM_DQS1")
+      (bus "PSRAM_IO" PP0 PP1 PP2 PP3 PP4 PP5 PP6 PP7
+                      PP8 PP9 PP10 PP11 PP12 PP13 PP14 PP15))
+    (instance "U4" aps256xxn-ob9-bg
+      (pin VDD_1 VDD_2 "VDDIO2")
+      (pin VSS_1 VSS_2 "GND")
+      (pin "CE#" "PSRAM_NCS")
+      (pin CLK "PSRAM_CLK")
+      (pin "DQS/_DM0" "PSRAM_DQS0")
+      (pin "DQS/_DM1" "PSRAM_DQS1")
+      (pin ADQ0 "PSRAM_IO0")
+      (pin ADQ1 "PSRAM_IO1")
+      (pin ADQ2 "PSRAM_IO2")
+      (pin ADQ3 "PSRAM_IO3")
+      (pin ADQ4 "PSRAM_IO4")
+      (pin ADQ5 "PSRAM_IO5")
+      (pin ADQ6 "PSRAM_IO6")
+      (pin ADQ7 "PSRAM_IO7")
+      (pin DQ8 "PSRAM_IO8")
+      (pin DQ9 "PSRAM_IO9")
+      (pin DQ10 "PSRAM_IO10")
+      (pin DQ11 "PSRAM_IO11")
+      (pin DQ12 "PSRAM_IO12")
+      (pin DQ13 "PSRAM_IO13")
+      (pin DQ14 "PSRAM_IO14")
+      (pin DQ15 "PSRAM_IO15"))
+    (decouple "VDDIO2" (cap-0201 "100nF") 1 per-pin U4)
+    (to-rail "R12" (res-0402 "10k") "PSRAM_NCS" "VDDIO2")
+    (note "G16 (PO5/XSPIM_P1_NCLK) reserved — OB9-BG has single-ended CLK only")
+    (note "OB9-BG has no RESET_N pin — power-cycle VDD_MEM >1ms on reset (AN5967 14.4.3)")
+    (note "FW: If VDDIO2=1.8V, set OTP124 bit 16 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
 
-  ;; --- VDDCORE: 1uF per pin (6 pins) ---
-  (instance "C6" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C7" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C8" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C9" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C10" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C11" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
+  (section "IMU"
+    (description "ICM-20948 9-axis IMU via SPI2")
+    (in "VDD" power 3.3)
+    (io "IMU_SCK" "IMU_MOSI" "IMU_MISO" "IMU_NCS" protocol SPI)
+    (out "IMU_INT1" signal role interrupt)
+    (in "IMU_FSYNC" signal role sync)
+    (pins "U1"
+      (pin A16 "IMU_SCK")
+      (pin A14 "IMU_MOSI")
+      (pin C17 "IMU_MISO")
+      (pin W13 "IMU_NCS")
+      (pin T13 "IMU_INT1")
+      (pin V13 "IMU_FSYNC"))
+    (instance "U5" icm-20948
+      (pin 23 "IMU_SCK")
+      (pin 24 "IMU_MOSI")
+      (pin 9 "IMU_MISO")
+      (pin 22 "IMU_NCS")
+      (pin 12 "IMU_INT1")
+      (pin 11 "IMU_FSYNC")
+      (pin 13 "VDD")
+      (pin 8 "VDD")
+      (pin 10 "IMU_REGOUT")
+      (pin 18 "GND")
+      (pin 20 "GND")
+      (pin 7 "IMU_AUX_CL")
+      (pin 21 "IMU_AUX_DA"))
+    (to-gnd (cap-0201 "100nF" x7r) "VDD" "IMU_REGOUT")
+    (note "SPI2: PB13=SCK, PB15=MOSI, PB14=MISO, PB12=nCS (max 7 MHz)")
+    (note "PB10=INT1 (EXTI capable), PB11=FSYNC input from image sensor")
+    (note "Pin 8 (VDDIO) on VDD (3.3V) — PB10-15 are on VDD I/O domain")
+    (note "Pin 10 (REGOUT): internal regulator output — decouple with 100nF, do not load")
+    (note "Pin 20 (RESV): tie to GND. Pin 19 (RESV): leave NC")
+    (note "Pins 1-6, 14-17: NC. Exposed die pad: do NOT solder to PCB")
+    (note "Pin 7 (AUX_CL), Pin 21 (AUX_DA): auxiliary I2C — leave NC if unused")
+    (note "FW: Set I2C_IF_DIS (USER_CTRL bit 4) immediately after 100ms startup to lock SPI mode")
+    (note "FW: FSYNC config — DELAY_TIME_EN=1, EXT_SYNC_SET per sensor, read DELAY_TIMEH first"))
 
-  ;; --- VDDSMPS: 2x10uF + 2x1uF + 2x100nF ---
-  (instance "C12" (cap-0805 "10uF")
-    (pin 1 "VDDSMPS")
-    (pin 2 "GND"))
-  (instance "C13" (cap-0805 "10uF")
-    (pin 1 "VDDSMPS")
-    (pin 2 "GND"))
-  (instance "C14" (cap-0402 "1uF")
-    (pin 1 "VDDSMPS")
-    (pin 2 "GND"))
-  (instance "C15" (cap-0402 "1uF")
-    (pin 1 "VDDSMPS")
-    (pin 2 "GND"))
-  (instance "C16" (cap-0402 "100nF")
-    (pin 1 "VDDSMPS")
-    (pin 2 "GND"))
-  (instance "C17" (cap-0402 "100nF")
-    (pin 1 "VDDSMPS")
-    (pin 2 "GND"))
+  (section "Expansion Connector"
+    (description "Samtec LSH 40-pin dual-row 0.635mm")
+    (in "VDD" power 3.3)
+    (io "EXP" data)
+    (instance "J3" lsh-020-01-g-d-a-k-tr))
 
-  ;; --- VLXSMPS: 1uH inductor + RC snubber + 4x15uF output ---
-  (instance "L1" (ind-2016 "1uH")
-    (pin 1 "VLXSMPS")
-    (pin 2 "VDDCORE"))
-  (instance "C18" (cap-0402-x7r "2.2nF")
-    (pin 1 "VLXSMPS")
-    (pin 2 "SNUB1"))
-  (instance "R1" (res-0402 "2R")
-    (pin 1 "SNUB1")
-    (pin 2 "GND"))
-  (instance "C19" (cap-0805 "15uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C20" (cap-0805 "15uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C21" (cap-0805 "15uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-  (instance "C22" (cap-0805 "15uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
+  (section "3.3V Buck-Boost"
+    (description "TPS63806 from single-cell LiPo to 3.3V")
+    (in "VBATT" power)
+    (out "VDD" power 3.3)
+    (out "PG_3V3" signal role enable)
+    (calc "Output voltage"
+      (let vout (* 0.5 (+ 1.0 (/ 511000.0 91000.0))))
+      (assert-range vout 3.2 3.4 "VDD target"))
+    (instance "U6" tps63806
+      (pin A1 "VBATT")
+      (pin A2 A3 "VBATT")
+      (pin B1 "GND")
+      (pin B2 B3 "SW_L1")
+      (pin C1 "AGND")
+      (pin C2 C3 "GND")
+      (pin D1 "FB_3V3")
+      (pin D2 D3 "SW_L2")
+      (pin E1 "PG_3V3")
+      (pin E2 E3 "VDD"))
+    ;; MODE tied to GND — auto PFM/PWM for best efficiency
+    (decouple "VBATT" (cap-0603 "10uF") 1 per-pin U6 A2)
+    (decouple "VDD" (cap-0805 "47uF") 2 per-pin U6 E2)
+    (instance "L2" (ind-1616 "0.47uH")
+      (pin 1 "SW_L1")
+      (pin 2 "SW_L2"))
+    ;; FB divider: VOUT=0.5V*(1+R1/R2)=0.5*(1+511k/91k)=3.306V
+    (instance "R_FBT" (res-0402 "511k")
+      (pin 1 "VDD")
+      (pin 2 "FB_3V3"))
+    (instance "R_FBB" (res-0402 "91k")
+      (pin 1 "FB_3V3")
+      (pin 2 "GND"))
+    ;; PG pull-up to 3.3V
+    (to-rail "R_PG" (res-0402 "100k") "PG_3V3" "VDD")
+    ;; AGND star-point
+    (short "AGND" "GND")
+    ;; 3.3V distribution
+    (short "VDD" "VDDSMPS")
+    (short "VDD" "VDD33USB")
+    (short "VDD" "VREF+")
+    (short "VDD" "VDDIO2")
+    (short "VDD" "VDDIO3")
+    (short "VDD" "VDDIO4")
+    (note "EN (A1) tied to VBATT — converter always on when battery present")
+    (note "MODE (B1) tied to GND — auto PFM/PWM, 13uA quiescent")
+    (note "FB divider: 511k/91k 1% → VOUT=3.306V (500mV ref)")
+    (note "Route FB trace away from L1/L2 switching nodes")
+    (note "AGND (C1) separate trace to star point near IC GND pins")
+    (note "PG_3V3 active-high open-drain — use to enable 1.8V LDO for sequencing")
+    (note "Startup: ~545us (321us delay + 224us ramp) after EN high")
+    (note "Output caps: 2x47uF for >21uF effective after DC bias derating")
+    (note "L2: XFL4015-471MEC (4x4x1.5mm, 5.4A sat, 7.6mOhm DCR)")
+    (note "Inductor must be rated >= 5.5A saturation (TPS63806 peak current limit in boost)"))
 
-  ;; --- VFBSMPS: short to VDDCORE ---
-  ;; (VFBSMPS pin connects directly to VDDCORE net via U1 pin assignment)
+  (section "1.8V LDO"
+    (description "LP5907 1.8V from 3.3V, sequenced by PG")
+    (in "VDD" power 3.3)
+    (in "PG_3V3" signal role enable)
+    (out "V1P8" power 1.8)
+    (instance "U7" lp5907mfx-1-8-nopb
+      (pin 1 "VDD")
+      (pin 3 "PG_3V3")
+      (pin 5 "V1P8")
+      (pin 2 "GND"))
+    (decouple "VDD" (cap-0201 "1uF") 1 per-pin U7 1)
+    (decouple "V1P8" (cap-0201 "1uF") 1 per-pin U7 5)
+    ;; 1.8V distribution to all VDDA18 rails
+    (short "V1P8" "VDDA18AON")
+    (short "V1P8" "VDDA18PMU")
+    (short "V1P8" "VDDA18PLL")
+    (short "V1P8" "VDDA18USB")
+    (short "V1P8" "VDDA18ADC")
+    (short "V1P8" "VDDA18CSI")
+    (note "EN driven by TPS63806 PG — 1.8V sequences after 3.3V stable")
+    (note "LP5907MFX-1.8/NOPB: 250mA, 1.8V fixed, SOT-23-5")
+    (note "Pin 4 (NC) left unconnected")
+    (note "LAYOUT: Input cap must be within 1cm of IN pin (LP5907 datasheet requirement)")
+    (note "V1P8 feeds all VDDA18 rails (AON, PMU, PLL, USB, ADC, CSI)"))
 
-  ;; --- Analog 1.8V domains: 100nF each ---
-  (instance "C23" (cap-0402 "100nF")
-    (pin 1 "VDDA18AON")
-    (pin 2 "GND"))
-  (instance "C24" (cap-0402 "100nF")
-    (pin 1 "VDDA18PMU")
-    (pin 2 "GND"))
-  (instance "C25" (cap-0402 "100nF")
-    (pin 1 "VDDA18PLL")
-    (pin 2 "GND"))
-  (instance "C26" (cap-0402 "100nF")
-    (pin 1 "VDDA18USB")
-    (pin 2 "GND"))
-  (instance "C27" (cap-0402 "100nF")
-    (pin 1 "VDDA18ADC")
-    (pin 2 "GND"))
-
-  ;; --- VDDIO2, VDDIO3: 100nF each ---
-  (instance "C28" (cap-0402 "100nF")
-    (pin 1 "VDDIO2")
-    (pin 2 "GND"))
-  (instance "C29" (cap-0402 "100nF")
-    (pin 1 "VDDIO3")
-    (pin 2 "GND"))
-
-  ;; --- VDD33USB: 1uF ---
-  (instance "C30" (cap-0402 "1uF")
-    (pin 1 "VDD33USB")
-    (pin 2 "GND"))
-
-  ;; --- VDDCSI: 1uF (to VDDCORE net) ---
-  (instance "C31" (cap-0201 "1uF")
-    (pin 1 "VDDCORE")
-    (pin 2 "GND"))
-
-  ;; --- V08CAP: 4.7uF ---
-  (instance "C32" (cap-0402 "4.7uF")
-    (pin 1 "V08CAP")
-    (pin 2 "GND"))
-
-  ;; --- VREF+: 1uF + 100nF ---
-  (instance "C33" (cap-0402 "1uF")
-    (pin 1 "VREF+")
-    (pin 2 "GND"))
-  (instance "C34" (cap-0402 "100nF")
-    (pin 1 "VREF+")
-    (pin 2 "GND"))
-
-  ;; --- VBAT: tied to VDD ---
-  ;; (VBAT pin is on VDD net via U1 pin assignment - see note)
-
-  ;; ============================================================
-  ;; Section 2: System Pins
-  ;; ============================================================
-
-  ;; NRST: 100nF to GND
-  (instance "C35" (cap-0402 "100nF")
-    (pin 1 "NRST")
-    (pin 2 "GND"))
-
-  ;; PDR_ON: connect to VDDA18AON
-  ;; (PDR_ON pin assigned to VDDA18AON net in U1 instance)
-
-  ;; BOOT0: 10k pull-down
-  (instance "R2" (res-0402 "10k")
-    (pin 1 "BOOT0")
-    (pin 2 "GND"))
-
-  ;; BOOT1 (PA6): 10k pull-down
-  (instance "R3" (res-0402 "10k")
-    (pin 1 "BOOT1")
-    (pin 2 "GND"))
-
-  ;; ============================================================
-  ;; Section 3: SWD Debug
-  ;; ============================================================
-
-  ;; PA13 (SWDIO): 33R series resistor
-  (instance "R4" (res-0402 "33R")
-    (pin 1 "SWDIO_MCU")
-    (pin 2 "SWDIO"))
-
-  ;; PA14 (SWCLK): 33R series resistor
-  (instance "R5" (res-0402 "33R")
-    (pin 1 "SWCLK_MCU")
-    (pin 2 "SWCLK"))
-
-  ;; SWD connector
-  (instance "J1" connector-swd
-    (row 2) (col 0)
-    (pin 1 "SWDIO")
-    (pin 2 "SWCLK")
-    (pin 3 "SWO")
-    (pin 4 "VDD")
-    (pin 5 "GND"))
-
-  ;; ============================================================
-  ;; Section 4: HSE Crystal
-  ;; ============================================================
-
-  (instance "Y1" crystal
-    (row 2) (col 1)
-    (pin 1 "OSC_IN")
-    (pin 2 "OSC_OUT"))
-  (instance "C36" (cap-0402-np0 "20pF")
-    (pin 1 "OSC_IN")
-    (pin 2 "GND"))
-  (instance "C37" (cap-0402-np0 "20pF")
-    (pin 1 "OSC_OUT")
-    (pin 2 "GND"))
-
-  ;; ============================================================
-  ;; Section 5: LSE Crystal
-  ;; ============================================================
-
-  (instance "Y2" crystal
-    (row 3) (col 0)
-    (pin 1 "OSC32_IN")
-    (pin 2 "OSC32_OUT"))
-  (instance "C38" (cap-0402-np0 "6.8pF")
-    (pin 1 "OSC32_IN")
-    (pin 2 "GND"))
-  (instance "C39" (cap-0402-np0 "6.8pF")
-    (pin 1 "OSC32_OUT")
-    (pin 2 "GND"))
-
-  ;; ============================================================
-  ;; Section 6: USB
-  ;; ============================================================
-
-  ;; ESD protection filter
-  (instance "U2" esd-usb
-    (row 3) (col 1)
-    (pin 1 "USB_DP")
-    (pin 2 "USB_DM")
-    (pin 3 "USB_DP_CONN")
-    (pin 4 "USB_DM_CONN"))
-
-  ;; USB-C connector (Amphenol 10164986-00011LF)
-  ;; Pin mapping: 1=A1(GND) 4=A4(VBUS) 5=A5(CC1) 6=A6(D+) 7=A7(D-)
-  ;;              9=A9(VBUS) 12=A12(GND) 13=B1(GND) 16=B4(VBUS) 17=B5(CC2)
-  ;;              18=B6(D+) 19=B7(D-) 21=B9(VBUS) 24=B12(GND) 25-28=SHIELD
-  (instance "J2" amphenol-10164986
-    (row 3) (col 1)
-    (pin 1 12 13 24 "GND")
-    (pin 4 9 16 21 "VBUS")
-    (pin 5 "CC1")
-    (pin 17 "CC2")
-    (pin 6 18 "USB_DP_CONN")
-    (pin 7 19 "USB_DM_CONN")
-    (pin 25 26 27 28 "GND"))
-
-  ;; CC pull-down resistors (for device mode)
-  (instance "R6" (res-0402 "5.1k")
-    (pin 1 "CC1")
-    (pin 2 "GND"))
-  (instance "R7" (res-0402 "5.1k")
-    (pin 1 "CC2")
-    (pin 2 "GND"))
-
-  ;; TXRTUNE: 200R 1% to GND
-  (instance "R8" (res-0402 "200R")
-    (pin 1 "TXRTUNE")
-    (pin 2 "GND"))
-
-  ;; ============================================================
-  ;; Section 7: Debug LED
-  ;; ============================================================
-
-  (instance "R9" (res-0402 "330R")
-    (pin 1 "LED_ANODE")
-    (pin 2 "LED_NET"))
-  (instance "D1" (led-0402 "green")
-    (pin 1 "LED_NET")
-    (pin 2 "GND"))
-
-  ;; ============================================================
-  ;; Net Assignments (aliases for MCU pin connections)
-  ;; ============================================================
-
-  ;; VFBSMPS shorted to VDDCORE
-  (net-tie "VFBSMPS" "VDDCORE")
-
-  ;; VBAT tied to VDD
-  (net-tie "VBAT" "VDD")
-
-  ;; PDR_ON connected to VDDA18AON
-  (net-tie "PDR_ON" "VDDA18AON")
-
-  ;; VDDCSI powered from VDDCORE
-  (net-tie "VDDCSI" "VDDCORE")
-
-  ;; BOOT1 is PA6
-  (net-tie "BOOT1" "PA6")
-
-  ;; SWD MCU-side nets
-  (net-tie "SWDIO_MCU" "PA13")
-  (net-tie "SWCLK_MCU" "PA14")
-
-  ;; Debug LED driven from PG10
-  (net-tie "LED_ANODE" "PG10")
-
-  ;; VSSSMPS to GND
-  (net-tie "VSSSMPS" "GND")
-
-  ;; ============================================================
-  ;; Ports (external connections)
-  ;; ============================================================
-
-  (port "VDD"       "VDD"       in  (rated 3.0 3.6))
-  (port "VDDCORE"   "VDDCORE"   in  (rated 0.78 0.95))
-  (port "VDDSMPS"   "VDDSMPS"   in  (rated 1.62 3.6))
-  (port "VDDA18AON" "VDDA18AON" in  (rated 1.62 1.98))
-  (port "VDDA18PMU" "VDDA18PMU" in  (rated 1.62 1.98))
-  (port "VDDA18PLL" "VDDA18PLL" in  (rated 1.62 1.98))
-  (port "VDDA18USB" "VDDA18USB" in  (rated 1.62 1.98))
-  (port "VDDA18ADC" "VDDA18ADC" in  (rated 1.62 1.98))
-  (port "VDDIO2"    "VDDIO2"    in  (rated 1.62 3.6))
-  (port "VDDIO3"    "VDDIO3"    in  (rated 1.62 3.6))
-  (port "VDD33USB"  "VDD33USB"  in  (rated 3.0 3.6))
-  (port "VREF+"     "VREF+"     in  (rated 1.62 3.6))
-  (port "VBUS"      "VBUS"      in  (rated 4.0 5.5))
-  (port "GND"       "GND"       bidi)
-
-  ;; ============================================================
-  ;; Notes
-  ;; ============================================================
-
-  (note "U1" "STM32N657L0H3Q VFBGA223, ARM Cortex-M55 800MHz")
-  (note "L1" "1uH SMPS inductor, >1A saturation current required")
-  (note "R1" "Snubber resistor for VLXSMPS switching node")
-  (note "C18" "Snubber cap for VLXSMPS, X7R dielectric")
-  (note "Y1" "HSE crystal, 8-25MHz range per datasheet")
-  (note "Y2" "32.768kHz LSE crystal")
-  (note "U2" "ECMF02-2AMX6 USB ESD filter, place close to connector")
-  (note "R8" "TXRTUNE 200R 1% sets USB HS driver impedance")
-  (note "C32" "V08CAP internal regulator output capacitor, 4.7uF required")
-
-  ;; ============================================================
-  ;; Groups (visual organization)
-  ;; ============================================================
-
-  (group "VDD Decoupling" ("C1" "C2" "C3" "C4" "C5"))
-  (group "VDDCORE Decoupling" ("C6" "C7" "C8" "C9" "C10" "C11"))
-  (group "SMPS Input" ("C12" "C13" "C14" "C15" "C16" "C17"))
-  (group "SMPS Output" ("L1" "C18" "R1" "C19" "C20" "C21" "C22"))
-  (group "Analog 1.8V Decoupling" ("C23" "C24" "C25" "C26" "C27"))
-  (group "IO Decoupling" ("C28" "C29" "C30" "C31"))
-  (group "V08CAP / VREF+" ("C32" "C33" "C34"))
-  (group "System Pins" ("C35" "R2" "R3"))
-  (group "SWD Debug" ("R4" "R5" "J1"))
-  (group "HSE Crystal" ("Y1" "C36" "C37"))
-  (group "LSE Crystal" ("Y2" "C38" "C39"))
-  (group "USB" ("U2" "J2" "R6" "R7" "R8"))
-  (group "Debug LED" ("R9" "D1")))
+  (port "VBATT"    "VBATT"    in  (rated 3.0 4.2))
+  (port "VBUS"     "VBUS"     in  (rated 4.0 5.5))
+  (port "GND"      "GND"      bidi))
