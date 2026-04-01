@@ -3,4 +3,6 @@
   (pinout tps63806)
   (footprint dsbga-15)
   (manufacturer "Texas Instruments")
-  (mpn "TPS63806YFFR"))
+  (mpn "TPS63806YFFR")
+  (note "Output caps: 2x47uF for >21uF effective after DC bias derating")
+  (note "Inductor must be rated >= 5.5A saturation (peak current limit in boost)"))

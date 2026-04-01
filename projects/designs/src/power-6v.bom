@@ -8,39 +8,59 @@
 )
 (part "buck/R4" "4c0b5b21-9264-4f90-8eed-303d5898f248" "res-0402"
   (footprint "r-0402")
+  (value "320k")
 )
 (part "buck/R5" "6e3a871b-7b9e-4223-89f4-ffd32856df72" "res-0402"
   (footprint "r-0402")
+  (value "30k")
 )
 (part "buck/C7" "8ed2c43f-4bf6-4620-8f15-9d6ee2c510ae" "cap-0402"
   (footprint "c-0402")
+  (value "22pF")
 )
 (part "buck/R6" "10b8f231-eeb3-41de-9b71-faf2f38d7f02" "res-0402"
   (footprint "r-0402")
+  (value "0R")
 )
 (part "buck/C1" "97a7da94-7121-4eb9-af19-713637438e58" "cap-0805"
   (footprint "c-0805")
+  (value "10uF")
+  (manufacturer "Samsung")
+  (mpn "CL21A106KAYNNNE")
 )
 (part "buck/C2" "d6db1390-8d30-4161-948b-ddc502b26fd5" "cap-0805"
   (footprint "c-0805")
+  (value "10uF")
+  (manufacturer "Samsung")
+  (mpn "CL21A106KAYNNNE")
 )
 (part "buck/C3" "2df0a2dd-d0c5-4c63-81c7-0c490a102189" "cap-0805"
   (footprint "c-0805")
+  (value "10uF")
+  (manufacturer "Samsung")
+  (mpn "CL21A106KAYNNNE")
 )
 (part "buck/C8" "9f656032-76ac-486c-b4c5-fe732d69dfeb" "cap-0402"
   (footprint "c-0402")
+  (value "100nF")
+  (manufacturer "Samsung")
+  (mpn "CL05B104KO5NNNC")
 )
 (part "buck/C4" "263e5894-ad3a-4231-86b2-4f266efd710b" "cap-0805"
   (footprint "c-0805")
+  (value "22uF")
 )
 (part "buck/C5" "7dee572a-c0c0-43fa-aa7c-ec7fc1082245" "cap-0805"
   (footprint "c-0805")
+  (value "22uF")
 )
 (part "buck/R7" "0a08de43-a25c-4b73-a5bb-e9a71e7a24f0" "res-0402"
   (footprint "r-0402")
+  (value "18k")
 )
 (part "buck/R8" "f04edbf9-0c6a-4067-a781-5a6bf1affec4" "res-0402"
   (footprint "r-0402")
+  (value "100k")
 )
 (part "buck/Q1" "a32a2640-0c9c-4db3-84a9-94e52d988ffb" "n2n7002"
   (footprint "sot23-3")
@@ -49,6 +69,7 @@
 )
 (part "buck/R9" "7362f102-490f-4495-ae6a-1952bcdff02d" "res-0402"
   (footprint "r-0402")
+  (value "820")
 )
 (part "buck/D1" "ea800098-bbcf-4b7c-9056-51218135ac8d" "east1410rgbw01"
   (footprint "led-1410")
@@ -62,16 +83,25 @@
 )
 (part "ldo/R1" "cf5f120a-f4bf-4fb9-9ec5-7401afe1e3f2" "res-0402"
   (footprint "r-0402")
+  (value "60k")
 )
 (part "ldo/R2" "bbd0b9da-6a52-4a64-85b1-572bd762d918" "res-0402"
   (footprint "r-0402")
+  (value "300")
 )
 (part "ldo/C1" "bd862a50-96d7-4e8d-8c7c-0b4f0b43a387" "cap-0805"
   (footprint "c-0805")
+  (value "4.7uF")
+  (manufacturer "Samsung")
+  (mpn "CL21A475KAQNNNE")
 )
 (part "ldo/C2" "aa7eddd3-73d2-43d6-8050-b3de273eb26f" "cap-0805"
   (footprint "c-0805")
+  (value "10uF")
+  (manufacturer "Samsung")
+  (mpn "CL21A106KAYNNNE")
 )
 (part "ldo/C3" "6ffb3710-8bf1-47a9-a105-517b2cab67fd" "cap-0402"
   (footprint "c-0402")
+  (value "0.47uF")
 )
