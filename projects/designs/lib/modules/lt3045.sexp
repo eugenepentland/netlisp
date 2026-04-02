@@ -47,12 +47,12 @@
       (pin 1 "SET")
       (pin 2 "SET_GND"))
 
-    (port "VIN"  "VIN"     in  (rated 1.8 20.0))
+    (port "VIN"  in  (rated 1.8 20.0))
     (port "VOUT" vout-str  out (rated 0.0 15.0))
-    (port "EN"   "EN"      in  (rated 0.0 20.0))
-    (port "VIOC" "VIOC"    out)
-    (port "PG"   "PG"      out)
-    (port "GND"  "GND"     bidi)
+    (port "EN"   in  (rated 0.0 20.0))
+    (port "VIOC" out)
+    (port "PG"   out)
+    (port "GND"  bidi)
 
     (note "U1" "LT3045EDD-1: Ultra-low noise LDO, 500mA.")
     (note "R1" (fmt "RSET = ~R. VOUT = 100uA x ~R = ~V." rset rset vout))

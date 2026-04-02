@@ -1,10 +1,12 @@
 (import stm32n657l0h3q
         cap-0201 cap-0402 cap-0603 cap-0805
-        res-0402 ind-1616 ind-2016 led-0402
-        abm8 fc-135 ecmf02-2amx6 connector-swd amphenol-10164986
+        res-0402 ind-1616 ind-2016 led-0402 ferrite-0402
+        abm8 fc-135 ecmf02-2amx6 connector-swd usb4510-03-1-a-gct
         mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
         icm-20948 lsh-020-01-g-d-a-k-tr
-        tps63806 lp5907mfx-1-8-nopb res-0201)
+        tps63806 lp5907mfx-1-8-nopb res-0201
+        ltc2323-16 xfl4012
+        a-wurth-wa-smsi-9774020633r)
 
 (design-block "STM32N657L0H3Q Minimal Schematic"
 
@@ -25,9 +27,7 @@
         (pin G6 "VSSAON")
         (pin H2 "VSSAPMU"))
       (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
-      (net "GND" "VSSA")
-      (net "GND" "VSSAON")
-      (net "GND" "VSSAPMU")
+      (net "GND" "VSSA" "VSSAON" "VSSAPMU")
       (note "F1 (VBAT) tied to VDD — LiPo 4.2V exceeds VBAT max (3.6V), so backup domain only active when VDD is up"))
 
     (section "SMPS Power" "Internal 0.8V core regulator"
@@ -69,7 +69,9 @@
         (pin F7 F8 "VDDIO4")
         (pin G1 "V08CAP"))
       (decouple (cap-0201 "100nF") 1 per-pin stm32
-        "VDDA18PLL" "VDDA18USB" "VDDA18ADC" "VDDA18CSI" "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845))
+        "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845))
+      ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
+      (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
       (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 (id c6c9160e))
       (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
       (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 (id b897a15f))
@@ -149,24 +151,23 @@
       (pin D4 "VDDA18USB")
       (pin C3 "VDD33USB")
       (pin C1 "USB_DP")
-      (pin C2 "USB_DM")
+      (pin C2 "USB_DN")
       (pin E2 "TXRTUNE"))
     (instance "usb-esd" ecmf02-2amx6
       (pin D_1 "USB_DP")
-      (pin D_2 "USB_DM")
+      (pin D_2 "USB_DN")
       (pin GND "GND")
-      (pin "D-" "USB_DM_CONN")
-      (pin "D+" "USB_DP_CONN") (id e6a1a21e))
-    (instance "usb-c" amphenol-10164986
-      (pin GND_A GND_A__1 GND_B GND_B__1 "GND")
-      (pin VBUS_A VBUS_A__1 VBUS_B VBUS_B__1 "VBUS")
-      (pin CC1 "CC1")
-      (pin CC2 "CC2")
-      (pin "D1+" "D2+" "USB_DP_CONN")
-      (pin "D1-" "D2-" "USB_DM_CONN")
-      (pin SHIELD SHIELD__1 SHIELD__2 SHIELD__3 "GND") (id ca29d420))
+      (pin "D-" "USB_CONN_DN")
+      (pin "D+" "USB_CONN_DP") (id e6a1a21e))
+    (instance "usb-c" usb4510-03-1-a-gct
+      (pin A1-B12 B1-A12 "GND")
+      (pin A4-B9 B4-A9 "VBUS")
+      (pin A5 "CC1")
+      (pin B5 "CC2")
+      (pin A6 B6 "USB_CONN_DP")
+      (pin A7 B7 "USB_CONN_DN") (id ca29d420))
     (series (res-0402 "5.1k") "CC1" "GND" "CC2" "GND" (id b9a29bc3))
-    (series "R8" (res-0402 "200R") "TXRTUNE" "GND" (id b40b1319))
+    (series "R8" (res-0201 "200R") "TXRTUNE" "GND" (id b40b1319))
     (note "5.1k pull-downs on CC1/CC2 for UFP (device) role"))
 
   (section "Debug LED"
@@ -194,8 +195,8 @@
       (bus "FLASH_IO" "SIO")
       (pin "~{RESET}" "FLASH_RESET") (id e5833220))
     (decouple "VDDIO3" (cap-0201 "100nF") 1 per-pin flash (id da033de3))
-    (series "R10" (res-0402 "10k") "FLASH_RESET" "VDDIO3" (id c734428e))
-    (series "R11" (res-0402 "10k") "FLASH_NCS" "VDDIO3" (id ce543c3a))
+    (series "R10" (res-0201 "10k") "FLASH_RESET" "VDDIO3" (id c734428e))
+    (series "R11" (res-0201 "10k") "FLASH_NCS" "VDDIO3" (id ce543c3a))
     (series "D2" (diode-0402 "PMEG2005AEA") "NRST" "FLASH_RESET" (id ab720208))
     (note "D2: reverse diode NRST->FLASH_RESET for simultaneous reset (AN5967 14.4.3)")
     (note "FW: If VDDIO3=1.8V, set OTP124 bit 15 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
@@ -221,18 +222,18 @@
       (pin "DQS/_DM1" "PSRAM_DQS1")
       (bus "PSRAM_IO" "IO") (id f66182fb))
     (decouple "VDDIO2" (cap-0201 "100nF") 1 per-pin psram (id b162a181))
-    (series "R12" (res-0402 "10k") "PSRAM_NCS" "VDDIO2" (id bfd3a713))
+    (series "R12" (res-0201 "10k") "PSRAM_NCS" "VDDIO2" (id bfd3a713))
     (note "FW: If VDDIO2=1.8V, set OTP124 bit 16 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
 
-  (section "IMU" "ICM-20948 9-axis IMU via SPI2"
+  (section "IMU" "ICM-20948 9-axis IMU via SPI5"
     (port "VDD" in power 3.3)
     (port "IMU_SCK" io protocol SPI)
     (port "IMU_INT1" out signal role interrupt)
     (port "IMU_FSYNC" in signal role sync)
     (pins "stm32"
-      (pin A16 "IMU_SCK")
-      (pin A14 "IMU_MOSI")
-      (pin C17 "IMU_MISO")
+      (pin V11 "IMU_SCK")
+      (pin V12 "IMU_MOSI")
+      (pin W14 "IMU_MISO")
       (pin W13 "IMU_NCS")
       (pin T13 "IMU_INT1")
       (pin V13 "IMU_FSYNC"))
@@ -278,7 +279,7 @@
       (pin VOUT_1 VOUT_2 "VDD") (id d865e2a1))
     (decouple "VBATT" (cap-0603 "10uF") 1 per-pin buck VIN_1 (id ca9c1826))
     (decouple "VDD" (cap-0805 "47uF") 2 per-pin buck VOUT_1 (id b5477e53))
-    (series "L2" (ind-1616 "0.47uH") "SW_L1" "SW_L2" (id c59d9c42))
+    (series "L2" (xfl4012 "0.47uH") "SW_L1" "SW_L2" (id c59d9c42))
     (series "R_FBT" (res-0402 "511k") "VDD" "FB_3V3" (id d8c5e75f))
     (series "R_FBB" (res-0402 "91k") "FB_3V3" "GND" (id a5db8a06))
     (series "R_PG" (res-0402 "100k") "PG_3V3" "VDD" (id cf6e4768))
@@ -298,11 +299,90 @@
       (pin EN "PG_3V3")
       (pin OUT "V1P8")
       (pin GND "GND") (id d1a7e0df))
-    (decouple "VDD" (cap-0201 "1uF") 1 per-pin ldo IN (id e6988efe))
-    (decouple "V1P8" (cap-0201 "1uF") 1 per-pin ldo OUT (id e9b79838))
-    (net "V1P8" "VDDA18AON" "VDDA18PMU" "VDDA18PLL" "VDDA18USB" "VDDA18ADC" "VDDA18CSI" "VDDIO2" "VDDIO3")
-    (note "EN driven by TPS63806 PG — 1.8V sequences after 3.3V stable"))
+    (decouple "VDD" (cap-0402 "1uF") 1 per-pin ldo IN (id e6988efe))
+    (decouple "V1P8" (cap-0402 "1uF") 1 per-pin ldo OUT (id e9b79838))
+    ;; Digital I/O and PMU — direct connection to V1P8
+    (net "V1P8" "VDDA18PMU" "VDDIO2" "VDDIO3")
+    ;; Analog supplies — ferrite bead filtered from V1P8
+    (series "FB1" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18AON" (id a1fb0001))
+    (series "FB2" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18PLL" (id a1fb0002))
+    (series "FB3" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18USB" (id a1fb0003))
+    (series "FB4" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18ADC" (id a1fb0004))
+    (series "FB5" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18CSI" (id a1fb0005))
+    (note "EN driven by TPS63806 PG — 1.8V sequences after 3.3V stable")
+    (note "Ferrite beads isolate analog 1.8V supplies from digital noise per AN5967"))
 
-  (port "VBATT"    "VBATT"    in  (rated 3.0 4.2))
-  (port "VBUS"     "VBUS"     in  (rated 4.0 5.5))
-  (port "GND"      "GND"      bidi))
+  (section "LTC2323-16 ADC" "Dual 16-bit 2Msps SAR ADC, CMOS interface"
+    (port "VDD" in power 3.3)
+    (port "V1P8" in power 1.8)
+    (port "ADF_CH1P" in analog differential)
+    (port "ADF_CH1N" in analog differential)
+    (port "ADF_CH2P" in analog differential)
+    (port "ADF_CH2N" in analog differential)
+    (pins "stm32"
+      (pin W16 "ADC_CNV")
+      (pin V10 "ADC_SCK")
+      (pin W15 "ADC_SDO1")
+      (pin V16 "ADC_SDO2"))
+    (instance "adc" ltc2323-16
+      (pin VDD_1 VDD_2 "VDD")
+      (pin GND_1 GND_2 GND_3 GND_4 "GND")
+      (pin OVDD "V1P8")
+      (pin OGND "GND")
+      (pin REFINT "VDD")
+      (pin REFOUT1 "ADC_REFOUT1")
+      (pin REFRTN1 "ADC_REFRTN1")
+      (pin REFOUT2 "ADC_REFOUT2")
+      (pin REFRTN2 "ADC_REFRTN2")
+      (pin VBYP1 "ADC_VBYP1")
+      (pin VBYP2 "ADC_VBYP2")
+      (pin "AIN1+" "ADC_AIN1P")
+      (pin "AIN1-" "ADC_AIN1N")
+      (pin "AIN2+" "ADC_AIN2P")
+      (pin "AIN2-" "ADC_AIN2N")
+      (pin "~{CNV}" "ADC_CNV")
+      (pin "SCK+" "ADC_SCK")
+      (pin "SDO1+" "ADC_SDO1")
+      (pin "SDO2+" "ADC_SDO2")
+      (pin "~{CMOS}/LVDS" "GND")
+      (pin "CLKOUT-" "V1P8")
+      (id a7c23d01))
+    ;; VDD bypass: 10uF + 100nF at each VDD pin
+    (decouple "VDD" (cap-0805 "10uF" x5r) 2 per-pin adc VDD_1 (id a7c23d02))
+    (decouple "VDD" (cap-0402 "100nF" x7r) 2 per-pin adc VDD_1 (id a7c23d03))
+    ;; OVDD bypass
+    (series "C_OVDD" (cap-0402 "100nF" x7r) "V1P8" "GND" (id a7c23d04))
+    ;; Reference bypass: 100nF + 10uF between REFOUT and REFRTN (not to GND)
+    (series "C_REF1A" (cap-0402 "100nF" x7r) "ADC_REFOUT1" "ADC_REFRTN1" (id a7c23d05))
+    (series "C_REF1B" (cap-0805 "10uF" x5r) "ADC_REFOUT1" "ADC_REFRTN1" (id a7c23d06))
+    (series "C_REF2A" (cap-0402 "100nF" x7r) "ADC_REFOUT2" "ADC_REFRTN2" (id a7c23d07))
+    (series "C_REF2B" (cap-0805 "10uF" x5r) "ADC_REFOUT2" "ADC_REFRTN2" (id a7c23d08))
+    ;; VBYP bypass to GND
+    (series "C_BYP1" (cap-0402 "1uF" x7r) "ADC_VBYP1" "GND" (id a7c23d09))
+    (series "C_BYP2" (cap-0402 "1uF" x7r) "ADC_VBYP2" "GND" (id a7c23d0a))
+    ;; Channel 1 anti-alias filter: 25R series + 330pF differential
+    (series "R_F1P" (res-0402 "25R") "ADF_CH1P" "ADC_AIN1P" (id a7c23d0b))
+    (series "R_F1N" (res-0402 "25R") "ADF_CH1N" "ADC_AIN1N" (id a7c23d0c))
+    (series "C_F1" (cap-0402 "330pF" np0) "ADC_AIN1P" "ADC_AIN1N" (id a7c23d0d))
+    ;; Channel 2 anti-alias filter: 25R series + 330pF differential
+    (series "R_F2P" (res-0402 "25R") "ADF_CH2P" "ADC_AIN2P" (id a7c23d0e))
+    (series "R_F2N" (res-0402 "25R") "ADF_CH2N" "ADC_AIN2N" (id a7c23d0f))
+    (series "C_F2" (cap-0402 "330pF" np0) "ADC_AIN2P" "ADC_AIN2N" (id a7c23d10))
+    (note "REFINT tied to VDD enables internal 2.048V reference")
+    (note "REFRTN1/2 are NOT connected to GND — bypass caps go between REFOUT and REFRTN only")
+    (note "CMOS/LVDS tied to GND selects CMOS output mode; CLKOUT- tied to OVDD disables CLKOUT")
+    (note "CNV: TIM1_CH1 (PA8) — 2MHz PWM, ≥25ns high pulse, fast falling edge")
+    (note "SCK: SPI1_SCK (PA5) — 36MHz, CPOL=0 CPHA=1, 16-bit frame")
+    (note "SDO1: SPI1_MISO (PB4) — channel 1 data, MSB first")
+    (note "SDO2: PG9 GPIO — channel 2 data, bit-bang in DMA ISR or second SPI")
+    (note "Anti-alias RC: 25R + 330pF → ~1MHz cutoff with ADF5904 900R source impedance"))
+
+  (section "Mounting" "PCB standoffs"
+    (instance "H1" a-wurth-wa-smsi-9774020633r
+      (pin 1 "GND") (id d3a10001))
+    (instance "H2" a-wurth-wa-smsi-9774020633r
+      (pin 1 "GND") (id d3a10002)))
+
+  (port "VBATT" in (rated 3.0 4.2))
+  (port "VBUS"  in (rated 4.0 5.5))
+  (port "GND"   bidi))

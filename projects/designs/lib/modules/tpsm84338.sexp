@@ -81,10 +81,10 @@
       (pin 2 "PG_DRV"))
 
     ;; Ports
-    (port "VIN"  "VIN"     in   (rated 3.8 28.0))
+    (port "VIN"  in   (rated 3.8 28.0))
     (port "VOUT" vout-str  out  (rated 0.6 16.0))
-    (port "EN"   "EN"      in   (rated 0.0 28.0))
-    (port "GND"  "GND"     bidi)
+    (port "EN"   in   (rated 0.0 28.0))
+    (port "GND"  bidi)
 
     ;; Annotations
     (note "U1" "TPSM84338RCJR: 3.8-28V, 3A synchronous buck module.")
