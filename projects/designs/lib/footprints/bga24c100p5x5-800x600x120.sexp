@@ -24,7 +24,7 @@
   (pad E3 smd circle (pos 0.00 2.00) (size 0.37 0.37))
   (pad E4 smd circle (pos 1.00 2.00) (size 0.37 0.37))
   (pad E5 smd circle (pos 2.00 2.00) (size 0.37 0.37))
-  (courtyard (rect -4.000 -5.000 4.000 5.000))
+  (courtyard (rect -3.44 -4.44 3.44 4.44))
   (silkscreen
     (circle (-3.55 -2.00) 0.10)
     (line (3.00 4.00) (1.53 4.00))

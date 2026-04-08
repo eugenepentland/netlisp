@@ -224,7 +224,7 @@
   (pad W17 smd circle (pos 3.50 4.50) (size 0.30 0.30))
   (pad W18 smd circle (pos 4.00 4.50) (size 0.30 0.30))
   (pad W19 smd circle (pos 4.50 4.50) (size 0.30 0.30))
-  (courtyard (rect -6.000 -6.000 6.000 6.000))
+  (courtyard (rect -5.65 -5.65 5.65 5.65))
   (silkscreen
     (line (-4.50 -5.00) (5.00 -5.00))
     (line (5.00 -5.00) (5.00 5.00))

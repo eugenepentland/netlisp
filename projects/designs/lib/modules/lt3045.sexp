@@ -50,8 +50,8 @@
     (port "VIN"  in  (rated 1.8 20.0))
     (port "VOUT" vout-str  out (rated 0.0 15.0))
     (port "EN"   in  (rated 0.0 20.0))
-    (port "VIOC" out)
-    (port "PG"   out)
+    (port "VIOC" out optional)
+    (port "PG"   out optional)
     (port "GND"  bidi)
 
     (note "U1" "LT3045EDD-1: Ultra-low noise LDO, 500mA.")

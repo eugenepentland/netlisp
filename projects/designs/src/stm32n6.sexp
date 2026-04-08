@@ -4,8 +4,8 @@
         abm8 fc-135 ecmf02-2amx6 connector-swd usb4510-03-1-a-gct
         mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
         icm-20948 lsh-020-01-g-d-a-k-tr
-        tps63806 lp5907mfx-1-8-nopb res-0201
-        ltc2323-16 xfl4012
+        res-0201
+        ltc2323-16
         a-wurth-wa-smsi-9774020633r)
 
 (design-block "STM32N657L0H3Q Minimal Schematic"
@@ -52,8 +52,10 @@
       (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
       (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
       (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0))
+      (series "R2" (res-0201 "10k") "PWR_ON" "VDDSMPS" (id f2a0c001))
       (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
-      (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2"))
+      (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2")
+      (note "G4 (PWR_ON) pulled to VDDSMPS via 10k — enables SMPS at power-up (AN5967 Table 5)"))
 
     (section "Analog & I/O Rails"
       (port "V1P8" in power 1.8)
@@ -96,8 +98,8 @@
       (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)")))
 
   (section "SWD Debug"
+    (protocol SWD)
     (port "VDD" in power 3.3)
-    (port "SWDIO" io protocol SWD)
     (pins "stm32"
       (pin W7 "SWDIO_MCU")
       (pin V7 "SWCLK_MCU")
@@ -144,9 +146,9 @@
     (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54)))
 
   (section "USB" "USB 2.0 High-Speed with Type-C connector"
+    (protocol USB2.0-HS)
     (port "VDDA18USB" in power 1.8)
     (port "VDD33USB" in power 3.3)
-    (port "USB_DP" io protocol USB2.0-HS)
     (pins "stm32"
       (pin D4 "VDDA18USB")
       (pin C3 "VDD33USB")
@@ -176,10 +178,9 @@
     (series "D1" (led-0402 "green") "LED_NET" "GND" (id ec5477d8)))
 
   (section "XSPI2 NOR Flash" "MX66UW1G45G 1Gbit OctoSPI NOR"
+    (protocol OctoSPI)
     (port "VDDIO3" in power 1.8)
     (port "NRST" in signal role reset)
-    (port "FLASH_IO" io data protocol OctoSPI)
-    (port "FLASH_CLK" in clock)
     (pins "stm32"
       (pin PN1 "FLASH_NCS")
       (pin PN6 "FLASH_CLK")
@@ -202,9 +203,8 @@
     (note "FW: If VDDIO3=1.8V, set OTP124 bit 15 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
 
   (section "XSPI1 PSRAM" "APS256XXN 256Mbit OctoSPI PSRAM"
+    (protocol OctoSPI)
     (port "VDDIO2" in power 1.8)
-    (port "PSRAM_IO" io data protocol OctoSPI)
-    (port "PSRAM_CLK" in clock)
     (pins "stm32"
       (pin PO0 "PSRAM_NCS")
       (pin PO4 "PSRAM_CLK")
@@ -226,8 +226,8 @@
     (note "FW: If VDDIO2=1.8V, set OTP124 bit 16 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
 
   (section "IMU" "ICM-20948 9-axis IMU via SPI5"
+    (protocol SPI)
     (port "VDD" in power 3.3)
-    (port "IMU_SCK" io protocol SPI)
     (port "IMU_INT1" out signal role interrupt)
     (port "IMU_FSYNC" in signal role sync)
     (pins "stm32"
@@ -259,66 +259,39 @@
     (port "EXP" io data)
     (instance "expansion" lsh-020-01-g-d-a-k-tr (id b543a309)))
 
-  (section "3.3V Buck-Boost" "TPS63806 from single-cell LiPo to 3.3V"
-    (port "VBATT" in power)
-    (port "VDD" out power 3.3)
-    (port "PG_3V3" out signal role enable)
-    (calc "Output voltage"
-      (let vout (* 0.5 (+ 1.0 (/ 511000.0 91000.0))))
-      (assert-range vout 3.2 3.4 "VDD target"))
-    (instance "buck" tps63806
-      (pin EN "VBATT")
-      (pin VIN_1 VIN_2 "VBATT")
-      (pin MODE "GND")
-      (pin L1_1 L1_2 "SW_L1")
-      (pin AGND "AGND")
-      (pin GND_1 GND_2 "GND")
-      (pin FB "FB_3V3")
-      (pin L2_1 L2_2 "SW_L2")
-      (pin PG "PG_3V3")
-      (pin VOUT_1 VOUT_2 "VDD") (id d865e2a1))
-    (decouple "VBATT" (cap-0603 "10uF") 1 per-pin buck VIN_1 (id ca9c1826))
-    (decouple "VDD" (cap-0805 "47uF") 2 per-pin buck VOUT_1 (id b5477e53))
-    (series "L2" (xfl4012 "0.47uH") "SW_L1" "SW_L2" (id c59d9c42))
-    (series "R_FBT" (res-0402 "511k") "VDD" "FB_3V3" (id d8c5e75f))
-    (series "R_FBB" (res-0402 "91k") "FB_3V3" "GND" (id a5db8a06))
-    (series "R_PG" (res-0402 "100k") "PG_3V3" "VDD" (id cf6e4768))
-    (net "GND" "AGND")
-    (net "VDD" "VDDSMPS" "VDD33USB" "VREF+" "VDDIO4")
-    (note "EN (A1) tied to VBATT — converter always on when battery present")
-    (note "MODE (B1) tied to GND — auto PFM/PWM, 13uA quiescent")
-    (note "FB divider: 511k/91k 1% → VOUT=3.306V (500mV ref)")
-    (note "L2: XFL4015-471MEC (4x4x1.5mm, 5.4A sat, 7.6mOhm DCR)"))
+  ;; === Power Chain (design blocks) ===
+  ;; VBUS -> charger -> VBATT -> buck -> VDD (3.3V) -> ldo -> V1P8 (1.8V)
+  (sub-block "charger" "blocks/charger.sexp")
+  (sub-block "buck" "blocks/buck-boost.sexp")
+  (sub-block "ldo" "blocks/ldo.sexp")
 
-  (section "1.8V LDO" "LP5907 1.8V from 3.3V, sequenced by PG"
-    (port "VDD" in power 3.3)
-    (port "PG_3V3" in signal role enable)
-    (port "V1P8" out power 1.8)
-    (instance "ldo" lp5907mfx-1-8-nopb
-      (pin IN "VDD")
-      (pin EN "PG_3V3")
-      (pin OUT "V1P8")
-      (pin GND "GND") (id d1a7e0df))
-    (decouple "VDD" (cap-0402 "1uF") 1 per-pin ldo IN (id e6988efe))
-    (decouple "V1P8" (cap-0402 "1uF") 1 per-pin ldo OUT (id e9b79838))
-    ;; Digital I/O and PMU — direct connection to V1P8
-    (net "V1P8" "VDDA18PMU" "VDDIO2" "VDDIO3")
-    ;; Analog supplies — ferrite bead filtered from V1P8
-    (series "FB1" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18AON" (id a1fb0001))
-    (series "FB2" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18PLL" (id a1fb0002))
-    (series "FB3" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18USB" (id a1fb0003))
-    (series "FB4" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18ADC" (id a1fb0004))
-    (series "FB5" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18CSI" (id a1fb0005))
-    (note "EN driven by TPS63806 PG — 1.8V sequences after 3.3V stable")
-    (note "Ferrite beads isolate analog 1.8V supplies from digital noise per AN5967"))
+  ;; Connect power module ports to design nets
+  (net "GND" "charger/GND" "buck/GND" "ldo/GND")
+  (net "VBUS" "charger/VBUS")
+  (net "VBATT" "charger/VBATT" "buck/VIN")
+  (net "VDD" "buck/VOUT" "ldo/VIN" "VDDSMPS" "VDD33USB" "VREF+" "VDDIO4")
+  (net "PG_3V3" "buck/PG" "ldo/EN")
+  (net "V1P8" "ldo/VOUT" "VDDA18PMU" "VDDIO2" "VDDIO3")
+  (net "CHG_EN" "charger/EN")
+
+  ;; STM32 GPIO for charger enable control
+  (pins "stm32"
+    (pin T11 "CHG_EN"))
+  ;; 1.8V analog supplies — ferrite bead filtered
+  (series "FB1" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18AON" (id a1fb0001))
+  (series "FB2" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18PLL" (id a1fb0002))
+  (series "FB3" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18USB" (id a1fb0003))
+  (series "FB4" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18ADC" (id a1fb0004))
+  (series "FB5" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18CSI" (id a1fb0005))
 
   (section "LTC2323-16 ADC" "Dual 16-bit 2Msps SAR ADC, CMOS interface"
+    (protocol SPI)
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
-    (port "ADF_CH1P" in analog differential)
-    (port "ADF_CH1N" in analog differential)
-    (port "ADF_CH2P" in analog differential)
-    (port "ADF_CH2N" in analog differential)
+    (port "ADF_CH1P" in differential optional)
+    (port "ADF_CH1N" in differential optional)
+    (port "ADF_CH2P" in differential optional)
+    (port "ADF_CH2N" in differential optional)
     (pins "stm32"
       (pin W16 "ADC_CNV")
       (pin V10 "ADC_SCK")
