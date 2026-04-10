@@ -1,7 +1,7 @@
 (import stm32n657l0h3q
         cap-0201 cap-0402 cap-0603 cap-0805
         res-0402 ind-1616 ind-2016 led-0402 ferrite-0402
-        abm8 fc-135 ecmf02-2amx6 connector-swd usb4510-03-1-a-gct
+        abm8 fc-135 ecmf02-2amx6 connector-swd connector-battery usb4510-03-1-a-gct
         mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
         icm-20948 lsh-020-01-g-d-a-k-tr
         res-0201
@@ -98,6 +98,7 @@
       (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)")))
 
   (section "SWD Debug"
+    (role output)
     (protocol SWD)
     (port "VDD" in power 3.3)
     (pins "stm32"
@@ -146,6 +147,7 @@
     (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54)))
 
   (section "USB" "USB 2.0 High-Speed with Type-C connector"
+    (role input)
     (protocol USB2.0-HS)
     (port "VDDA18USB" in power 1.8)
     (port "VDD33USB" in power 3.3)
@@ -171,6 +173,12 @@
     (series (res-0402 "5.1k") "CC1" "GND" "CC2" "GND" (id b9a29bc3))
     (series "R8" (res-0201 "200R") "TXRTUNE" "GND" (id b40b1319))
     (note "5.1k pull-downs on CC1/CC2 for UFP (device) role"))
+
+  (section "Battery Connector" "JST-PH 2-pin LiPo battery"
+    (role input)
+    (instance "batt" connector-battery
+      (pin 1 "VBATT")
+      (pin 2 "GND") (id d8c4ba01)))
 
   (section "Debug LED"
     (port "VDD" in power 3.3)
@@ -255,9 +263,13 @@
     (note "FW: FSYNC config — DELAY_TIME_EN=1, EXT_SYNC_SET per sensor"))
 
   (section "Expansion Connector" "Samtec LSH 40-pin dual-row 0.635mm"
+    (role output)
     (port "VDD" in power 3.3)
     (port "EXP" io data)
-    (instance "expansion" lsh-020-01-g-d-a-k-tr (id b543a309)))
+    (instance "expansion" lsh-020-01-g-d-a-k-tr
+      (pin 1 2 "GND")
+      (pin 3 4 "VBATT")
+      (pin 5 6 "VDD") (id b543a309)))
 
   ;; === Power Chain (design blocks) ===
   ;; VBUS -> charger -> VBATT -> buck -> VDD (3.3V) -> ldo -> V1P8 (1.8V)
