@@ -1,7 +1,7 @@
 (board "STM32N6 Dev Board"
   (design "src/stm32n6.sexp")
 
-  (outline (rect 75 35 135 85))
+  (outline (rect 60.0 35.6 82.6 80.0))
 
   (stackup
     (copper  "F.Cu"   0.035)
