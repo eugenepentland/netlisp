@@ -10927,7 +10927,7 @@
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "b2311a94-d90e-46cc-8bed-19b89bfbc474")
-		(at 85.07 101.60)
+		(at 85.00 101.50)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C99"
 			(at 0 0 0)

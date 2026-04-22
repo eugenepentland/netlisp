@@ -3,7 +3,7 @@
 
 (part "U3" "2bc6897c-52c9-5e1e-a6c3-e01f6ff60d14"
   (id "b22d91d5")
-  (nets "VDD.U3.F7" "PSRAM_NCS" "VDDA18USB" "PSRAM_IO8" "VDDCORE.U3.P13" "IMU_MISO" "VDDA18AON.U3.H6" "VDDCORE.U3.P9" "V1P8.U3.M16" "USB_DP" "VDD.U3.F1" "VDDA18AON" "PSRAM_IO10" "VDD.U3.J14" "PSRAM_IO4" "PSRAM_IO2" "V1P8.U3.M14" "VDD.U3.L1" "ADC_SDO1" "ADC_SCK" "PSRAM_IO1" "FLASH_NCLK" "VDDA18CSI" "PSRAM_DQS1" "VDDA18PLL" "IMU_SCK" "PSRAM_IO6" "IMU_FSYNC" "PSRAM_NCLK" "VDD.U3.W2" "VDDCORE.U3.G2" "VDD" "VDD" "VDD" "VDD" "VDD" "PSRAM_IO14" "PSRAM_IO15" "IMU_NCS" "VDDCORE.U3.P10" "PWR_ON" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "V1P8.U3.H1" "IMU_INT1" "VDD.U3.L14" "IMU_MOSI" "PG10" "PSRAM_IO9" "PSRAM_IO3" "FLASH_IO3" "ADC_CNV" "SWDIO_MCU" "FLASH_IO0" "VDD.U3.F8" "PSRAM_DQS0" "PSRAM_IO12" "PSRAM_IO11" "OSC32_IN" "V1P8.U3.K16" "V1P8.U3.H16" "SWO_MCU" "PSRAM_IO0" "PSRAM_IO7" "BOOT0" "PSRAM_CLK" "PSRAM_IO5" "FLASH_DQS" "ADC_SDO2" "FLASH_IO2" "FLASH_IO1" "FLASH_IO7" "VDDCORE.U3.W6" "FLASH_IO5" "USB_DN" "OSC_OUT" "SWCLK_MCU" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "NRST" "FLASH_IO4" "V08CAP.U3.G1" "FLASH_NCS" "V1P8.U3.L16" "VDD.U3.K14" "OSC32_OUT" "TXRTUNE" "V1P8.U3.J16" "FLASH_IO6" "VDDCORE.U3.P7" "VDDCORE.U3.P11" "PA6" "OSC_IN" "FLASH_CLK" "PSRAM_IO13" "VDDA18ADC")
+  (nets "VDD.U3.F7" "PSRAM_NCS" "VDDA18USB" "PSRAM_IO8" "VDDCORE.U3.P13" "IMU_MISO" "VDDA18AON.U3.H6" "ADC_SDOA" "VDDCORE.U3.P9" "EXP_SPI_SCK" "EXP_SPI_MISO" "USB_DP" "VDD.U3.F1" "ADC_SDOC" "V1P8.U3.M16" "VDDA18AON" "PSRAM_IO10" "VDD.U3.J14" "PSRAM_IO4" "ADC_SDOD" "PD3" "PSRAM_IO2" "VDD.U3.L1" "V1P8.U3.M14" "PD5" "PSRAM_IO1" "PSRAM_DQS1" "VDDA18CSI" "IMU_SCK" "VDDA18PLL" "PSRAM_IO6" "IMU_FSYNC" "VDD.U3.W2" "PD4" "VDDCORE.U3.G2" "VDD" "VDD" "VDD" "VDD" "VDD" "PSRAM_IO14" "PSRAM_IO15" "ADC_SDOB" "IMU_NCS" "VDDCORE.U3.P10" "PWR_ON" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "V1P8.U3.H1" "IMU_INT1" "VDD.U3.L14" "IMU_MOSI" "ADC_CS" "PG10" "PSRAM_IO9" "PD0" "PSRAM_IO3" "FLASH_IO3" "SWDIO_MCU" "FLASH_IO0" "VDD.U3.F8" "PSRAM_DQS0" "PSRAM_IO12" "PSRAM_IO11" "OSC32_IN" "V1P8.U3.K16" "V1P8.U3.H16" "SWO_MCU" "PD2" "ADC_SDI" "PSRAM_IO0" "PSRAM_IO7" "BOOT0" "PSRAM_CLK" "PSRAM_IO5" "FLASH_DQS" "EXP_SPI_NCS" "EXP_SPI_MOSI" "ADC_SCK_MCU" "ADC_SCK_MCU" "ADC_SCK_MCU" "ADC_SCK_MCU" "FLASH_IO2" "FLASH_IO1" "FLASH_IO7" "VDDCORE.U3.W6" "PD1" "FLASH_IO5" "USB_DN" "OSC_OUT" "SWCLK_MCU" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "NRST" "FLASH_IO4" "V08CAP.U3.G1" "FLASH_NCS" "V1P8.U3.L16" "VDD.U3.K14" "OSC32_OUT" "TXRTUNE" "V1P8.U3.J16" "FLASH_IO6" "VDDCORE.U3.P7" "VDDCORE.U3.P11" "PA6" "OSC_IN" "FLASH_CLK" "PSRAM_IO13" "VDDA18ADC")
   (manufacturer "STMicroelectronics")
   (mpn "STM32N657L0H3Q")
 )
@@ -78,8 +78,6 @@
 (part "C53" "0c2afc93-a9c1-5117-aa33-f64bd7cdc9de"
   (id "cdfcdf18")
   (nets "VDD.U3.L1" "GND")
-  (manufacturer "Samsung")
-  (mpn "CL05B222KB5NNNC")
 )
 (part "C54" "e19fd935-c0d5-5b54-8938-63c88021c013"
   (id "cb05efe2")
@@ -101,7 +99,7 @@
   (id "f130c61b")
   (nets "VDDCORE" "VLXSMPS")
   (manufacturer "Murata")
-  (mpn "LQM21FN1R0N00L")
+  (mpn "DFE201612P-1R0M=P2")
 )
 (part "C18" "56f94342-25f6-5a75-8c92-6e1f8ebc3514"
   (id "aa2c3eda")
@@ -174,44 +172,30 @@
 (part "C71" "fff04af7-864b-501c-8f1c-43d19695b307"
   (id "f73d816f")
   (nets "GND" "VDDCORE.U3.W6")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
 )
 (part "C72" "728a71d8-28f2-5c55-9d14-0b7374f43845"
   (id "a410dfb6")
   (nets "GND" "V08CAP.U3.G1")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
 )
 (part "C73" "e5b64ce9-3773-52af-8222-19987ee95526"
   (id "abd8c95e")
   (nets "VDD.U3.W2" "GND")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
 )
 (part "C74" "625edb78-51ec-525f-9b2e-d3eb69fda763"
   (id "d14d7bad")
   (nets "VDD.U3.W2" "GND")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
 )
 (part "C35" "e7ff4914-3ee7-5d64-8219-200dc082d9ea"
   (id "e0668c9a")
   (nets "GND" "NRST")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
 )
-(part "R13" "ca008b75-a42e-51bc-81b1-594e6e4a2f6a"
+(part "R19" "ca008b75-a42e-51bc-81b1-594e6e4a2f6a"
   (id "c2c3b132")
   (nets "GND" "BOOT0")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-0710KL")
 )
-(part "R14" "e6e1611e-016a-5381-8f97-de56c6460772"
+(part "R20" "e6e1611e-016a-5381-8f97-de56c6460772"
   (id "a55c76bc")
   (nets "GND" "PA6")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-0710KL")
 )
 (part "SW1" "033cb2cc-f665-5692-9950-f3adbfea488d"
   (id "f8bfd5d5")
@@ -235,8 +219,8 @@
   (manufacturer "Yageo")
   (mpn "RC0402FR-0733RL")
 )
-(part "J1" "645b5541-21e5-4a73-a2fd-77e8ed37aaa6"
-  (id "d646a1e7")
+(part "J1" "286f1b86-92d8-4c9d-aa4b-c6044aebcde2"
+  (id "c0de5wd5")
   (nets "SWCLK" "VDD" "GND" "SWO" "SWDIO")
 )
 (part "Y1" "3097f3b7-1adc-5e0b-b3bb-3c81c494022d"
@@ -248,14 +232,14 @@
 (part "C75" "1fc0ff7f-c836-57e5-bfb1-31379a8c9dbf"
   (id "fbb42bb9")
   (nets "GND" "OSC_IN")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
+  (manufacturer "Murata")
+  (mpn "GRM1555C1H100GA01D")
 )
 (part "C76" "c990ac34-5f09-5c4e-aa8e-6afe940dfc27"
   (id "a49738f0")
   (nets "GND" "OSC_OUT")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
+  (manufacturer "Murata")
+  (mpn "GRM1555C1H100GA01D")
 )
 (part "Y2" "eb0c04be-0695-5ef8-ab86-567af25a8b5f"
   (id "b2a39445")
@@ -266,16 +250,16 @@
 (part "C77" "d42d4200-1227-5346-91a8-a69ee8763739"
   (id "f002b9e5")
   (nets "GND" "OSC32_IN")
-  (manufacturer "Samsung")
-  (mpn "CL21A156KOQNNNG")
+  (manufacturer "Murata")
+  (mpn "GRM1555C1H6R8DA01D")
 )
 (part "C78" "405f3eeb-e5e1-59ce-b68f-423e8ebae39b"
   (id "f95933bf")
   (nets "GND" "OSC32_OUT")
-  (manufacturer "Samsung")
-  (mpn "CL21A156KOQNNNG")
+  (manufacturer "Murata")
+  (mpn "GRM1555C1H6R8DA01D")
 )
-(part "U4" "2764d515-01d1-5e02-9746-eb3724a080d8"
+(part "U4" "3da04cb7-e368-44c6-9d40-ff6a008f2658"
   (id "e6a1a21e")
   (nets "USB_CONN_DP" "USB_DP" "USB_CONN_DN" "GND" "USB_DN")
   (manufacturer "STMicroelectronics")
@@ -283,31 +267,23 @@
 )
 (part "J2" "b6a24443-da9b-5238-892f-81aaa4d99d17"
   (id "ca29d420")
-  (nets "USB_CONN_DP" "USB_CONN_DP" "USB_CONN_DN" "USB_CONN_DN" "GND" "GND" "CC1" "VBUS" "VBUS" "CC2")
-  (manufacturer "Amphenol")
-  (mpn "10164986-00011LF")
+  (nets "USB_CONN_DP" "USB_CONN_DP" "USB_CONN_DN" "USB_CONN_DN" "GND" "GND" "GND" "GND" "GND" "GND" "CC1" "VBUS" "VBUS" "VBUS" "VBUS" "CC2")
 )
-(part "R15" "e461d9a2-2cf4-551b-9602-51f50da091f0"
+(part "R21" "e461d9a2-2cf4-551b-9602-51f50da091f0"
   (id "a0df15d6")
   (nets "GND" "CC1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-075K1L")
 )
-(part "R16" "d448eb7a-ba62-5640-85de-00486f5c73af"
+(part "R22" "d448eb7a-ba62-5640-85de-00486f5c73af"
   (id "f9013f53")
   (nets "GND" "CC2")
   (manufacturer "Yageo")
   (mpn "RC0402FR-075K1L")
 )
-(part "R8" "6d6e3fec-97f6-51ca-833d-3e6b38d0c477"
+(part "R8" "d7234caf-7629-4811-b29d-a31fa4be76ee"
   (id "b40b1319")
   (nets "GND" "TXRTUNE")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-07200RL")
-)
-(part "J3" "7b153ddf-5071-43e8-ac2f-8221f916cb3d"
-  (id "d8c4ba01")
-  (nets "GND" "VBATT")
 )
 (part "R9" "305cce77-c707-5e69-a414-b1dee2747d9d"
   (id "a4e0a83c")
@@ -321,6 +297,50 @@
   (manufacturer "Wurth")
   (mpn "150040GS73220")
 )
+(part "R13" "b0457fc5-041d-4278-a4dc-e4b46d00fe4d"
+  (id "aa110001")
+  (nets "PD0" "LED1_R_K")
+)
+(part "R14" "55a49827-4bb8-4b5f-ab2e-155882a5b739"
+  (id "aa110002")
+  (nets "LED1_G_K" "PD1")
+  (manufacturer "Yageo")
+  (mpn "RC0402FR-07330RL")
+)
+(part "R15" "668fb8c6-4df1-4528-a058-0dbce18e9e45"
+  (id "aa110003")
+  (nets "PD2" "LED1_B_K")
+  (manufacturer "Yageo")
+  (mpn "RC0402FR-07330RL")
+)
+(part "R16" "b1509a86-6884-470c-91a6-5bb43fa4df67"
+  (id "aa110004")
+  (nets "PD3" "LED2_R_K")
+)
+(part "R17" "e15aa7f3-8854-4660-bf26-8a26ad6c617c"
+  (id "aa110005")
+  (nets "PD4" "LED2_G_K")
+  (manufacturer "Yageo")
+  (mpn "RC0402FR-07330RL")
+)
+(part "R18" "52ebb64f-8429-49f1-9515-2ea4faeaeb87"
+  (id "aa110006")
+  (nets "PD5" "LED2_B_K")
+  (manufacturer "Yageo")
+  (mpn "RC0402FR-07330RL")
+)
+(part "LED1" "09051ba8-7b56-4fcb-b26b-6858cd2cbcae"
+  (id "aa110010")
+  (nets "VDD" "LED1_B_K" "LED1_G_K" "LED1_R_K")
+  (manufacturer "Kingbright")
+  (mpn "APTF1616LSEEZGKQBKC")
+)
+(part "LED2" "7f268e59-eb44-4299-9c67-3edb9c79f964"
+  (id "aa110011")
+  (nets "VDD" "LED2_R_K" "LED2_B_K" "LED2_G_K")
+  (manufacturer "Kingbright")
+  (mpn "APTF1616LSEEZGKQBKC")
+)
 (part "U5" "999bca7c-28e9-5314-a354-e3194209e265"
   (id "e5833220")
   (nets "V1P8.U5.E4" "GND" "GND" "GND" "V1P8.U5.D1" "FLASH_IO3" "FLASH_IO0" "FLASH_RESET" "FLASH_DQS" "FLASH_IO2" "FLASH_IO1" "FLASH_IO7" "FLASH_IO5" "FLASH_IO4" "FLASH_NCS" "FLASH_IO6" "V1P8.U5.B4" "FLASH_CLK")
@@ -330,32 +350,22 @@
 (part "C79" "2ff044be-0de1-5cff-958d-46abbd3ab354"
   (id "b2044197")
   (nets "GND" "V1P8.U5.B4")
-  (manufacturer "Samsung")
-  (mpn "CL21A156KOQNNNG")
 )
 (part "C80" "bfa4c453-83d1-5736-9c34-901a75a55362"
   (id "c8f63166")
   (nets "V1P8.U5.E4" "GND")
-  (manufacturer "Samsung")
-  (mpn "CL21A156KOQNNNG")
 )
 (part "C81" "1de6a868-ce68-5536-a1b3-6e2ad82a8a32"
   (id "b45b62b7")
   (nets "GND" "V1P8.U5.D1")
-  (manufacturer "Samsung")
-  (mpn "CL21A156KOQNNNG")
 )
 (part "R10" "cad5e2b1-8a6c-59a6-8959-d6a160c9f281"
   (id "c734428e")
   (nets "FLASH_RESET" "V1P8")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-0710KL")
 )
 (part "R11" "761d8e09-ce6e-5fc8-b400-69cf1776c7a4"
   (id "ce543c3a")
   (nets "FLASH_NCS" "V1P8")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-0710KL")
 )
 (part "D2" "15e5c817-edd8-5ef9-8734-2194fab317a7"
   (id "ab720208")
@@ -372,44 +382,34 @@
 (part "C82" "8fc9449a-d10d-54d9-99a4-7a2ca5bd957a"
   (id "aa027e4e")
   (nets "V1P8.U6.D1" "GND")
-  (manufacturer "Samsung")
-  (mpn "CL21A156KOQNNNG")
 )
 (part "C83" "df45c70b-32f3-5b6d-a330-22a94e3a8834"
   (id "dec59817")
   (nets "GND" "V1P8.U6.E4")
-  (manufacturer "Samsung")
-  (mpn "CL05A105KA5NQNC")
 )
 (part "R12" "c965852f-9b1f-5b34-aaa7-0259ea76c0cc"
   (id "bfd3a713")
   (nets "PSRAM_NCS" "V1P8")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-0710KL")
 )
 (part "U7" "fad9be27-051d-5154-ac3b-25b64d6534d0"
   (id "e8c00656")
-  (nets "IMU_MISO" "IMU_AUX_CL" "IMU_SCK" "IMU_FSYNC" "VDD" "VDD" "IMU_NCS" "GND" "GND" "IMU_INT1" "IMU_MOSI" "IMU_REGOUT" "IMU_AUX_DA")
+  (nets "IMU_MISO" "IMU_SCK" "IMU_FSYNC" "VDD" "VDD" "IMU_NCS" "GND" "GND" "IMU_INT1" "IMU_MOSI" "IMU_REGOUT")
   (manufacturer "TDK InvenSense")
   (mpn "ICM-20948")
 )
-(part "C84" "3c4c8f82-4979-5426-b3bc-d512843e4305"
+(part "C84" "cd9aabc2-9df9-492a-b39c-8b7a65ec6d16"
   (id "e2914d82")
   (nets "VDD" "GND")
-  (manufacturer "Samsung")
-  (mpn "CL05A105KA5NQNC")
 )
 (part "C85" "abdc885d-f122-545f-b3ea-fd029534c556"
   (id "cc0cf218")
   (nets "GND" "IMU_REGOUT")
-  (manufacturer "Samsung")
-  (mpn "CL05A105KA5NQNC")
 )
-(part "J4" "beec6894-b0d1-53c4-bd25-c8a802cdb721"
+(part "U8" "beec6894-b0d1-53c4-bd25-c8a802cdb721"
   (id "b543a309")
-  (nets "VDD" "VDD" "GND" "GND" "VBATT" "VBATT")
-  (manufacturer "Samtec")
-  (mpn "LSH-020-01-G-D-A-K-TR")
+  (nets "ADF_CH4N" "EXP_SPI_SCK" "EXP_SPI_MISO" "ADF_CH1P" "ADF_CH2N" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "ADF_CH3P" "ADF_CH1N" "EXP_SPI_NCS" "EXP_SPI_MOSI" "ADF_CH2P" "ADF_CH4P" "VBATT" "VBATT" "VBATT" "VBATT" "VBATT" "ADF_CH3N" "V1P8" "V1P8")
+  (manufacturer "Molex")
+  (mpn "204928-0301")
 )
 (part "FB1" "b1a94e29-ae29-45b9-a4a2-7c5e900922b1"
   (id "a1fb0001")
@@ -431,101 +431,151 @@
   (id "a1fb0005")
   (nets "VDDA18CSI" "V1P8")
 )
-(part "U8" "64877d8e-1af8-40a4-8879-41ec4dd93f74"
+(part "U9" "64877d8e-1af8-40a4-8879-41ec4dd93f74"
   (id "a7c23d01")
-  (nets "ADC_AIN2N" "ADC_AIN2P" "ADC_SDO1" "ADC_SCK" "ADC_AIN1N" "ADC_REFRTN1" "VDD" "VDD" "VDD" "GND" "GND" "GND" "GND" "GND" "GND" "ADC_VBYP2" "ADC_CNV" "ADC_REFOUT1" "ADC_SDO2" "ADC_REFOUT2" "ADC_REFRTN2" "ADC_AIN1P" "ADC_VBYP1" "V1P8" "V1P8")
+  (nets "ADC_AINA_N" "ADC_SDOD_RAW" "ADC_SCK" "ADC_AINC_N" "ADC_AIND_N" "VDD" "ADC_AINC_P" "GND" "GND" "GND" "GND" "GND" "ADC_SDOB_RAW" "ADC_CS" "ADC_REGCAP" "ADC_SDOA_RAW" "ADC_AINB_N" "ADC_SDOC_RAW" "ADC_SDI" "ADC_REFIN" "ADC_AINA_P" "ADC_AIND_P" "ADC_AINB_P" "V1P8")
   (manufacturer "Analog Devices")
-  (mpn "LTC2323IUFD-16#PBF")
+  (mpn "AD7380-4BCPZ")
 )
-(part "C93" "cd9aabc2-9df9-492a-b39c-8b7a65ec6d16"
-  (id "c7378f28")
-  (nets "GND" "VDD.U8.VDD_1")
-  (manufacturer "Samsung")
-  (mpn "CL21A106KAYNNNE")
+(part "C93" "3c4c8f82-4979-5426-b3bc-d512843e4305"
+  (id "a7c23d02")
+  (nets "VDD" "GND")
 )
-(part "C94" "b1449182-eda6-4e12-8d6d-ef037edf369e"
-  (id "e97754da")
-  (nets "GND" "VDD.U8.VDD_1")
-  (manufacturer "Samsung")
-  (mpn "CL21A106KAYNNNE")
-)
-(part "C95" "a932911e-9726-43a4-882e-f0c118717a9e"
-  (id "d63e753f")
-  (nets "GND" "VDD.U8.VDD_1")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
-)
-(part "C96" "2bc3fec8-5e07-45c1-a5b9-3cd066fcc418"
-  (id "bffccdfb")
-  (nets "GND" "VDD.U8.VDD_1")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
-)
-(part "C97" "37112662-7c1a-4bfb-8eee-892027ac406a"
-  (id "a7c23d04")
+(part "C94" "37112662-7c1a-4bfb-8eee-892027ac406a"
+  (id "a7c23d03")
   (nets "GND" "V1P8")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
 )
-(part "C98" "85536985-090b-4700-9a43-66679ef88ac5"
+(part "C95" "b1449182-eda6-4e12-8d6d-ef037edf369e"
+  (id "a7c23d04")
+  (nets "GND" "ADC_REGCAP")
+)
+(part "C96" "85536985-090b-4700-9a43-66679ef88ac5"
   (id "a7c23d05")
-  (nets "ADC_REFRTN1" "ADC_REFOUT1")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
+  (nets "GND" "ADC_REFIN")
 )
-(part "C99" "b2311a94-d90e-46cc-8bed-19b89bfbc474"
+(part "R28" "b2311a94-d90e-46cc-8bed-19b89bfbc474"
   (id "a7c23d06")
-  (nets "ADC_REFRTN1" "ADC_REFOUT1")
-  (manufacturer "Samsung")
-  (mpn "CL21A106KAYNNNE")
+  (nets "VDD" "ADC_REFIN")
+)
+(part "R29" "6eab9a78-cfa0-4c1e-b096-404ae386d8d0"
+  (id "a7c23d10")
+  (nets "ADF_CH1P" "ADC_AINA_P")
+)
+(part "R30" "7e8b74b5-abcd-4e65-a0f3-ac5ef1be2238"
+  (id "a7c23d11")
+  (nets "ADC_AINA_N" "ADF_CH1N")
+)
+(part "C97" "72a60cd2-4385-4045-a6bf-ab37bda72df0"
+  (id "a7c23d12")
+  (nets "GND" "ADC_AINA_P")
+)
+(part "C98" "86ad0a0d-2c1a-498b-a324-56ade333c3e8"
+  (id "a7c23d13")
+  (nets "ADC_AINA_N" "GND")
+)
+(part "R31" "46e0cb70-9b81-4818-9611-3e49b51ceb6a"
+  (id "a7c23d14")
+  (nets "ADF_CH2P" "ADC_AINB_P")
+)
+(part "R32" "9406b02d-6d1f-4b48-8dae-3f35854985b7"
+  (id "a7c23d15")
+  (nets "ADF_CH2N" "ADC_AINB_N")
+)
+(part "C99" "fdde316e-0d15-4b53-b187-a4552e28fd91"
+  (id "a7c23d16")
+  (nets "GND" "ADC_AINB_P")
 )
 (part "C100" "6cbea1f7-9f11-4315-8c63-55416e7a6cc3"
-  (id "a7c23d07")
-  (nets "ADC_REFOUT2" "ADC_REFRTN2")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
+  (id "a7c23d17")
+  (nets "GND" "ADC_AINB_N")
+)
+(part "R33" "9a65f5ad-cfa6-41ab-95b8-8b695e21de09"
+  (id "a7c23d18")
+  (nets "ADC_AINC_P" "ADF_CH3P")
+)
+(part "R34" "166f76f2-ed89-4c8f-82c2-5b1ebb0a77a5"
+  (id "a7c23d19")
+  (nets "ADC_AINC_N" "ADF_CH3N")
 )
 (part "C101" "b41c20e0-d409-4575-9679-d41ee5a62852"
-  (id "a7c23d08")
-  (nets "ADC_REFOUT2" "ADC_REFRTN2")
-  (manufacturer "Samsung")
-  (mpn "CL21A106KAYNNNE")
+  (id "a7c23d1a")
+  (nets "ADC_AINC_P" "GND")
 )
 (part "C102" "46a5fc46-d0d1-4afb-950b-b092feb32b06"
-  (id "a7c23d09")
-  (nets "GND" "ADC_VBYP1")
-  (manufacturer "Samsung")
-  (mpn "CL05A105KA5NQNC")
+  (id "a7c23d1b")
+  (nets "ADC_AINC_N" "GND")
+)
+(part "R35" "827861b0-79ee-4571-8721-8c88594fc90f"
+  (id "a7c23d1c")
+  (nets "ADF_CH4P" "ADC_AIND_P")
+)
+(part "R36" "34aefadc-db99-4780-bb2c-be61081e5795"
+  (id "a7c23d1d")
+  (nets "ADF_CH4N" "ADC_AIND_N")
 )
 (part "C103" "7bfa4dc5-df21-4c80-af0c-eae2b262955d"
-  (id "a7c23d0a")
-  (nets "GND" "ADC_VBYP2")
-  (manufacturer "Samsung")
-  (mpn "CL05A105KA5NQNC")
-)
-(part "R22" "5b4e4aa6-6e2c-4a61-ba37-75b703b49930"
-  (id "a7c23d0b")
-  (nets "ADF_CH1P" "ADC_AIN1P")
-)
-(part "R23" "5141ada8-9d76-42a6-9994-c03c766c7c8c"
-  (id "a7c23d0c")
-  (nets "ADC_AIN1N" "ADF_CH1N")
+  (id "a7c23d1e")
+  (nets "GND" "ADC_AIND_P")
 )
 (part "C104" "a971745e-4f69-4e59-9e9d-827e702b8e21"
-  (id "a7c23d0d")
-  (nets "ADC_AIN1N" "ADC_AIN1P")
+  (id "a7c23d1f")
+  (nets "ADC_AIND_N" "GND")
 )
-(part "R24" "7e8b74b5-abcd-4e65-a0f3-ac5ef1be2238"
-  (id "a7c23d0e")
-  (nets "ADC_AIN2P" "ADF_CH2P")
+(part "R37" "6b1c1570-8d67-45d9-8240-288f23d44252"
+  (id "a7c23d20")
+  (nets "ADC_SDOA" "ADC_SDOA_RAW")
 )
-(part "R25" "46e0cb70-9b81-4818-9611-3e49b51ceb6a"
-  (id "a7c23d0f")
-  (nets "ADC_AIN2N" "ADF_CH2N")
+(part "R38" "a9721a54-3728-412d-b286-db00f4d3d832"
+  (id "a7c23d21")
+  (nets "ADC_SDOB" "ADC_SDOB_RAW")
 )
-(part "C105" "6eab9a78-cfa0-4c1e-b096-404ae386d8d0"
-  (id "a7c23d10")
-  (nets "ADC_AIN2N" "ADC_AIN2P")
+(part "R39" "f242a53b-2480-4735-af95-745572592a3a"
+  (id "a7c23d22")
+  (nets "ADC_SDOC" "ADC_SDOC_RAW")
+)
+(part "R40" "45a72ce5-9cda-411a-9124-d13e408e8b05"
+  (id "a7c23d23")
+  (nets "ADC_SDOD_RAW" "ADC_SDOD")
+)
+(part "R41" "880964b5-4ae8-485b-ba0a-c89c9e6dd26e"
+  (id "a7c23d24")
+  (nets "ADC_SCK" "ADC_SCK_MCU")
+)
+(part "TP1" "c1ccba23-3067-4fdc-9bbb-f155b41a80df"
+  (id "aabbcc01")
+  (nets "VBATT")
+)
+(part "TP2" "25201bf6-9f98-4bcb-b8eb-c84475563b90"
+  (id "aabbcc02")
+  (nets "VDD")
+)
+(part "TP3" "477a71b9-0592-4eb8-9885-33024f22c95a"
+  (id "aabbcc03")
+  (nets "V1P8")
+)
+(part "TP4" "5b43cdaf-36cd-4e70-8a4c-2d7c3421305a"
+  (id "aabbcc04")
+  (nets "VDDCORE")
+)
+(part "TP5" "b64d248b-4d06-4279-86fc-c41d9d25ad3a"
+  (id "aabbcc05")
+  (nets "NRST")
+)
+(part "TP6" "82144b97-14e4-4806-80ca-2c2f6dc8f2b8"
+  (id "aabbcc06")
+  (nets "PG_3V3")
+)
+(part "TP7" "d50408b8-b067-4606-b690-27e8dd731c31"
+  (id "aabbcc07")
+  (nets "BOOT0")
+)
+(part "TP8" "1db2486a-3648-4589-a08b-e8bbed7064ce"
+  (id "aabbcc08")
+  (nets "PWR_ON")
+)
+(part "J3" "368d326d-6f44-436a-adf6-7a9fb9aa5e30"
+  (id "ba77e12a")
+  (nets "GND" "VBATT")
 )
 (part "H1" "5db8db52-b8c9-4930-9871-3aabc1ca4aba"
   (id "d3a10001")
@@ -539,83 +589,81 @@
   (manufacturer "Wurth Elektronik")
   (mpn "9774020633R")
 )
-(part "charger/U9" "63eb9809-23e1-482b-a48d-e4e93312568f"
+(part "charger/U10" "63eb9809-23e1-482b-a48d-e4e93312568f"
   (id "e3a20001")
   (nets "VBATT" "VBATT" "VBUS" "VBUS" "GND" "GND" "CHG_STAT" "CHG_PROG")
   (manufacturer "Microchip")
   (mpn "MCP73831-2ACI/MC")
 )
-(part "charger/C106" "8c74aede-7320-4dc2-a353-0fa155b6ba7b"
+(part "charger/C105" "8c74aede-7320-4dc2-a353-0fa155b6ba7b"
   (id "f01c239f")
-  (nets "VBUS.U9.VDD_1" "GND")
+  (nets "VBUS.U10.VDD_1" "GND")
 )
-(part "charger/C107" "33f34429-0919-485b-8085-709944de9e5d"
+(part "charger/C106" "33f34429-0919-485b-8085-709944de9e5d"
   (id "c515de02")
-  (nets "VBATT.U9.VBAT_1" "GND")
+  (nets "VBATT.U10.VBAT_1" "GND")
 )
-(part "charger/R26" "57b597b3-9625-4cd5-bd58-eac79d0d31ab"
+(part "charger/R42" "57b597b3-9625-4cd5-bd58-eac79d0d31ab"
   (id "e3a20004")
   (nets "GND" "CHG_PROG")
 )
-(part "charger/R27" "1e2df0b1-0928-4728-a73c-d10a99c4034a"
+(part "charger/R43" "1e2df0b1-0928-4728-a73c-d10a99c4034a"
   (id "e3a20005")
   (nets "VBUS" "CHG_LED")
 )
-(part "charger/U10" "b325b3c1-370b-46c7-8a58-c2c857defab2"
+(part "charger/U11" "b325b3c1-370b-46c7-8a58-c2c857defab2"
   (id "e3a20006")
   (nets "CHG_LED" "CHG_STAT")
 )
-(part "buck/U11" "28f5c311-e625-504d-bdda-36c906b616dd"
+(part "buck/U12" "28f5c311-e625-504d-bdda-36c906b616dd"
   (id "d865e2a1")
   (nets "SW_L2" "SW_L2" "FB" "PG" "GND" "GND" "GND" "GND" "SW_L1" "SW_L1" "VOUT" "VOUT" "VIN" "VIN" "VIN")
   (manufacturer "Texas Instruments")
   (mpn "TPS63806YFFR")
 )
-(part "buck/C108" "fb9f871f-fa29-417a-a0d1-8d0b1eba5be6"
+(part "buck/C107" "fb9f871f-fa29-417a-a0d1-8d0b1eba5be6"
   (id "e9586e76")
-  (nets "VIN.U11.VIN_1" "GND")
+  (nets "VIN.U12.VIN_1" "GND")
 )
-(part "buck/C109" "53fe7c4b-017b-4574-8e94-c6f259f767ec"
+(part "buck/C108" "53fe7c4b-017b-4574-8e94-c6f259f767ec"
   (id "c9c32b1e")
-  (nets "VOUT.U11.VOUT_1" "GND")
+  (nets "VOUT.U12.VOUT_1" "GND")
 )
-(part "buck/C110" "5e393ad2-09d0-4fb5-bf58-b7fce5d88bba"
+(part "buck/C109" "5e393ad2-09d0-4fb5-bf58-b7fce5d88bba"
   (id "bb4ea24d")
-  (nets "VOUT.U11.VOUT_1" "GND")
+  (nets "VOUT.U12.VOUT_1" "GND")
 )
-(part "buck/U12" "f35c90c1-2a45-5143-b81a-75852c4ac511"
+(part "buck/U13" "f35c90c1-2a45-5143-b81a-75852c4ac511"
   (id "c59d9c42")
   (nets "SW_L2" "SW_L1")
-  (manufacturer "Coilcraft")
-  (mpn "XFL4015-471MEC")
 )
-(part "buck/R28" "01761bec-6ab9-599d-8eff-2cea34306438"
+(part "buck/R44" "01761bec-6ab9-599d-8eff-2cea34306438"
   (id "d8c5e75f")
   (nets "FB" "VOUT")
 )
-(part "buck/R29" "608dac81-6027-5b02-8462-3de5c64e48c3"
+(part "buck/R45" "608dac81-6027-5b02-8462-3de5c64e48c3"
   (id "a5db8a06")
   (nets "FB" "GND")
 )
-(part "buck/R30" "c8d71c37-430c-5c6b-b640-f4836250861b"
+(part "buck/R46" "c8d71c37-430c-5c6b-b640-f4836250861b"
   (id "cf6e4768")
   (nets "PG" "VOUT")
 )
-(part "ldo/U13" "b7938f35-197c-5742-9014-ef453aa774a3"
+(part "ldo/U14" "b7938f35-197c-5742-9014-ef453aa774a3"
   (id "d1a7e0df")
   (nets "GND" "VOUT" "VIN" "EN")
   (manufacturer "Texas Instruments")
   (mpn "LP5907MFX-1.8/NOPB")
 )
-(part "ldo/C111" "8257e1fb-9b01-4993-bb3d-c60b3714e585"
+(part "ldo/C110" "8257e1fb-9b01-4993-bb3d-c60b3714e585"
   (id "ea817700")
-  (nets "GND" "VIN.U13.IN")
+  (nets "GND" "VIN.U14.IN")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "ldo/C112" "6669e0c3-97ae-4723-9949-00559231a39e"
+(part "ldo/C111" "6669e0c3-97ae-4723-9949-00559231a39e"
   (id "b9a202ed")
-  (nets "VOUT.U13.OUT" "GND")
+  (nets "VOUT.U14.OUT" "GND")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )

@@ -1,5 +1,4 @@
 (component "connector-swd"
-  (description "SWD debug connector, 5-pin")
-  (symbol connector-swd)
+  (description "5-pin SWD debug header, 1.27mm pitch (VDD/SWDIO/SWCLK/SWO/GND)")
   (pinout connector-swd)
-  (footprint conn-swd-5p))
+  (footprint pin-header-1x05-1-27mm))
