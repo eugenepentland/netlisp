@@ -30,7 +30,8 @@
   (net "GND" "AGND")
 
   (port "VIN" in)
-  (port "VOUT" out)
+  ;; TPS63806 rated for 2A continuous at 3.3V out. Typical duty budget 1.5A.
+  (port "VOUT" out (current 1.5 2.0))
   (port "PG" out)
   (port "GND" bidi)
 

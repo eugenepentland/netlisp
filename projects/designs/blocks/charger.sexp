@@ -22,7 +22,8 @@
   (series "D_CHG" (led-0402 "orange") "CHG_LED" "CHG_STAT" (id e3a20006))
 
   (port "VBUS" in (rated 4.0 5.5))
-  (port "VBATT" out)
+  ;; Charge current set by RPROG=2k → 500mA. Datasheet allows up to 500mA.
+  (port "VBATT" out (current 0.5 0.5))
   (port "GND" bidi)
 
   (note "U1" "RPROG=2k -> IREG=500mA charge current")

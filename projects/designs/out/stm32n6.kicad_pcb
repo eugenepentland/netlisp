@@ -231,7 +231,7 @@
 	(footprint "BGA223C50P19X19_1000X1000X100"
 		(layer "F.Cu")
 		(uuid "2bc6897c-52c9-5e1e-a6c3-e01f6ff60d14")
-		(at 69.00 56.50 270.0)
+		(at 146.56 166.48 90.0)
 		(descr "VFBGA223")
 		(property "Reference" "U3"
 			(at 0 0 0)
@@ -1815,7 +1815,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "d04a86d5-7e1d-5b3c-a3d2-392d0c0af5e9")
-		(at 24.20 19.91)
+		(at 145.47 165.25 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C36"
 			(at 0 0 0)
@@ -1908,7 +1908,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "ee1bc7ac-7d83-5c29-b2ec-0c47e60e5bef")
-		(at 26.60 19.91)
+		(at 146.22 165.25 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C37"
 			(at 0 0 0)
@@ -2001,7 +2001,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "3a78ca8b-0c0a-52f8-bf87-dd9a941937d1")
-		(at 29.00 19.91)
+		(at 146.97 165.25 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C38"
 			(at 0 0 0)
@@ -2094,7 +2094,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "2fa00c7e-36df-5e53-ad5f-28cd4f0349bc")
-		(at 31.40 19.91)
+		(at 144.97 171.75 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C39"
 			(at 0 0 0)
@@ -2187,7 +2187,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "d3ee8c45-7d62-5aa1-b9f9-5a197a5222d5")
-		(at 33.80 19.91)
+		(at 146.04 168.75)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C40"
 			(at 0 0 0)
@@ -2280,7 +2280,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "6193544b-9615-562b-bc02-d4240863ed97")
-		(at 28.48 12.73)
+		(at 148.25 175.25)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C41"
 			(at 0 0 0)
@@ -2387,7 +2387,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "a06cc831-eada-54cd-99c6-0aee6bed8f7d")
-		(at 32.44 12.73)
+		(at 145.47 175.75 -90.0)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C42"
 			(at 0 0 0)
@@ -2494,7 +2494,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "94bb9b07-1e83-578c-9d32-ca8403bf24b4")
-		(at 36.40 12.73)
+		(at 145.25 175.25 180.0)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C43"
 			(at 0 0 0)
@@ -2601,7 +2601,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "c577af59-1908-57c1-ac5e-3b3d5bbe337e")
-		(at 40.36 12.73)
+		(at 146.97 175.75 -90.0)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C44"
 			(at 0 0 0)
@@ -2708,7 +2708,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "7111a801-b85a-5d6a-97e2-527cc705b4a4")
-		(at 36.20 19.91)
+		(at 145.22 170.25)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C45"
 			(at 0 0 0)
@@ -2801,7 +2801,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "5ea500f7-db73-5f16-a4cb-4c26b67bfaba")
-		(at 38.60 19.91)
+		(at 149.00 168.00)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C46"
 			(at 0 0 0)
@@ -2894,7 +2894,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "9e7a9974-15fa-550a-9ae1-aef709f94c9a")
-		(at 41.00 19.91)
+		(at 148.97 167.25)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C47"
 			(at 0 0 0)
@@ -2987,7 +2987,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "f63dd272-5399-574e-a37f-7b89536cf9f0")
-		(at 24.20 22.61)
+		(at 148.97 166.50)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C48"
 			(at 0 0 0)
@@ -3080,7 +3080,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "1d9ba63a-ef44-5404-b16f-d36d72e41654")
-		(at 26.60 22.61)
+		(at 148.97 165.75)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C49"
 			(at 0 0 0)
@@ -3173,7 +3173,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "bbcaa6b1-d21e-5f88-9047-e6b6fa76d174")
-		(at 29.00 22.61)
+		(at 148.97 165.00)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C50"
 			(at 0 0 0)
@@ -3266,7 +3266,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "efb9bddb-e922-5599-bea6-a621fbde874b")
-		(at 31.40 22.61)
+		(at 152.29 168.75 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C51"
 			(at 0 0 0)
@@ -3359,7 +3359,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "d7090754-84be-5460-8beb-bc3d87dd9b12")
-		(at 24.98 16.83)
+		(at 148.22 173.75)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C52"
 			(at 0 0 0)
@@ -3466,7 +3466,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "0c2afc93-a9c1-5117-aa33-f64bd7cdc9de")
-		(at 28.94 16.83)
+		(at 148.22 172.25)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C53"
 			(at 0 0 0)
@@ -3584,7 +3584,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "e19fd935-c0d5-5b54-8938-63c88021c013")
-		(at 33.80 22.61)
+		(at 147.47 171.00)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C54"
 			(at 0 0 0)
@@ -3677,7 +3677,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "36748147-5132-5fca-8c77-13a1dce180ec")
-		(at 36.20 22.61)
+		(at 147.47 170.23)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C55"
 			(at 0 0 0)
@@ -3770,7 +3770,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "dea6da26-78c8-5ab2-98ef-ca518f987efe")
-		(at 38.60 22.61)
+		(at 147.47 169.48)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C56"
 			(at 0 0 0)
@@ -3863,7 +3863,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "f99c3294-c53e-5844-a78b-97c978a0621b")
-		(at 41.00 22.61)
+		(at 147.47 168.73)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C57"
 			(at 0 0 0)
@@ -3956,7 +3956,7 @@
 	(footprint "L_2016_Murata_DFE201610P"
 		(layer "F.Cu")
 		(uuid "953df947-1cb0-5bb4-8198-55a4047f2d11")
-		(at 24.75 13.05)
+		(at 146.22 172.98 -90.0)
 		(descr "Power inductor SMD 2016 (2.0x1.6x1.0mm), Murata DFE201610P compatible")
 		(property "Reference" "L1"
 			(at 0 0 0)
@@ -4074,7 +4074,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "56f94342-25f6-5a75-8c92-6e1f8ebc3514")
-		(at 42.01 16.56)
+		(at 147.97 172.75 -90.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C18"
 			(at 0 0 0)
@@ -4192,7 +4192,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "10fa9b4b-7299-5a2e-a61c-051e1883ae82")
-		(at 36.31 16.57)
+		(at 148.97 172.75 90.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R1"
 			(at 0 0 0)
@@ -4310,7 +4310,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "c3d40a3b-cf9d-5dac-af52-9a67d817b6a1")
-		(at 24.20 25.31)
+		(at 145.72 172.25 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C58"
 			(at 0 0 0)
@@ -4403,7 +4403,7 @@
 	(footprint "R_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "293e143b-1134-4011-ab35-7a2994c2af57")
-		(at 26.60 25.31)
+		(at 143.82 166.50)
 		(descr "Resistor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R2"
 			(at 0 0 0)
@@ -4496,7 +4496,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "7d0d5891-fccd-5380-b542-07e9594140af")
-		(at 29.00 25.31)
+		(at 145.25 163.75 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C59"
 			(at 0 0 0)
@@ -4589,7 +4589,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "a0373d99-7034-54d2-b596-f0196f3a3a6c")
-		(at 31.40 25.31)
+		(at 146.00 163.75 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C60"
 			(at 0 0 0)
@@ -4682,7 +4682,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "819ff57d-7c05-5744-ab20-ea9902dd5e8b")
-		(at 33.80 25.31)
+		(at 146.75 163.75 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C61"
 			(at 0 0 0)
@@ -4775,7 +4775,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "4ae4e0f1-b9b9-55de-b257-61771b0f9d94")
-		(at 36.20 25.31)
+		(at 147.50 163.75 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C62"
 			(at 0 0 0)
@@ -4868,7 +4868,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "77028f00-eccc-5693-b5a9-07d12dc4bfe1")
-		(at 38.60 25.31)
+		(at 147.75 165.25 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C63"
 			(at 0 0 0)
@@ -4961,7 +4961,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "1b3d2533-2ac5-5a2a-adea-d16bb1349557")
-		(at 41.00 25.31)
+		(at 148.25 163.75 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C64"
 			(at 0 0 0)
@@ -5054,7 +5054,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "927c64c4-c519-5947-a1db-01eb3ae8d0ed")
-		(at 24.20 28.01)
+		(at 144.00 168.00 180.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C65"
 			(at 0 0 0)
@@ -5147,7 +5147,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "4fb5afc6-4227-56fb-ac29-adfc5cdd380a")
-		(at 26.60 28.01)
+		(at 144.00 167.25 180.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C66"
 			(at 0 0 0)
@@ -5240,7 +5240,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "4a923254-2f02-5cf8-9418-8380f590f406")
-		(at 29.00 28.01)
+		(at 147.25 167.50 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C67"
 			(at 0 0 0)
@@ -5333,7 +5333,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "23b011ea-35d5-57e8-997d-06edf859f8c0")
-		(at 31.40 28.01)
+		(at 143.75 169.25)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C68"
 			(at 0 0 0)
@@ -5426,7 +5426,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "c0709f5d-e64b-5eff-ac13-dfd109bbd094")
-		(at 33.80 28.01)
+		(at 149.00 168.75)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C69"
 			(at 0 0 0)
@@ -5519,7 +5519,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "2ca72b33-7166-40ca-9cf7-360545ef13c1")
-		(at 36.20 28.01)
+		(at 151.75 169.25)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C70"
 			(at 0 0 0)
@@ -5612,7 +5612,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "fff04af7-864b-501c-8f1c-43d19695b307")
-		(at 38.60 28.01)
+		(at 153.04 168.75 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C71"
 			(at 0 0 0)
@@ -5716,7 +5716,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "728a71d8-28f2-5c55-9d14-0b7374f43845")
-		(at 32.90 16.83)
+		(at 144.22 173.25 -90.0)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C72"
 			(at 0 0 0)
@@ -5834,7 +5834,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "e5b64ce9-3773-52af-8222-19987ee95526")
-		(at 41.50 31.00)
+		(at 152.29 170.75 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C73"
 			(at 0 0 0)
@@ -5938,7 +5938,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "625edb78-51ec-525f-9b2e-d3eb69fda763")
-		(at 23.20 31.71)
+		(at 153.04 170.75 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C74"
 			(at 0 0 0)
@@ -6042,7 +6042,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "e7ff4914-3ee7-5d64-8219-200dc082d9ea")
-		(at 25.60 31.71)
+		(at 143.79 170.00)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C35"
 			(at 0 0 0)
@@ -6250,7 +6250,7 @@
 	(footprint "R_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "e6e1611e-016a-5381-8f97-de56c6460772")
-		(at 30.50 31.50)
+		(at 145.25 169.48)
 		(descr "Resistor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R14"
 			(at 0 0 0)
@@ -6354,7 +6354,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "033cb2cc-f665-5692-9950-f3adbfea488d")
-		(at 39.17 16.57)
+		(at 151.50 155.50 90.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "SW1"
 			(at 0 0 0)
@@ -6461,7 +6461,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "cb6f465e-944b-599c-8542-37445ed3cbe1")
-		(at 56.79 12.97)
+		(at 140.72 179.32 180.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R4"
 			(at 0 0 0)
@@ -6579,7 +6579,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "4733669a-ff71-54ed-9a9e-df0f130f5814")
-		(at 59.65 12.97)
+		(at 140.72 178.05 180.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R5"
 			(at 0 0 0)
@@ -6697,7 +6697,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "faed6db5-a94e-5b89-b99d-50ae573bdc69")
-		(at 62.51 12.97)
+		(at 140.72 176.78 180.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R6"
 			(at 0 0 0)
@@ -6815,7 +6815,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "1fc0ff7f-c836-57e5-bfb1-31379a8c9dbf")
-		(at 88.37 12.96)
+		(at 139.47 170.76 180.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C75"
 			(at 0 0 0)
@@ -6933,7 +6933,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "c990ac34-5f09-5c4e-aa8e-6afe940dfc27")
-		(at 91.19 12.96)
+		(at 138.74 166.01)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C76"
 			(at 0 0 0)
@@ -7051,7 +7051,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "d42d4200-1227-5346-91a8-a69ee8763739")
-		(at 114.12 12.96)
+		(at 142.11 173.00 180.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C77"
 			(at 0 0 0)
@@ -7169,7 +7169,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "405f3eeb-e5e1-59ce-b68f-423e8ebae39b")
-		(at 116.94 12.96)
+		(at 140.11 173.00)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C78"
 			(at 0 0 0)
@@ -7287,7 +7287,7 @@
 	(footprint "USB4510-03-1-A_GCT"
 		(layer "F.Cu")
 		(uuid "b6a24443-da9b-5238-892f-81aaa4d99d17")
-		(at 71.25 77.00)
+		(at 157.37 170.50 90.0)
 		(property "Reference" "U5"
 			(at 0 0 0)
 			(layer "F.SilkS")
@@ -7627,7 +7627,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "e461d9a2-2cf4-551b-9602-51f50da091f0")
-		(at 41.18 66.54)
+		(at 157.75 171.50)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R15"
 			(at 0 0 0)
@@ -7745,7 +7745,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "d448eb7a-ba62-5640-85de-00486f5c73af")
-		(at 44.04 66.54)
+		(at 157.75 169.50)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R16"
 			(at 0 0 0)
@@ -8197,7 +8197,7 @@
 	(footprint "BGA24C100P5X5_800X600X120"
 		(layer "F.Cu")
 		(uuid "999bca7c-28e9-5314-a354-e3194209e265")
-		(at 70.33 44.90)
+		(at 147.88 156.49)
 		(descr "")
 		(property "Reference" "U6"
 			(at 0 0 0)
@@ -8567,7 +8567,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "2ff044be-0de1-5cff-958d-46abbd3ab354")
-		(at 70.80 43.90 180.0)
+		(at 148.38 155.49 180.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C79"
 			(at 0 0 0)
@@ -8671,7 +8671,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "df45c70b-32f3-5b6d-a330-22a94e3a8834")
-		(at 64.90 46.90)
+		(at 149.38 158.49)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C80"
 			(at 0 0 0)
@@ -8775,7 +8775,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "8fc9449a-d10d-54d9-99a4-7a2ca5bd957a")
-		(at 61.40 45.40 270.0)
+		(at 145.81 157.01 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C81"
 			(at 0 0 0)
@@ -8879,7 +8879,7 @@
 	(footprint "R_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "cad5e2b1-8a6c-59a6-8959-d6a160c9f281")
-		(at 70.80 42.90 180.0)
+		(at 149.50 155.25 -90.0)
 		(descr "Resistor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R10"
 			(at 0 0 0)
@@ -8983,7 +8983,7 @@
 	(footprint "R_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "761d8e09-ce6e-5fc8-b400-69cf1776c7a4")
-		(at 69.30 44.60 270.0)
+		(at 146.88 156.99 -90.0)
 		(descr "Resistor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R11"
 			(at 0 0 0)
@@ -9087,7 +9087,7 @@
 	(footprint "d-0402"
 		(layer "F.Cu")
 		(uuid "15e5c817-edd8-5ef9-8734-2194fab317a7")
-		(at 70.60 42.00)
+		(at 150.50 155.49 90.0)
 		(descr "0402 (1005 metric) diode package")
 		(property "Reference" "D2"
 			(at 0 0 0)
@@ -9199,7 +9199,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "1de6a868-ce68-5536-a1b3-6e2ad82a8a32")
-		(at 68.30 45.40 270.0)
+		(at 138.75 157.03 90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C82"
 			(at 0 0 0)
@@ -9303,7 +9303,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "bfa4c453-83d1-5736-9c34-901a75a55362")
-		(at 71.80 46.90)
+		(at 142.21 158.53)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C83"
 			(at 0 0 0)
@@ -9407,7 +9407,7 @@
 	(footprint "R_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "c965852f-9b1f-5b34-aaa7-0259ea76c0cc")
-		(at 63.40 42.40 270.0)
+		(at 140.63 153.99 90.0)
 		(descr "Resistor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "R12"
 			(at 0 0 0)
@@ -9615,7 +9615,7 @@
 	(footprint "C_0201_0603Metric"
 		(layer "F.Cu")
 		(uuid "abdc885d-f122-545f-b3ea-fd029534c556")
-		(at 28.40 90.70 90.0)
+		(at 154.27 183.70 -90.0)
 		(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C85"
 			(at 0 0 0)
@@ -9719,7 +9719,7 @@
 	(footprint "FB_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b1a94e29-ae29-45b9-a4a2-7c5e900922b1")
-		(at 39.00 69.40)
+		(at 145.25 167.25 -90.0)
 		(descr "Ferrite Bead SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "FB1"
 			(at 0 0 0)
@@ -9819,7 +9819,7 @@
 	(footprint "FB_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "647e39a4-3c07-4db5-bb0a-c1587c64bf10")
-		(at 44.00 69.40)
+		(at 146.22 167.24 -90.0)
 		(descr "Ferrite Bead SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "FB2"
 			(at 0 0 0)
@@ -9919,7 +9919,7 @@
 	(footprint "FB_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "acb96017-f2be-40ac-a858-01417a5dc78e")
-		(at 80.50 56.30)
+		(at 141.25 170.25 -90.0)
 		(descr "Ferrite Bead SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "FB3"
 			(at 0 0 0)
@@ -10019,7 +10019,7 @@
 	(footprint "FB_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b4292e70-8c2e-4b5b-bb9d-c90f8c762b1d")
-		(at 80.40 58.00)
+		(at 150.25 170.50 90.0)
 		(descr "Ferrite Bead SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "FB4"
 			(at 0 0 0)
@@ -10119,7 +10119,7 @@
 	(footprint "FB_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "ed9b2e33-cd48-4dea-b0de-556c6e39e6f0")
-		(at 80.40 59.40)
+		(at 150.75 168.25 180.0)
 		(descr "Ferrite Bead SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "FB5"
 			(at 0 0 0)
@@ -10219,7 +10219,7 @@
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "cd9aabc2-9df9-492a-b39c-8b7a65ec6d16")
-		(at 91.32 93.35)
+		(at 153.18 181.00)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "C93"
 			(at 0 0 0)
@@ -12159,7 +12159,7 @@
 	(footprint "A_Wurth_WA-SMSI_9774020633R"
 		(layer "F.Cu")
 		(uuid "5db8db52-b8c9-4930-9871-3aabc1ca4aba")
-		(at 80.00 77.50)
+		(at 157.25 184.00 180.0)
 		(descr "SMT Steel Spacer with internal Thread M1.6, body 3.3x3.3x2mm, https://www.we-online.com/en/components/products/datasheet/9774020633R?ki")
 		(property "Reference" "H1"
 			(at 0 0 0)
@@ -12599,7 +12599,7 @@
 	(footprint "A_Wurth_WA-SMSI_9774020633R"
 		(layer "F.Cu")
 		(uuid "98ea446d-76ea-4dc5-86b8-db5d868b997a")
-		(at 62.50 77.50)
+		(at 139.25 184.00 90.0)
 		(descr "SMT Steel Spacer with internal Thread M1.6, body 3.3x3.3x2mm, https://www.we-online.com/en/components/products/datasheet/9774020633R?ki")
 		(property "Reference" "H2"
 			(at 0 0 0)
@@ -13039,7 +13039,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "8c74aede-7320-4dc2-a353-0fa155b6ba7b")
-		(at 23.50 105.25)
+		(at 142.73 181.09 180.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "charger/C106"
 			(at 0 0 0)
@@ -13146,7 +13146,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "33f34429-0919-485b-8085-709944de9e5d")
-		(at 23.50 109.00)
+		(at 145.73 182.82 -90.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "charger/C107"
 			(at 0 0 0)
@@ -13253,7 +13253,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "57b597b3-9625-4cd5-bd58-eac79d0d31ab")
-		(at 25.75 105.25 180.0)
+		(at 142.23 184.83 90.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "charger/R26"
 			(at 0 0 0)
@@ -13360,7 +13360,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "1e2df0b1-0928-4728-a73c-d10a99c4034a")
-		(at 25.75 110.00 180.0)
+		(at 142.23 182.83 -90.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "charger/R27"
 			(at 0 0 0)
@@ -13467,7 +13467,7 @@
 	(footprint "LED_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b325b3c1-370b-46c7-8a58-c2c857defab2")
-		(at 25.75 109.00)
+		(at 145.73 184.83 -90.0)
 		(descr "LED SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
 		(property "Reference" "charger/U11"
 			(at 0 0 0)
@@ -13568,7 +13568,7 @@
 	(footprint "dsbga-15"
 		(layer "F.Cu")
 		(uuid "28f5c311-e625-504d-bdda-36c906b616dd")
-		(at 49.00 107.00)
+		(at 147.68 182.24)
 		(descr "15-ball DSBGA 2.3x1.4mm 0.4mm pitch (TPS63806)")
 		(property "Reference" "buck/U12"
 			(at 0 0 0)
@@ -13761,7 +13761,7 @@
 	(footprint "C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "fb9f871f-fa29-417a-a0d1-8d0b1eba5be6")
-		(at 46.75 106.50 90.0)
+		(at 144.46 182.59 180.0)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "buck/C108"
 			(at 0 0 0)
@@ -13868,7 +13868,7 @@
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "53fe7c4b-017b-4574-8e94-c6f259f767ec")
-		(at 53.50 105.75 270.0)
+		(at 151.93 182.98 -90.0)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "buck/C109"
 			(at 0 0 0)
@@ -13975,7 +13975,7 @@
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "5e393ad2-09d0-4fb5-bf58-b7fce5d88bba")
-		(at 51.50 105.75 270.0)
+		(at 149.93 182.98 -90.0)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "buck/C110"
 			(at 0 0 0)
@@ -14082,7 +14082,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "01761bec-6ab9-599d-8eff-2cea34306438")
-		(at 49.50 105.50 180.0)
+		(at 147.99 183.70 180.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "buck/R28"
 			(at 0 0 0)
@@ -14189,7 +14189,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "608dac81-6027-5b02-8462-3de5c64e48c3")
-		(at 49.50 104.50)
+		(at 148.01 184.70)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "buck/R29"
 			(at 0 0 0)
@@ -14296,7 +14296,7 @@
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "c8d71c37-430c-5c6b-b640-f4836250861b")
-		(at 48.00 105.00 90.0)
+		(at 151.00 180.70 180.0)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "buck/R30"
 			(at 0 0 0)
@@ -14403,7 +14403,7 @@
 	(footprint "SOT95P280X145-5N"
 		(layer "F.Cu")
 		(uuid "b7938f35-197c-5742-9014-ef453aa774a3")
-		(at 67.50 95.00)
+		(at 153.80 177.50 90.0)
 		(descr "")
 		(property "Reference" "ldo/U14"
 			(at 0 0 0)
@@ -14597,7 +14597,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "8257e1fb-9b01-4993-bb3d-c60b3714e585")
-		(at 64.70 94.50 90.0)
+		(at 151.55 178.50 90.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "ldo/C111"
 			(at 0 0 0)
@@ -14715,7 +14715,7 @@
 	(footprint "C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "6669e0c3-97ae-4723-9949-00559231a39e")
-		(at 70.10 94.50 90.0)
+		(at 151.55 176.48 -90.0)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal")
 		(property "Reference" "ldo/C112"
 			(at 0 0 0)

@@ -10,7 +10,6 @@
         a-wurth-wa-smsi-9774020633r
         connector-swd connector-battery
         fh12-10s-0-5sh-55-
-        ao3400a
         ltc6655bhms8-2-5#pbf
         testpoint)
 
@@ -33,6 +32,7 @@
         (pin G6 "VSSAON")
         (pin H2 "VSSAPMU"))
       (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
+      (net "GND" "VSSA" "VSSAON" "VSSAPMU")
       (note "F1 (VBAT) tied to VDD — LiPo 4.2V exceeds VBAT max (3.6V), so backup domain only active when VDD is up"))
 
     (section "SMPS Power" "Internal 0.8V core regulator"
@@ -47,6 +47,7 @@
         (pin P7 P9 P10 P11 P13 "VDDCORE")
         (pin W6 "VDDCORE")
         (pin G4 "PWR_ON"))
+      (net "GND" "VSSSMPS" (id fd3769fb) (id a3355d70) (id c1d107cc))
       (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418 (id b422d7a1) (id a60c6e44) (id abe074be) (id ac98150c)))
       (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21))
       (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
@@ -282,7 +283,7 @@
     (instance "expansion" 204928-0601
       ;; Even pins — power, SPI3, radar control, GND
       (pin 4 6 8 10 "VBATT")
-      (pin 14 16 "V1P8")
+      (pin 12 14 "V1P8")
       (pin 18 "EXP_SPI_SCK")
       (pin 20 "EXP_SPI_MISO")
       (pin 22 "EXP_SPI_MOSI")
@@ -302,7 +303,7 @@
       (pin 58 "MADV")
       (pin 50 "RxRST")
       (pin 54 "RxADV")
-      (pin 2 12 36 28 48 60 "GND")
+      (pin 2 16 36 28 48 60 "GND")
       ;; Odd pins — 10 differential analog channels, each pair preceded by a GND shield
       (pin 1 7 13 19 25 31 37 43 49 55 "GND")
       (pin 3 "ADF_CH1P")   (pin 5 "ADF_CH1N")
@@ -330,20 +331,13 @@
   (sub-block "buck" "blocks/buck-boost.sexp")
   (sub-block "ldo" "blocks/ldo.sexp")
 
-  ;; Connect power module ports to design nets. Each rail is declared in
-  ;; one consolidated (net ...) form so the validator doesn't flag them as
-  ;; split across multiple sections.
-  (net "GND"    "VSSA" "VSSAON" "VSSAPMU" "VSSSMPS"
-                "charger/GND" "buck/GND" "ldo/GND"
-                "adc1/GND"    "adc2/GND"    "adc3/GND"
-                (id fd3769fb) (id a3355d70) (id c1d107cc))
-  (net "VBUS"   "charger/VBUS")
-  (net "VBATT"  "charger/VBATT" "buck/VIN")
-  (net "VDD"    "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4"
-                "adc1/VCC"    "adc2/VCC"    "adc3/VCC")
+  ;; Connect power module ports to design nets
+  (net "GND" "charger/GND" "buck/GND" "ldo/GND")
+  (net "VBUS" "charger/VBUS")
+  (net "VBATT" "charger/VBATT" "buck/VIN")
+  (net "VDD" "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4")
   (net "PG_3V3" "buck/PG" "ldo/EN")
-  (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3"
-                "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
+  (net "V1P8" "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3")
   (net "CHG_EN" "charger/EN")
 
   ;; STM32 GPIO for charger enable control
@@ -443,8 +437,11 @@
   (sub-block "adc3" (ad7380-channel-2ch 3))
 
   ;; Bridge the module's internal ports to the parent board nets.
-  ;; Shared power (VDD/V1P8/GND) is tied in the consolidated rail forms above.
+  ;; Power (shared across all 3 channels).
+  (net "VDD"     "adc1/VCC"    "adc2/VCC"    "adc3/VCC")
+  (net "V1P8"    "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
   (net "VREF_2V5" "adc1/REFIN" "adc2/REFIN" "adc3/REFIN")
+  (net "GND"     "adc1/GND"    "adc2/GND"    "adc3/GND")
   ;; Shared SPI buses (MCU side → all 3 ADCs).
   (net "ADC_SCK" "adc1/SCK" "adc2/SCK" "adc3/SCK")
   (net "ADC_SDI" "adc1/SDI" "adc2/SDI" "adc3/SDI")
@@ -489,45 +486,10 @@
       (pin 1 "VBATT")
       (pin 2 "GND") (id ba77e12a)))
 
-  (section "Display" "0.96\" ST7735S 80×160 TFT on 10-pin 0.5mm FPC — 4-wire SPI (write-only), PWM-dimmable backlight"
-    (role output)
-    (protocol SPI)
-    (port "VDD" in power 3.3)
-    (pins "stm32"
-      (pin D10 (as "SPI4_SCK")  "DISP_SCK")
-      (pin E16 (as "SPI4_MOSI") "DISP_MOSI")
-      (pin F10 "DISP_NCS")
-      (pin D11 "DISP_NRST")
-      (pin D14 "DISP_DC")
-      (pin D16 (as "TIM4_CH2") "DISP_BL_EN"))
-    (instance "disp" fh12-10s-0-5sh-55-
-      (pin 1 "DISP_LEDK")
-      (pin 2 "DISP_LEDA")
-      (pin 3 "VDD")
-      (pin 4 "VDD")
-      (pin 5 "GND")
-      (pin 6 "DISP_NCS")
-      (pin 7 "DISP_NRST")
-      (pin 8 "DISP_MOSI")
-      (pin 9 "DISP_SCK")
-      (pin 10 "DISP_DC")
-      (pin MP_1 MP_2 "GND") (id d15p0001))
-    (instance "C_DISP" (cap-0603 "100nF")
-      (pin 1 "VDD")
-      (pin 2 "GND") (id d15p0002))
-    (series "R_BL" (res-0402 "15R") "VDD" "DISP_LEDA" (id d15p0003))
-    (instance "Q_BL" ao3400a
-      (pin 1 "DISP_BL_EN")
-      (pin 2 "GND")
-      (pin 3 "DISP_LEDK") (id d15p0004))
-    (series "R_BL_PD" (res-0402 "10k") "DISP_BL_EN" "GND" (id d15p0005))
-    (note "ST7735S is write-only from the STM32 side — no MISO routed. SPI mode 0 (CPOL=0, CPHA=0), MSB first, up to ~15 MHz write clock.")
-    (note "80×160 panel variant: firmware must apply column +26 / row +1 offsets and correct MADCTL, otherwise the image shifts or tears. Most common bring-up gotcha on this panel.")
-    (note "DISP_BL_EN is on TIM4_CH2 (D16/PD13). Drive high for full brightness or configure TIM4 for PWM to dim — 1–20 kHz is fine, AO3400A switches fast enough.")
-    (note "FPC pin 3 (SPI4W) tied to VDD selects 4-wire SPI mode (D/C line distinguishes command from data bytes).")
-    (note "Backlight current: R_BL (15Ω) sets ~20 mA at 3.3V with LED Vf≈3.0V typ — unit-to-unit brightness may vary at worst-case Vf=3.3V. Move R_BL to a 5V rail + ~100Ω if uniform brightness matters.")
-    (note "R_BL_PD (10k pull-down) keeps Q_BL gate low while the STM32 boots, so backlight stays off until firmware drives it.")
-    (note "MP_1/MP_2 FPC board-lock tabs tied to GND."))
+  (section "Flex Connector" "Hirose FH12-10S-0.5SH(55) 10-pin FPC — placeholder, all pins to GND pending pinout"
+    (instance "flex" fh12-10s-0-5sh-55-
+      (pin 1 2 3 4 5 6 7 8 9 10 "GND")
+      (pin MP_1 MP_2 "GND") (id f3050001)))
 
   (section "Mounting" "PCB standoffs"
     (instance "H1" a-wurth-wa-smsi-9774020633r
