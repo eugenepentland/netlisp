@@ -1,5 +1,5 @@
 (footprint "SON65P200X200X80-7N"
-  (description "DRV0006D")
+  (description "DRV0006")
 
   (pad 1 smd rect (pos -1.05 -0.65) (size 0.60 0.35))
   (pad 2 smd rect (pos -1.05 0.00) (size 0.60 0.35))

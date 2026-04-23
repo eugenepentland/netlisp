@@ -1,0 +1,20 @@
+(footprint "SOIC127P600X175-8N"
+  (description "(R-8)")
+
+  (pad 1 smd rect (pos -2.71 -1.91) (size 1.53 0.65))
+  (pad 2 smd rect (pos -2.71 -0.64) (size 1.53 0.65))
+  (pad 3 smd rect (pos -2.71 0.64) (size 1.53 0.65))
+  (pad 4 smd rect (pos -2.71 1.91) (size 1.53 0.65))
+  (pad 5 smd rect (pos 2.71 1.91) (size 1.53 0.65))
+  (pad 6 smd rect (pos 2.71 0.64) (size 1.53 0.65))
+  (pad 7 smd rect (pos 2.71 -0.64) (size 1.53 0.65))
+  (pad 8 smd rect (pos 2.71 -1.91) (size 1.53 0.65))
+  (courtyard (rect -3.725 -2.750 3.725 2.750))
+  (silkscreen
+    (line (-1.60 -2.45) (1.60 -2.45))
+    (line (1.60 -2.45) (1.60 2.45))
+    (line (1.60 2.45) (-1.60 2.45))
+    (line (-1.60 2.45) (-1.60 -2.45))
+    (line (-3.48 -2.58) (-1.95 -2.58))
+  )
+)

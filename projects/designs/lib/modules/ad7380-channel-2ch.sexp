@@ -19,7 +19,7 @@
       (pin 4 "VCC")
       (pin 2 "VLOGIC")
       (pin 3 "REGCAP")
-      (pin 17 "VREF")
+      (pin 17 "REFIN")
       (pin 18 "CS")
       (pin 22 "SCK")
       (pin 21 "SDI")
@@ -34,9 +34,7 @@
     (instance "C_VCC"    (cap-0201 "1uF")  (pin 1 "VCC")    (pin 2 "GND"))
     (instance "C_VLOG"   (cap-0201 "1uF")  (pin 1 "VLOGIC") (pin 2 "GND"))
     (instance "C_REGCAP" (cap-0201 "1uF")  (pin 1 "REGCAP") (pin 2 "GND"))
-    (instance "C_REFIN"  (cap-0201 "1uF")  (pin 1 "VREF")   (pin 2 "GND"))
-    ;; REFIN tied to VCC through 0R jumper (future: precision VREF)
-    (instance "R_REF"    (res-0201 "0R")   (pin 1 "VCC")    (pin 2 "VREF"))
+    (instance "C_REFIN"  (cap-0201 "100nF") (pin 1 "REFIN")  (pin 2 "GND"))
 
     ;; Anti-alias filters per differential leg: 33R series + 68pF to GND
     ;; Channel A
@@ -57,6 +55,7 @@
     ;; External-facing ports (C/D ports omitted — no external connection)
     (port "VCC"        in  (rated 3.15 3.45))
     (port "VLOGIC"     in  (rated 1.65 1.95))
+    (port "REFIN"      in  (rated 2.45 3.35))
     (port "GND"        bidi)
     (port "SCK"        in)
     (port "SDI"        in)
@@ -70,6 +69,6 @@
 
     (note "U1" "AD7380-4BCPZ — 4-channel IC used in 2-channel mode; AINC/AIND to GND, SDOC/SDOD floating.")
     (note "C_REGCAP" "REGCAP: 1uF ceramic to GND only (internal 1.9V regulator bypass).")
-    (note "R_REF" "VREF tied to VCC via 0R — replace with ADR4533 for full ENOB.")
+    (note "C_REFIN" "REFIN driven externally (LTC6655-2.5 precision reference) — 100nF local bypass per datasheet, close to pin 17.")
     (note "R_FAP" "Anti-alias: 33Ω + 68pF per leg, matched within 2 mm over solid GND.")
     (note "R_SDA" "SDO 100Ω dampers suppress digital coupling into the analog section.")))
