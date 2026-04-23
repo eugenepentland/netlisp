@@ -1,12 +1,12 @@
 (import stm32n657l0h3q
         cap-0201 cap-0402 cap-0603 cap-0805
-        res-0402 ind-1616 ind-2016 led-0402 ferrite-0402
+        res-0402 ind-1616 ind-2016 ferrite-0402
         abm8 fc-135 ecmf02-2amx6 usb4235-03-c
         mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
-        icm-20948 204928-0301
+        icm-20948 204928-0601
         res-0201
-        ad7380-4bcpz
-        aptf1616lseezgkqbkc
+        ad7380-channel
+        ad7380-channel-2ch
         a-wurth-wa-smsi-9774020633r
         connector-swd connector-battery
         testpoint)
@@ -45,8 +45,8 @@
         (pin P7 P9 P10 P11 P13 "VDDCORE")
         (pin W6 "VDDCORE")
         (pin G4 "PWR_ON"))
-      (net "GND" "VSSSMPS")
-      (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418))
+      (net "GND" "VSSSMPS" (id fd3769fb) (id a3355d70) (id c1d107cc))
+      (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418 (id b422d7a1) (id a60c6e44) (id abe074be) (id ac98150c)))
       (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21))
       (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
       (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
@@ -55,10 +55,9 @@
       (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
       (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
       (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0))
-      (series "R2" (res-0201 "10k") "PWR_ON" "VDDSMPS" (id f2a0c001))
       (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
-      (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2")
-      (note "G4 (PWR_ON) pulled to VDDSMPS via 10k — enables SMPS at power-up (AN5967 Table 5)"))
+      (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2" (id db0a04fb) (id c4ca02d6))
+      (note "G4 (PWR_ON) is an STM32 output — drives enables for downstream regulators, not the internal SMPS. No external pull needed; TP8 gives bring-up visibility."))
 
     (section "Analog & I/O Rails"
       (port "V1P8" in power 1.8)
@@ -89,11 +88,9 @@
       (pins "stm32"
         (pin F2 "NRST")
         (pin A1 "VDDA18AON")
-        (pin F4 "BOOT0")
-        (pin T10 "PA6")
-        (pin T12 "PG10"))
+        (pin F4 "BOOT0"))
       (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
-      (series (res-0201 "10k") "BOOT0" "GND" "PA6" "GND" (id d44c84c9))
+      (series "R_BOOT0" (res-0201 "10k") "BOOT0" "GND" (id d44c84c9))
       (instance "SW1" (res-0402 "0R")
         (pin 1 "NRST")
         (pin 2 "GND") (id f8bfd5d5))
@@ -179,43 +176,6 @@
     (note "SBU1 (A8) and SBU2 (B8) left unconnected — unused in USB 2.0 device mode")
     (note "Pins 17/18 are shield/shell GND (mid-mount tabs)"))
 
-  (section "Debug LED"
-    (port "VDD" in power 3.3)
-    (series "R9" (res-0402 "330R") "PG10" "LED_NET" (id a4e0a83c))
-    (series "D1" (led-0402 "green") "LED_NET" "GND" (id ec5477d8)))
-
-  (section "User RGB LEDs" "2x APTF1616 RGB, common-anode, GPIO-driven (active-low)"
-    (port "VDD" in power 3.3)
-    (pins "stm32"
-      (pin B12 "PD0")
-      (pin D12 "PD1")
-      (pin B10 "PD2")
-      (pin D13 "PD3")
-      (pin B13 "PD4")
-      (pin A15 "PD5"))
-    ;; Current-limit resistors on each cathode leg, sized for ~1.5-2 mA @ 3.3V:
-    ;;   Red  (Vf~1.8V): 1k  -> ~1.5 mA
-    ;;   Green (Vf~2.8V): 330R -> ~1.5 mA
-    ;;   Blue  (Vf~2.8V): 330R -> ~1.5 mA
-    (series "R13" (res-0402 "1k")   "PD0" "LED1_R_K" (id aa110001))
-    (series "R14" (res-0402 "330R") "PD1" "LED1_G_K" (id aa110002))
-    (series "R15" (res-0402 "330R") "PD2" "LED1_B_K" (id aa110003))
-    (series "R16" (res-0402 "1k")   "PD3" "LED2_R_K" (id aa110004))
-    (series "R17" (res-0402 "330R") "PD4" "LED2_G_K" (id aa110005))
-    (series "R18" (res-0402 "330R") "PD5" "LED2_B_K" (id aa110006))
-    (instance "LED1" (aptf1616lseezgkqbkc "")
-      (pin 1 "VDD")
-      (pin 2 "LED1_R_K")
-      (pin 3 "LED1_G_K")
-      (pin 4 "LED1_B_K") (id aa110010))
-    (instance "LED2" (aptf1616lseezgkqbkc "APTF1616LSEEZGKQBKC")
-      (pin 1 "VDD")
-      (pin 2 "LED2_R_K")
-      (pin 3 "LED2_G_K")
-      (pin 4 "LED2_B_K") (id aa110011))
-    (note "Common anode -> drive GPIO low to light each color. Use TIM PWM channels for dimming/color mixing.")
-    (note "PD0-PD5 chosen as a contiguous free block; none conflict with flash, PSRAM, SPI, ADC, or IMU."))
-
   (section "XSPI2 NOR Flash" "MX66UW1G45G 1Gbit OctoSPI NOR"
     (protocol OctoSPI)
     (port "VDDIO3" in power 1.8)
@@ -268,10 +228,10 @@
     (port "IMU_INT1" out signal role interrupt)
     (port "IMU_FSYNC" in signal role sync)
     (pins "stm32"
-      (pin R1 "IMU_SCK")
-      (pin M4 "IMU_MOSI")
-      (pin M2 "IMU_MISO")
-      (pin M1 "IMU_NCS")
+      (pin R1 (as "SPI5_SCK")  "IMU_SCK")
+      (pin T1 (as "SPI5_MOSI") "IMU_MOSI")
+      (pin U2 (as "SPI5_MISO") "IMU_MISO")
+      (pin V1 (as "SPI5_NSS")  "IMU_NCS")
       (pin T4 "IMU_INT1")
       (pin R4 "IMU_FSYNC"))
     (instance "imu" icm-20948
@@ -289,42 +249,42 @@
     (series (cap-0201 "100nF" x7r) "VDD" "GND" "IMU_REGOUT" "GND" (id d22644cb))
     (note "FW: FSYNC config — DELAY_TIME_EN=1, EXT_SYNC_SET per sensor"))
 
-  (section "Expansion Connector" "Molex SlimStack 204928-0301, 30-pin 0.4mm BTB"
+  (section "Expansion Connector" "Molex SlimStack 204928-0601, 60-pin 0.4mm BTB — 10 analog channels to ADC array"
     (role output)
     (protocol SPI)
     (port "VDD" in power 3.3)
     (port "EXP" io data)
     (pins "stm32"
-      (pin D6 "EXP_SPI_SCK")
-      (pin B6 "EXP_SPI_MISO")
-      (pin A6 "EXP_SPI_MOSI")
-      (pin W17 "EXP_SPI_NCS"))
-    (instance "expansion" 204928-0301
-      (pin 1 2 "GND")
-      (pin 4 6 8 10 12 "VBATT")
-      (pin 3 "EXP_SPI_SCK")
-      (pin 5 "EXP_SPI_MISO")
-      (pin 7 "EXP_SPI_MOSI")
-      (pin 9 "EXP_SPI_NCS")
-      (pin 13 14 "GND")
-      (pin 16 18 "V1P8")
-      (pin 15 "ADF_CH1P")
-      (pin 17 "ADF_CH1N")
-      (pin 19 20 "GND")
-      (pin 21 "ADF_CH2N")
-      (pin 22 "GND")
-      (pin 23 "ADF_CH2P")
-      (pin 24 "GND")
-      (pin 25 "ADF_CH3P")
-      (pin 26 "GND")
-      (pin 27 "ADF_CH3N")
-      (pin 28 "ADF_CH4P")
-      (pin 29 "GND")
-      (pin 30 "ADF_CH4N")
+      (pin D6 (as "SPI3_SCK") "EXP_SPI_SCK")
+      (pin B6 (as "SPI3_MISO") "EXP_SPI_MISO")
+      (pin A6 (as "SPI3_MOSI") "EXP_SPI_MOSI")
+      (pin T15 (as "SPI3_NSS") "EXP_SPI_NCS"))
+    (instance "expansion" 204928-0601
+      ;; Even pins — power, SPI3, GND
+      (pin 4 6 8 10 "VBATT")
+      (pin 12 14 "V1P8")
+      (pin 18 "EXP_SPI_SCK")
+      (pin 20 "EXP_SPI_MISO")
+      (pin 22 "EXP_SPI_MOSI")
+      (pin 24 "EXP_SPI_NCS")
+      (pin 2 16 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 "GND")
+      ;; Odd pins — 10 differential analog channels, each pair preceded by a GND shield
+      (pin 1 7 13 19 25 31 37 43 49 55 "GND")
+      (pin 3 "ADF_CH1P")   (pin 5 "ADF_CH1N")
+      (pin 9 "ADF_CH2P")   (pin 11 "ADF_CH2N")
+      (pin 15 "ADF_CH3P")  (pin 17 "ADF_CH3N")
+      (pin 21 "ADF_CH4P")  (pin 23 "ADF_CH4N")
+      (pin 27 "ADF_CH5P")  (pin 29 "ADF_CH5N")
+      (pin 33 "ADF_CH6P")  (pin 35 "ADF_CH6N")
+      (pin 39 "ADF_CH7P")  (pin 41 "ADF_CH7N")
+      (pin 45 "ADF_CH8P")  (pin 47 "ADF_CH8N")
+      (pin 51 "ADF_CH9P")  (pin 53 "ADF_CH9N")
+      (pin 57 "ADF_CH10P") (pin 59 "ADF_CH10N")
       (pin MP1 MP2 MP3 MP4 "GND") (id b543a309))
-    (note "SPI3 routed to expansion: PC10=SCK (D6), PC11=MISO (B6), PC12=MOSI (A6), PA4=NCS (W17). Free of SPI1 (ADC) and SPI5 (IMU) conflicts.")
+    (note "SPI3 routed to expansion: PC10=SCK (D6), PC11=MISO (B6), PC12=MOSI (A6), PA15=NCS (T15). Free of SPI1 (ADC) and SPI5 (IMU) conflicts.")
     (note "MP1–MP4 board-lock tabs tied to GND.")
-    (note "ADF differential pairs flanked by GND: pins 14/16 around CH1P(15), 16/18 around CH1N(17), 20/22 around CH2N(21), 22/24 around CH2P(23), 24/26 around CH3P(25), 26 around CH3N(27), 29 between CH4P(28) and CH4N(30)."))
+    (note "Pin map: odd pins carry 10 differential ADC pairs (CH1..CH10) with a GND shield odd pin between each pair; even pins carry power (VBATT, V1P8), SPI3, and GND.")
+    (note "ADC routing: CH1-4 → adc1, CH5-8 → adc2, CH9-10 → adc3 AINA/AINB. adc3 AINC/AIND have no expansion source (only 10 channels fit on this 60-pin pinout)."))
 
   ;; === Power Chain (design blocks) ===
   ;; VBUS -> charger -> VBATT -> buck -> VDD (3.3V) -> ldo -> V1P8 (1.8V)
@@ -336,9 +296,9 @@
   (net "GND" "charger/GND" "buck/GND" "ldo/GND")
   (net "VBUS" "charger/VBUS")
   (net "VBATT" "charger/VBATT" "buck/VIN")
-  (net "VDD" "buck/VOUT" "ldo/VIN" "VDDSMPS" "VDD33USB" "VREF+" "VDDIO4")
+  (net "VDD" "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4")
   (net "PG_3V3" "buck/PG" "ldo/EN")
-  (net "V1P8" "ldo/VOUT" "VDDA18PMU" "VDDIO2" "VDDIO3")
+  (net "V1P8" "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3")
   (net "CHG_EN" "charger/EN")
 
   ;; STM32 GPIO for charger enable control
@@ -350,104 +310,105 @@
   (series "FB3" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18USB" (id a1fb0003))
   (series "FB4" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18ADC" (id a1fb0004))
   (series "FB5" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18CSI" (id a1fb0005))
+  ;; VREF+ (W2) tied to filtered VDDA18ADC — STM32N6 VREF+ max is VDDA18ADC (1.8V), not VDD (AN5967 §3.3).
+  (net "VDDA18ADC" "VREF+")
 
-  (section "AD7380-4 ADC" "Quad 16-bit 4Msps simultaneous-sampling SAR ADC with 4-wire SPI"
+  (section "ADC Array" "3x AD7380-4 quad 16-bit 4MSPS ADCs — 12 channels total via bit-banged config + PSSI parallel readout"
     (protocol SPI)
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
-    (port "ADF_CH1P" in differential optional)
-    (port "ADF_CH1N" in differential optional)
-    (port "ADF_CH2P" in differential optional)
-    (port "ADF_CH2N" in differential optional)
-    (port "ADF_CH3P" in differential optional)
-    (port "ADF_CH3N" in differential optional)
-    (port "ADF_CH4P" in differential optional)
-    (port "ADF_CH4N" in differential optional)
+    (port "ADF_CH1P"  in differential) (port "ADF_CH1N"  in differential)
+    (port "ADF_CH2P"  in differential) (port "ADF_CH2N"  in differential)
+    (port "ADF_CH3P"  in differential) (port "ADF_CH3N"  in differential)
+    (port "ADF_CH4P"  in differential) (port "ADF_CH4N"  in differential)
+    (port "ADF_CH5P"  in differential) (port "ADF_CH5N"  in differential)
+    (port "ADF_CH6P"  in differential) (port "ADF_CH6N"  in differential)
+    (port "ADF_CH7P"  in differential) (port "ADF_CH7N"  in differential)
+    (port "ADF_CH8P"  in differential) (port "ADF_CH8N"  in differential)
+    (port "ADF_CH9P"  in differential) (port "ADF_CH9N"  in differential)
+    (port "ADF_CH10P" in differential) (port "ADF_CH10N" in differential)
     (pins "stm32"
-      (pin W16 "ADC_CS")
-      (pin V10 "ADC_SCK_MCU")
+      ;; T9 is the sole ADC_SCK driver: bit-banged GPIO during Phase-1 config,
+      ;; TIM1_CH1 PWM during Phase-2 4 MSPS streaming.
+      (pin T9  (as "TIM1_CH1")  "ADC_SCK_DRV")
+      ;; Shared config path: V15 bit-banged as GPIO fans out to all three ADC SDI pins.
       (pin V15 "ADC_SDI")
-      (pin W15 "ADC_SDOA")
-      (pin V16 "ADC_SDOB")
-      (pin V17 "ADC_SDOC")
-      (pin T9  "ADC_SDOD")
-      (pin W11 "ADC_SCK_MCU")
-      (pin W12 "ADC_SCK_MCU")
-      (pin T7  "ADC_SCK_MCU"))
-    (instance "adc" ad7380-4bcpz
-      ;; Power
-      (pin 4 "VDD")
-      (pin 2 "V1P8")
-      (pin 3 "ADC_REGCAP")
-      ;; Reference
-      (pin 17 "ADC_REFIN")
-      ;; Ground (GND pins + exposed pad)
-      (pin 1 5 14 16 25 "GND")
-      ;; Analog inputs
-      (pin 13 "ADC_AINA_P")
-      (pin 12 "ADC_AINA_N")
-      (pin 11 "ADC_AINB_P")
-      (pin 10 "ADC_AINB_N")
-      (pin 9  "ADC_AINC_P")
-      (pin 8  "ADC_AINC_N")
-      (pin 7  "ADC_AIND_P")
-      (pin 6  "ADC_AIND_N")
-      ;; Digital (post-series-damping nets at ADC side)
-      (pin 18 "ADC_CS")
-      (pin 22 "ADC_SCK")
-      (pin 21 "ADC_SDI")
-      (pin 19 "ADC_SDOA_RAW")
-      (pin 20 "ADC_SDOB_RAW")
-      (pin 23 "ADC_SDOC_RAW")
-      (pin 24 "ADC_SDOD_RAW")
-      ;; Pin 15 (DNC) intentionally unmapped — datasheet requires no connection
-      (id a7c23d01))
-    ;; Power decoupling (1 µF 0201, close to each pin)
-    (series "C_VCC"    (cap-0201 "1uF")   "VDD"         "GND" (id a7c23d02))
-    (series "C_VLOG"   (cap-0201 "1uF")   "V1P8"        "GND" (id a7c23d03))
-    (series "C_REGCAP" (cap-0201 "1uF")   "ADC_REGCAP"  "GND" (id a7c23d04))
-    (series "C_REFIN"  (cap-0201 "1uF")   "ADC_REFIN"   "GND" (id a7c23d05))
-    ;; Reference: REFIN tied to VDD analog 3.3V (deviation from ADC.md — see note)
-    (series "R_REF"    (res-0201 "0R")    "VDD"         "ADC_REFIN" (id a7c23d06))
-    ;; Channel A (Rx1) — 33Ω series + 68pF to GND per leg
-    (series "R_F1P" (res-0201 "33R")   "ADF_CH1P"   "ADC_AINA_P" (id a7c23d10))
-    (series "R_F1N" (res-0201 "33R")   "ADF_CH1N"   "ADC_AINA_N" (id a7c23d11))
-    (series "C_F1P" (cap-0201 "68pF")  "ADC_AINA_P" "GND"        (id a7c23d12))
-    (series "C_F1N" (cap-0201 "68pF")  "ADC_AINA_N" "GND"        (id a7c23d13))
-    ;; Channel B (Rx2)
-    (series "R_F2P" (res-0201 "33R")   "ADF_CH2P"   "ADC_AINB_P" (id a7c23d14))
-    (series "R_F2N" (res-0201 "33R")   "ADF_CH2N"   "ADC_AINB_N" (id a7c23d15))
-    (series "C_F2P" (cap-0201 "68pF")  "ADC_AINB_P" "GND"        (id a7c23d16))
-    (series "C_F2N" (cap-0201 "68pF")  "ADC_AINB_N" "GND"        (id a7c23d17))
-    ;; Channel C (Rx3)
-    (series "R_F3P" (res-0201 "33R")   "ADF_CH3P"   "ADC_AINC_P" (id a7c23d18))
-    (series "R_F3N" (res-0201 "33R")   "ADF_CH3N"   "ADC_AINC_N" (id a7c23d19))
-    (series "C_F3P" (cap-0201 "68pF")  "ADC_AINC_P" "GND"        (id a7c23d1a))
-    (series "C_F3N" (cap-0201 "68pF")  "ADC_AINC_N" "GND"        (id a7c23d1b))
-    ;; Channel D (Rx4)
-    (series "R_F4P" (res-0201 "33R")   "ADF_CH4P"   "ADC_AIND_P" (id a7c23d1c))
-    (series "R_F4N" (res-0201 "33R")   "ADF_CH4N"   "ADC_AIND_N" (id a7c23d1d))
-    (series "C_F4P" (cap-0201 "68pF")  "ADC_AIND_P" "GND"        (id a7c23d1e))
-    (series "C_F4N" (cap-0201 "68pF")  "ADC_AIND_N" "GND"        (id a7c23d1f))
-    ;; SDO 100Ω series dampers (place close to ADC)
-    (series "R_SDA" (res-0201 "100R") "ADC_SDOA_RAW" "ADC_SDOA" (id a7c23d20))
-    (series "R_SDB" (res-0201 "100R") "ADC_SDOB_RAW" "ADC_SDOB" (id a7c23d21))
-    (series "R_SDC" (res-0201 "100R") "ADC_SDOC_RAW" "ADC_SDOC" (id a7c23d22))
-    (series "R_SDD" (res-0201 "100R") "ADC_SDOD_RAW" "ADC_SDOD" (id a7c23d23))
-    ;; SCK 22Ω damping at STM32 driver side (tuneable during bring-up)
-    (series "R_SCK" (res-0201 "22R") "ADC_SCK_MCU" "ADC_SCK" (id a7c23d24))
-    (note "VCC (pin 4) = 3.3V VDD; VLOGIC (pin 2) = 1.8V V1P8 — directly compatible with STM32N6 1.8V I/O, no level shifter needed.")
-    (note "REGCAP (pin 3) = internal 1.9V regulator bypass — 1µF to GND ONLY; do not connect externally.")
-    (note "REFIN (pin 17) = 3.3V tied to VDD analog rail through 0R jumper R_REF. ADC.md spec calls for an ADR4533 precision 3.3V reference (needs a 5V rail) for full 16-bit ENOB — defer to a future revision.")
-    (note "DNC (pin 15) left unconnected.")
-    (note "GND pins 1, 5, 14, 16 and exposed pad (25) tie to solid ground plane with ≥4 thermal vias on the EP.")
-    (note "SPI topology: SPI1 master drives SCK + MOSI (SDI) and captures SDOA on MISO. SPI2/4/6 are slave RX only, each capturing SDOB/SDOC/SDOD on their MISO pins while sharing the star-routed SPI1_SCK. TIM1 (or TIM8) generates the 2 MHz CS pulse train in hardware — no software CS.")
-    (note "SCK star routing (critical): single driver at STM32N6 V10 (SPI1_SCK), 5 branches to AD7380-4 SCLK + SPI2_SCK (W11) + SPI4_SCK (W12) + SPI6_SCK (T7). 50Ω controlled impedance, no branch >30 mm, no daisy-chaining. 22Ω series damping at the SPI1_SCK pin on the STM32N6 side (R_SCK).")
-    (note "100Ω series on each SDO line placed close to the ADC suppresses digital-to-analog coupling per AD7380-4 Applications Information.")
-    (note "4-wire SDO mode (firmware CONFIG 2 SDO = 0b10) enables 2 MSPS per channel. SDOD carries data (not ALERT); out-of-range detection is done in firmware on captured samples.")
-    (note "Per-channel anti-alias: 33Ω 1% 0402 series in each differential leg + 68pF C0G/NP0 to GND at each ADC input pin. Place close to the ADC, matched within 2 mm pair-to-pair, over solid GND.")
-    (note "Firmware: set GPIO speed = Very High on all SPI pins and the TIM CS output pin (affects edge rates and matches the 22Ω SCK damping assumption).")
-    (note "Level compatibility: STM32N6 I/O at 1.8V matches AD7380-4 VLOGIC at 1.8V — no level shifter between host and ADC."))
+      ;; PSSI clock input — externally looped back from ADC_SCK.
+      (pin T10 (as "PSSI_PDCK") "ADC_PDCK")
+      ;; Per-ADC CS lines: Phase-1 GPIO output, Phase-2 TIM1_CHx hardware pulse.
+      (pin D8  (as "TIM1_CH2")  "ADC1_CS")
+      (pin A9  (as "TIM1_CH3")  "ADC2_CS")
+      (pin F9  (as "TIM1_CH4")  "ADC3_CS")
+      ;; PSSI data lanes. SDOA of each ADC doubles as GPIO input for Phase-1 register readback.
+      ;; ADC1 + ADC2 SDOs are on row A/B BGA edge balls for short fanout; lanes are
+      ;; non-contiguous (D0/D5 don't exist on A/B), so firmware must demux by lane index.
+      (pin A8  (as "PSSI_D1")   "ADC1_SDOA")
+      (pin A7  (as "PSSI_D7")   "ADC1_SDOB")
+      (pin B7  (as "PSSI_D6")   "ADC1_SDOC")
+      (pin A13 (as "PSSI_D4")   "ADC1_SDOD")
+      (pin A18 (as "PSSI_D2")   "ADC2_SDOA")
+      (pin A17 (as "PSSI_D15")  "ADC2_SDOB")
+      (pin B14 (as "PSSI_D11")  "ADC2_SDOC")
+      (pin B15 (as "PSSI_D3")   "ADC2_SDOD")
+      (pin B18 (as "PSSI_D8")   "ADC3_SDOA")
+      (pin C17 (as "PSSI_D10")  "ADC3_SDOB"))
+
+    ;; Clock tie: T9 driver (through 22Ω damper) feeds ADC_SCK; PDCK loops back via 0R.
+    (series "R_SCK"  (res-0201 "22R") "ADC_SCK_DRV" "ADC_SCK"  (id b7c00002))
+    (series "R_PDCK" (res-0201 "0R")  "ADC_SCK"     "ADC_PDCK" (id b7c00003))
+
+    (note "3x AD7380-4: adc1/adc2 use all 4 channels, adc3 uses 2 — 10 simultaneous 16-bit channels at 4MSPS total. Instances are sub-blocks at the top level.")
+    (note "Phase 1 (boot/config): T9 (clock) and V15 (data) bit-banged as GPIO to shift config bytes into each ADC's SDI; firmware pulses ADC1_CS/ADC2_CS/ADC3_CS one at a time via GPIO. Register readback via GPIO-input read of ADC1_SDOA/ADC2_SDOA/ADC3_SDOA (PSSI_D1/D6/D8).")
+    (note "Phase 2 (4 MSPS streaming): T9 switched to TIM1_CH1 AF to PWM the shared ADC_SCK net; TIM1_CH2/CH3/CH4 simultaneously pulse all three CS lines. PSSI latches all 10 active SDO lanes in parallel on PDCK edges into DMA'd RAM (adc3 SDOC/SDOD unused).")
+    (note "Clock topology: T9 is the sole driver of ADC_SCK — bit-banged GPIO during config, TIM1_CH1 PWM during streaming. PSSI_PDCK on T10 loops back to sample the same net.")
+    (note "SCK damping: single 22Ω series on T9 at the STM32 side. PDCK uses 0R (input only).")
+    (note "Each ADC: VCC (pin 4) = 3.3V, VLOGIC (pin 2) = 1.8V, REGCAP (pin 3) = 1µF to GND only, REFIN (pin 17) tied to VDD via 0R (upgrade to ADR4533 in future rev for full ENOB).")
+    (note "Per-channel anti-alias: 33Ω series + 68pF to GND on each differential leg at the ADC pin. Keep pair-matched within 2 mm over solid GND.")
+    (note "SDO 100Ω dampers close to each ADC suppress digital coupling back into the analog section.")
+    (note "Pin 15 (DNC) unmapped on all three. GND pins 1,5,14,16 + exposed pad (25) need ≥4 thermal vias to the plane."))
+
+  ;; Three identical ADC channels — module layout gets replicated in KiCad
+  ;; via pcb_update.py (see projects/designs/lib/modules/ad7380-channel.sexp).
+  ;; Declared at design-block top level because sub-block forms aren't
+  ;; evaluated inside sections.
+  (sub-block "adc1" (ad7380-channel 1))
+  (sub-block "adc2" (ad7380-channel 2))
+  ;; adc3 uses the 2-channel variant — saves 10 passives (8 anti-alias R/C on C/D
+  ;; + R_SDC/R_SDD dampers). Only SDOA/SDOB land on PSSI; SDOC/SDOD unrouted.
+  (sub-block "adc3" (ad7380-channel-2ch 3))
+
+  ;; Bridge the module's internal ports to the parent board nets.
+  ;; Power (shared across all 3 channels).
+  (net "VDD"  "adc1/VCC"    "adc2/VCC"    "adc3/VCC")
+  (net "V1P8" "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
+  (net "GND"  "adc1/GND"    "adc2/GND"    "adc3/GND")
+  ;; Shared SPI buses (MCU side → all 3 ADCs).
+  (net "ADC_SCK" "adc1/SCK" "adc2/SCK" "adc3/SCK")
+  (net "ADC_SDI" "adc1/SDI" "adc2/SDI" "adc3/SDI")
+  ;; Per-channel CS lines (from STM32 TIM1_CH2/3/4).
+  (net "ADC1_CS" "adc1/CS")
+  (net "ADC2_CS" "adc2/CS")
+  (net "ADC3_CS" "adc3/CS")
+  ;; Per-channel SDO lanes (to STM32 PSSI_D0..D11).
+  (net "ADC1_SDOA" "adc1/SDOA") (net "ADC1_SDOB" "adc1/SDOB")
+  (net "ADC1_SDOC" "adc1/SDOC") (net "ADC1_SDOD" "adc1/SDOD")
+  (net "ADC2_SDOA" "adc2/SDOA") (net "ADC2_SDOB" "adc2/SDOB")
+  (net "ADC2_SDOC" "adc2/SDOC") (net "ADC2_SDOD" "adc2/SDOD")
+  (net "ADC3_SDOA" "adc3/SDOA") (net "ADC3_SDOB" "adc3/SDOB")
+  ;; adc3 SDOC/SDOD intentionally unrouted — only 2 of 4 channels used on adc3.
+  ;; Analog inputs from the expansion connector (12 differential pairs).
+  (net "ADF_CH1P"  "adc1/AINA_EXT_P") (net "ADF_CH1N"  "adc1/AINA_EXT_N")
+  (net "ADF_CH2P"  "adc1/AINB_EXT_P") (net "ADF_CH2N"  "adc1/AINB_EXT_N")
+  (net "ADF_CH3P"  "adc1/AINC_EXT_P") (net "ADF_CH3N"  "adc1/AINC_EXT_N")
+  (net "ADF_CH4P"  "adc1/AIND_EXT_P") (net "ADF_CH4N"  "adc1/AIND_EXT_N")
+  (net "ADF_CH5P"  "adc2/AINA_EXT_P") (net "ADF_CH5N"  "adc2/AINA_EXT_N")
+  (net "ADF_CH6P"  "adc2/AINB_EXT_P") (net "ADF_CH6N"  "adc2/AINB_EXT_N")
+  (net "ADF_CH7P"  "adc2/AINC_EXT_P") (net "ADF_CH7N"  "adc2/AINC_EXT_N")
+  (net "ADF_CH8P"  "adc2/AIND_EXT_P") (net "ADF_CH8N"  "adc2/AIND_EXT_N")
+  (net "ADF_CH9P"  "adc3/AINA_EXT_P") (net "ADF_CH9N"  "adc3/AINA_EXT_N")
+  (net "ADF_CH10P" "adc3/AINB_EXT_P") (net "ADF_CH10N" "adc3/AINB_EXT_N")
+  ;; adc3 AINC/AIND are unrouted to the expansion connector — only 10 of 12 channels
+  ;; fit on the 60-pin BTB with the current GND-shielded odd-pin layout.
 
   (section "Test Points" "1mm SMD probe points for bring-up and debug"
     (instance "TP1" testpoint (pin 1 "VBATT")   (id aabbcc01))

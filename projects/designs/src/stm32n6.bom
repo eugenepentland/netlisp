@@ -3,7 +3,7 @@
 
 (part "U3" "2bc6897c-52c9-5e1e-a6c3-e01f6ff60d14"
   (id "b22d91d5")
-  (nets "VDD.U3.F7" "PSRAM_NCS" "VDDA18USB" "PSRAM_IO8" "VDDCORE.U3.P13" "IMU_MISO" "VDDA18AON.U3.H6" "ADC_SDOA" "VDDCORE.U3.P9" "EXP_SPI_SCK" "EXP_SPI_MISO" "USB_DP" "VDD.U3.F1" "ADC_SDOC" "V1P8.U3.M16" "VDDA18AON" "PSRAM_IO10" "VDD.U3.J14" "PSRAM_IO4" "ADC_SDOD" "PD3" "PSRAM_IO2" "VDD.U3.L1" "V1P8.U3.M14" "PD5" "PSRAM_IO1" "PSRAM_DQS1" "VDDA18CSI" "IMU_SCK" "VDDA18PLL" "PSRAM_IO6" "IMU_FSYNC" "VDD.U3.W2" "PD4" "VDDCORE.U3.G2" "VDD" "VDD" "VDD" "VDD" "VDD" "PSRAM_IO14" "PSRAM_IO15" "ADC_SDOB" "IMU_NCS" "VDDCORE.U3.P10" "PWR_ON" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "V1P8.U3.H1" "IMU_INT1" "VDD.U3.L14" "IMU_MOSI" "ADC_CS" "PG10" "PSRAM_IO9" "PD0" "PSRAM_IO3" "FLASH_IO3" "SWDIO_MCU" "FLASH_IO0" "VDD.U3.F8" "PSRAM_DQS0" "PSRAM_IO12" "PSRAM_IO11" "OSC32_IN" "V1P8.U3.K16" "V1P8.U3.H16" "SWO_MCU" "PD2" "ADC_SDI" "PSRAM_IO0" "PSRAM_IO7" "BOOT0" "PSRAM_CLK" "PSRAM_IO5" "FLASH_DQS" "EXP_SPI_NCS" "EXP_SPI_MOSI" "ADC_SCK_MCU" "ADC_SCK_MCU" "ADC_SCK_MCU" "ADC_SCK_MCU" "FLASH_IO2" "FLASH_IO1" "FLASH_IO7" "VDDCORE.U3.W6" "PD1" "FLASH_IO5" "USB_DN" "OSC_OUT" "SWCLK_MCU" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "NRST" "FLASH_IO4" "V08CAP.U3.G1" "FLASH_NCS" "V1P8.U3.L16" "VDD.U3.K14" "OSC32_OUT" "TXRTUNE" "V1P8.U3.J16" "FLASH_IO6" "VDDCORE.U3.P7" "VDDCORE.U3.P11" "PA6" "OSC_IN" "FLASH_CLK" "PSRAM_IO13" "VDDA18ADC")
+  (nets "PSRAM_NCS" "VDD.U3.F7" "VDDA18USB" "PSRAM_IO8" "ADC_PDCK" "VDDCORE.U3.P13" "IMU_MISO" "VDDA18AON.U3.H6" "ADC3_SDOA" "VDDCORE.U3.P9" "EXP_SPI_SCK" "EXP_SPI_MISO" "USB_DP" "ADC1_CS" "VDD.U3.F1" "ADC3_CS" "ADC2_SDOD" "V1P8.U3.M16" "VDDA18AON" "PSRAM_IO10" "VDD.U3.J14" "PSRAM_IO4" "PSRAM_IO2" "ADC1_SDOC" "V1P8.U3.M14" "PSRAM_IO1" "PSRAM_DQS1" "VDDA18CSI" "IMU_SCK" "VDDA18PLL" "PSRAM_IO6" "IMU_FSYNC" "ADC2_CS" "VDDCORE.U3.G2" "VDD" "PSRAM_IO14" "PSRAM_IO15" "ADC2_SDOA" "IMU_NCS" "VDDCORE.U3.P10" "PWR_ON" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "V1P8.U3.H1" "IMU_INT1" "ADC2_SDOB" "VDD.U3.L14" "IMU_MOSI" "PSRAM_IO9" "ADC3_SDOB" "PSRAM_IO3" "V1P8.U3.L1" "FLASH_IO3" "SWDIO_MCU" "VDDA18ADC.U3.W2" "ADC1_SDOA" "FLASH_IO0" "ADC1_SDOB" "VDD.U3.F8" "PSRAM_DQS0" "PSRAM_IO12" "PSRAM_IO11" "OSC32_IN" "V1P8.U3.K16" "V1P8.U3.H16" "SWO_MCU" "ADC_SDI" "PSRAM_IO0" "PSRAM_IO7" "BOOT0" "PSRAM_CLK" "PSRAM_IO5" "FLASH_DQS" "EXP_SPI_NCS" "EXP_SPI_MOSI" "FLASH_IO2" "FLASH_IO1" "FLASH_IO7" "ADC1_SDOD" "VDDCORE.U3.W6" "ADC2_SDOC" "FLASH_IO5" "USB_DN" "OSC_OUT" "SWCLK_MCU" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "VLXSMPS" "NRST" "FLASH_IO4" "V08CAP.U3.G1" "ADC_SCK_DRV" "FLASH_NCS" "V1P8.U3.L16" "VDD.U3.K14" "OSC32_OUT" "TXRTUNE" "V1P8.U3.J16" "FLASH_IO6" "VDDCORE.U3.P7" "VDDCORE.U3.P11" "OSC_IN" "FLASH_CLK" "PSRAM_IO13" "V1P8" "V1P8" "V1P8" "V1P8" "VDDA18ADC")
   (manufacturer "STMicroelectronics")
   (mpn "STM32N657L0H3Q")
 )
@@ -73,27 +73,27 @@
 )
 (part "C52" "d7090754-84be-5460-8beb-bc3d87dd9b12"
   (id "a70f4266")
-  (nets "VDD.U3.L1" "GND")
+  (nets "GND" "V1P8.U3.L1")
 )
 (part "C53" "0c2afc93-a9c1-5117-aa33-f64bd7cdc9de"
   (id "cdfcdf18")
-  (nets "VDD.U3.L1" "GND")
+  (nets "GND" "V1P8.U3.L1")
 )
 (part "C54" "e19fd935-c0d5-5b54-8938-63c88021c013"
   (id "cb05efe2")
-  (nets "VDD.U3.L1" "GND")
+  (nets "GND" "V1P8.U3.L1")
 )
 (part "C55" "36748147-5132-5fca-8c77-13a1dce180ec"
   (id "e4e6476c")
-  (nets "VDD.U3.L1" "GND")
+  (nets "GND" "V1P8.U3.L1")
 )
 (part "C56" "dea6da26-78c8-5ab2-98ef-ca518f987efe"
   (id "d9c57e35")
-  (nets "VDD.U3.L1" "GND")
+  (nets "GND" "V1P8.U3.L1")
 )
 (part "C57" "f99c3294-c53e-5844-a78b-97c978a0621b"
   (id "e1fae514")
-  (nets "VDD.U3.L1" "GND")
+  (nets "GND" "V1P8.U3.L1")
 )
 (part "L1" "953df947-1cb0-5bb4-8198-55a4047f2d11"
   (id "f130c61b")
@@ -116,10 +116,6 @@
 (part "C58" "c3d40a3b-cf9d-5dac-af52-9a67d817b6a1"
   (id "c6edfb4a")
   (nets "GND" "V1P8.U3.H1")
-)
-(part "R2" "293e143b-1134-4011-ab35-7a2994c2af57"
-  (id "f2a0c001")
-  (nets "VDD" "PWR_ON")
 )
 (part "C59" "7d0d5891-fccd-5380-b542-07e9594140af"
   (id "a56ecaf2")
@@ -179,23 +175,19 @@
 )
 (part "C73" "e5b64ce9-3773-52af-8222-19987ee95526"
   (id "abd8c95e")
-  (nets "VDD.U3.W2" "GND")
+  (nets "GND" "VDDA18ADC.U3.W2")
 )
 (part "C74" "625edb78-51ec-525f-9b2e-d3eb69fda763"
   (id "d14d7bad")
-  (nets "VDD.U3.W2" "GND")
+  (nets "GND" "VDDA18ADC.U3.W2")
 )
 (part "C35" "e7ff4914-3ee7-5d64-8219-200dc082d9ea"
   (id "e0668c9a")
   (nets "GND" "NRST")
 )
-(part "R19" "ca008b75-a42e-51bc-81b1-594e6e4a2f6a"
-  (id "c2c3b132")
+(part "R53" "e6e1611e-016a-5381-8f97-de56c6460772"
+  (id "d44c84c9")
   (nets "GND" "BOOT0")
-)
-(part "R20" "e6e1611e-016a-5381-8f97-de56c6460772"
-  (id "a55c76bc")
-  (nets "GND" "PA6")
 )
 (part "SW1" "033cb2cc-f665-5692-9950-f3adbfea488d"
   (id "f8bfd5d5")
@@ -269,13 +261,13 @@
   (id "ca29d420")
   (nets "USB_CONN_DP" "USB_CONN_DP" "USB_CONN_DN" "USB_CONN_DN" "GND" "GND" "GND" "GND" "GND" "GND" "CC1" "VBUS" "VBUS" "VBUS" "VBUS" "CC2")
 )
-(part "R21" "e461d9a2-2cf4-551b-9602-51f50da091f0"
+(part "R13" "e461d9a2-2cf4-551b-9602-51f50da091f0"
   (id "a0df15d6")
   (nets "GND" "CC1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-075K1L")
 )
-(part "R22" "d448eb7a-ba62-5640-85de-00486f5c73af"
+(part "R14" "d448eb7a-ba62-5640-85de-00486f5c73af"
   (id "f9013f53")
   (nets "GND" "CC2")
   (manufacturer "Yageo")
@@ -284,62 +276,6 @@
 (part "R8" "d7234caf-7629-4811-b29d-a31fa4be76ee"
   (id "b40b1319")
   (nets "GND" "TXRTUNE")
-)
-(part "R9" "305cce77-c707-5e69-a414-b1dee2747d9d"
-  (id "a4e0a83c")
-  (nets "LED_NET" "PG10")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-07330RL")
-)
-(part "D1" "d6091fc1-df07-5ac6-91b3-caefb949873e"
-  (id "ec5477d8")
-  (nets "GND" "LED_NET")
-  (manufacturer "Wurth")
-  (mpn "150040GS73220")
-)
-(part "R13" "b0457fc5-041d-4278-a4dc-e4b46d00fe4d"
-  (id "aa110001")
-  (nets "PD0" "LED1_R_K")
-)
-(part "R14" "55a49827-4bb8-4b5f-ab2e-155882a5b739"
-  (id "aa110002")
-  (nets "LED1_G_K" "PD1")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-07330RL")
-)
-(part "R15" "668fb8c6-4df1-4528-a058-0dbce18e9e45"
-  (id "aa110003")
-  (nets "PD2" "LED1_B_K")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-07330RL")
-)
-(part "R16" "b1509a86-6884-470c-91a6-5bb43fa4df67"
-  (id "aa110004")
-  (nets "PD3" "LED2_R_K")
-)
-(part "R17" "e15aa7f3-8854-4660-bf26-8a26ad6c617c"
-  (id "aa110005")
-  (nets "PD4" "LED2_G_K")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-07330RL")
-)
-(part "R18" "52ebb64f-8429-49f1-9515-2ea4faeaeb87"
-  (id "aa110006")
-  (nets "PD5" "LED2_B_K")
-  (manufacturer "Yageo")
-  (mpn "RC0402FR-07330RL")
-)
-(part "LED1" "09051ba8-7b56-4fcb-b26b-6858cd2cbcae"
-  (id "aa110010")
-  (nets "VDD" "LED1_B_K" "LED1_G_K" "LED1_R_K")
-  (manufacturer "Kingbright")
-  (mpn "APTF1616LSEEZGKQBKC")
-)
-(part "LED2" "7f268e59-eb44-4299-9c67-3edb9c79f964"
-  (id "aa110011")
-  (nets "VDD" "LED2_R_K" "LED2_B_K" "LED2_G_K")
-  (manufacturer "Kingbright")
-  (mpn "APTF1616LSEEZGKQBKC")
 )
 (part "U5" "999bca7c-28e9-5314-a354-e3194209e265"
   (id "e5833220")
@@ -407,9 +343,9 @@
 )
 (part "U8" "beec6894-b0d1-53c4-bd25-c8a802cdb721"
   (id "b543a309")
-  (nets "ADF_CH4N" "EXP_SPI_SCK" "EXP_SPI_MISO" "ADF_CH1P" "ADF_CH2N" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "ADF_CH3P" "ADF_CH1N" "EXP_SPI_NCS" "EXP_SPI_MOSI" "ADF_CH2P" "ADF_CH4P" "VBATT" "VBATT" "VBATT" "VBATT" "VBATT" "ADF_CH3N" "V1P8" "V1P8")
+  (nets "ADF_CH4N" "EXP_SPI_SCK" "EXP_SPI_MISO" "ADF_CH1P" "ADF_CH5P" "ADF_CH6P" "ADF_CH10P" "ADF_CH2N" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "ADF_CH9N" "ADF_CH10N" "ADF_CH3P" "ADF_CH6N" "ADF_CH9P" "ADF_CH5N" "ADF_CH1N" "EXP_SPI_NCS" "EXP_SPI_MOSI" "ADF_CH8P" "ADF_CH2P" "ADF_CH4P" "ADF_CH7P" "VBATT" "VBATT" "VBATT" "VBATT" "ADF_CH8N" "ADF_CH3N" "ADF_CH7N" "V1P8" "V1P8")
   (manufacturer "Molex")
-  (mpn "204928-0301")
+  (mpn "204928-0601")
 )
 (part "FB1" "b1a94e29-ae29-45b9-a4a2-7c5e900922b1"
   (id "a1fb0001")
@@ -431,115 +367,13 @@
   (id "a1fb0005")
   (nets "VDDA18CSI" "V1P8")
 )
-(part "U9" "64877d8e-1af8-40a4-8879-41ec4dd93f74"
-  (id "a7c23d01")
-  (nets "ADC_AINA_N" "ADC_SDOD_RAW" "ADC_SCK" "ADC_AINC_N" "ADC_AIND_N" "VDD" "ADC_AINC_P" "GND" "GND" "GND" "GND" "GND" "ADC_SDOB_RAW" "ADC_CS" "ADC_REGCAP" "ADC_SDOA_RAW" "ADC_AINB_N" "ADC_SDOC_RAW" "ADC_SDI" "ADC_REFIN" "ADC_AINA_P" "ADC_AIND_P" "ADC_AINB_P" "V1P8")
-  (manufacturer "Analog Devices")
-  (mpn "AD7380-4BCPZ")
+(part "R54" "d711277a-97c3-4d6e-8839-4ef1b4a80a8b"
+  (id "b7c00002")
+  (nets "ADC_SCK" "ADC_SCK_DRV")
 )
-(part "C93" "3c4c8f82-4979-5426-b3bc-d512843e4305"
-  (id "a7c23d02")
-  (nets "VDD" "GND")
-)
-(part "C94" "37112662-7c1a-4bfb-8eee-892027ac406a"
-  (id "a7c23d03")
-  (nets "GND" "V1P8")
-)
-(part "C95" "b1449182-eda6-4e12-8d6d-ef037edf369e"
-  (id "a7c23d04")
-  (nets "GND" "ADC_REGCAP")
-)
-(part "C96" "85536985-090b-4700-9a43-66679ef88ac5"
-  (id "a7c23d05")
-  (nets "GND" "ADC_REFIN")
-)
-(part "R28" "b2311a94-d90e-46cc-8bed-19b89bfbc474"
-  (id "a7c23d06")
-  (nets "VDD" "ADC_REFIN")
-)
-(part "R29" "6eab9a78-cfa0-4c1e-b096-404ae386d8d0"
-  (id "a7c23d10")
-  (nets "ADF_CH1P" "ADC_AINA_P")
-)
-(part "R30" "7e8b74b5-abcd-4e65-a0f3-ac5ef1be2238"
-  (id "a7c23d11")
-  (nets "ADC_AINA_N" "ADF_CH1N")
-)
-(part "C97" "72a60cd2-4385-4045-a6bf-ab37bda72df0"
-  (id "a7c23d12")
-  (nets "GND" "ADC_AINA_P")
-)
-(part "C98" "86ad0a0d-2c1a-498b-a324-56ade333c3e8"
-  (id "a7c23d13")
-  (nets "ADC_AINA_N" "GND")
-)
-(part "R31" "46e0cb70-9b81-4818-9611-3e49b51ceb6a"
-  (id "a7c23d14")
-  (nets "ADF_CH2P" "ADC_AINB_P")
-)
-(part "R32" "9406b02d-6d1f-4b48-8dae-3f35854985b7"
-  (id "a7c23d15")
-  (nets "ADF_CH2N" "ADC_AINB_N")
-)
-(part "C99" "fdde316e-0d15-4b53-b187-a4552e28fd91"
-  (id "a7c23d16")
-  (nets "GND" "ADC_AINB_P")
-)
-(part "C100" "6cbea1f7-9f11-4315-8c63-55416e7a6cc3"
-  (id "a7c23d17")
-  (nets "GND" "ADC_AINB_N")
-)
-(part "R33" "9a65f5ad-cfa6-41ab-95b8-8b695e21de09"
-  (id "a7c23d18")
-  (nets "ADC_AINC_P" "ADF_CH3P")
-)
-(part "R34" "166f76f2-ed89-4c8f-82c2-5b1ebb0a77a5"
-  (id "a7c23d19")
-  (nets "ADC_AINC_N" "ADF_CH3N")
-)
-(part "C101" "b41c20e0-d409-4575-9679-d41ee5a62852"
-  (id "a7c23d1a")
-  (nets "ADC_AINC_P" "GND")
-)
-(part "C102" "46a5fc46-d0d1-4afb-950b-b092feb32b06"
-  (id "a7c23d1b")
-  (nets "ADC_AINC_N" "GND")
-)
-(part "R35" "827861b0-79ee-4571-8721-8c88594fc90f"
-  (id "a7c23d1c")
-  (nets "ADF_CH4P" "ADC_AIND_P")
-)
-(part "R36" "34aefadc-db99-4780-bb2c-be61081e5795"
-  (id "a7c23d1d")
-  (nets "ADF_CH4N" "ADC_AIND_N")
-)
-(part "C103" "7bfa4dc5-df21-4c80-af0c-eae2b262955d"
-  (id "a7c23d1e")
-  (nets "GND" "ADC_AIND_P")
-)
-(part "C104" "a971745e-4f69-4e59-9e9d-827e702b8e21"
-  (id "a7c23d1f")
-  (nets "ADC_AIND_N" "GND")
-)
-(part "R37" "6b1c1570-8d67-45d9-8240-288f23d44252"
-  (id "a7c23d20")
-  (nets "ADC_SDOA" "ADC_SDOA_RAW")
-)
-(part "R38" "a9721a54-3728-412d-b286-db00f4d3d832"
-  (id "a7c23d21")
-  (nets "ADC_SDOB" "ADC_SDOB_RAW")
-)
-(part "R39" "f242a53b-2480-4735-af95-745572592a3a"
-  (id "a7c23d22")
-  (nets "ADC_SDOC" "ADC_SDOC_RAW")
-)
-(part "R40" "45a72ce5-9cda-411a-9124-d13e408e8b05"
-  (id "a7c23d23")
-  (nets "ADC_SDOD_RAW" "ADC_SDOD")
-)
-(part "R41" "880964b5-4ae8-485b-ba0a-c89c9e6dd26e"
-  (id "a7c23d24")
-  (nets "ADC_SCK" "ADC_SCK_MCU")
+(part "R55" "7cfc406d-a18c-4d00-a8d0-081a7fb3fb5f"
+  (id "b7c00003")
+  (nets "ADC_PDCK" "ADC_SCK")
 )
 (part "TP1" "c1ccba23-3067-4fdc-9bbb-f155b41a80df"
   (id "aabbcc01")
@@ -589,81 +423,359 @@
   (manufacturer "Wurth Elektronik")
   (mpn "9774020633R")
 )
-(part "charger/U10" "63eb9809-23e1-482b-a48d-e4e93312568f"
-  (id "e3a20001")
+(part "charger/U9" "63eb9809-23e1-482b-a48d-e4e93312568f"
+  (id "e3bccbf8")
   (nets "VBATT" "VBATT" "VBUS" "VBUS" "GND" "GND" "CHG_STAT" "CHG_PROG")
   (manufacturer "Microchip")
   (mpn "MCP73831-2ACI/MC")
 )
-(part "charger/C105" "8c74aede-7320-4dc2-a353-0fa155b6ba7b"
-  (id "f01c239f")
-  (nets "VBUS.U10.VDD_1" "GND")
+(part "charger/C125" "8c74aede-7320-4dc2-a353-0fa155b6ba7b"
+  (id "c6a143c4")
+  (nets "VBUS.U9.VDD_1" "GND")
 )
-(part "charger/C106" "33f34429-0919-485b-8085-709944de9e5d"
-  (id "c515de02")
-  (nets "VBATT.U10.VBAT_1" "GND")
+(part "charger/C126" "33f34429-0919-485b-8085-709944de9e5d"
+  (id "ff1c9941")
+  (nets "VBATT.U9.VBAT_1" "GND")
 )
-(part "charger/R42" "57b597b3-9625-4cd5-bd58-eac79d0d31ab"
-  (id "e3a20004")
+(part "charger/R56" "57b597b3-9625-4cd5-bd58-eac79d0d31ab"
+  (id "b85c061b")
   (nets "GND" "CHG_PROG")
 )
-(part "charger/R43" "1e2df0b1-0928-4728-a73c-d10a99c4034a"
-  (id "e3a20005")
+(part "charger/R57" "1e2df0b1-0928-4728-a73c-d10a99c4034a"
+  (id "b9dda637")
   (nets "VBUS" "CHG_LED")
 )
-(part "charger/U11" "b325b3c1-370b-46c7-8a58-c2c857defab2"
-  (id "e3a20006")
+(part "charger/U10" "b325b3c1-370b-46c7-8a58-c2c857defab2"
+  (id "ffdab989")
   (nets "CHG_LED" "CHG_STAT")
 )
-(part "buck/U12" "28f5c311-e625-504d-bdda-36c906b616dd"
-  (id "d865e2a1")
+(part "buck/U11" "28f5c311-e625-504d-bdda-36c906b616dd"
+  (id "a6b99bfa")
   (nets "SW_L2" "SW_L2" "FB" "PG" "GND" "GND" "GND" "GND" "SW_L1" "SW_L1" "VOUT" "VOUT" "VIN" "VIN" "VIN")
   (manufacturer "Texas Instruments")
   (mpn "TPS63806YFFR")
 )
-(part "buck/C107" "fb9f871f-fa29-417a-a0d1-8d0b1eba5be6"
-  (id "e9586e76")
-  (nets "VIN.U12.VIN_1" "GND")
+(part "buck/C127" "fb9f871f-fa29-417a-a0d1-8d0b1eba5be6"
+  (id "fa2a378b")
+  (nets "VIN.U11.VIN_1" "GND")
 )
-(part "buck/C108" "53fe7c4b-017b-4574-8e94-c6f259f767ec"
-  (id "c9c32b1e")
-  (nets "VOUT.U12.VOUT_1" "GND")
+(part "buck/C128" "53fe7c4b-017b-4574-8e94-c6f259f767ec"
+  (id "e1b73718")
+  (nets "VOUT.U11.VOUT_1" "GND")
 )
-(part "buck/C109" "5e393ad2-09d0-4fb5-bf58-b7fce5d88bba"
-  (id "bb4ea24d")
-  (nets "VOUT.U12.VOUT_1" "GND")
+(part "buck/C129" "5e393ad2-09d0-4fb5-bf58-b7fce5d88bba"
+  (id "e8cff78e")
+  (nets "VOUT.U11.VOUT_1" "GND")
 )
-(part "buck/U13" "f35c90c1-2a45-5143-b81a-75852c4ac511"
-  (id "c59d9c42")
+(part "buck/U12" "f35c90c1-2a45-5143-b81a-75852c4ac511"
+  (id "ce32de8e")
   (nets "SW_L2" "SW_L1")
 )
-(part "buck/R44" "01761bec-6ab9-599d-8eff-2cea34306438"
-  (id "d8c5e75f")
+(part "buck/R58" "01761bec-6ab9-599d-8eff-2cea34306438"
+  (id "c1f453b2")
   (nets "FB" "VOUT")
 )
-(part "buck/R45" "608dac81-6027-5b02-8462-3de5c64e48c3"
-  (id "a5db8a06")
+(part "buck/R59" "608dac81-6027-5b02-8462-3de5c64e48c3"
+  (id "c12099b4")
   (nets "FB" "GND")
 )
-(part "buck/R46" "c8d71c37-430c-5c6b-b640-f4836250861b"
-  (id "cf6e4768")
+(part "buck/R60" "c8d71c37-430c-5c6b-b640-f4836250861b"
+  (id "a21fc0ae")
   (nets "PG" "VOUT")
 )
-(part "ldo/U14" "b7938f35-197c-5742-9014-ef453aa774a3"
-  (id "d1a7e0df")
+(part "ldo/U13" "b7938f35-197c-5742-9014-ef453aa774a3"
+  (id "c86a0ba8")
   (nets "GND" "VOUT" "VIN" "EN")
   (manufacturer "Texas Instruments")
   (mpn "LP5907MFX-1.8/NOPB")
 )
-(part "ldo/C110" "8257e1fb-9b01-4993-bb3d-c60b3714e585"
-  (id "ea817700")
-  (nets "GND" "VIN.U14.IN")
+(part "ldo/C130" "8257e1fb-9b01-4993-bb3d-c60b3714e585"
+  (id "ec72672c")
+  (nets "GND" "VIN.U13.IN")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "ldo/C111" "6669e0c3-97ae-4723-9949-00559231a39e"
-  (id "b9a202ed")
-  (nets "VOUT.U14.OUT" "GND")
+(part "ldo/C131" "6669e0c3-97ae-4723-9949-00559231a39e"
+  (id "efe4ffae")
+  (nets "VOUT.U13.OUT" "GND")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
+)
+(part "adc1/U14" "8d6c3e13-f8d5-4f76-bb86-26032228d2cb"
+  (id "a28bc502")
+  (nets "SDOD_RAW" "SDOB_RAW" "VREF" "AINC_N" "VCC" "SDOC_RAW" "SDI" "REGCAP" "GND" "GND" "GND" "GND" "GND" "CS" "VLOGIC" "AINB_P" "AINA_P" "AINA_N" "AIND_N" "SCK" "SDOA_RAW" "AINC_P" "AINB_N" "AIND_P")
+  (manufacturer "Analog Devices")
+  (mpn "AD7380-4BCPZ")
+)
+(part "adc1/C132" "9736d561-66da-4f68-95ba-664ce5474aaf"
+  (id "c2f8815c")
+  (nets "VCC" "GND")
+)
+(part "adc1/C133" "f7b676b7-b5b3-4f65-87b0-e3063bacbd49"
+  (id "b1b93749")
+  (nets "GND" "VLOGIC")
+)
+(part "adc1/C134" "d83e1231-9e54-48e5-b18c-353d7f1a4237"
+  (id "fac17d59")
+  (nets "REGCAP" "GND")
+)
+(part "adc1/C135" "a1083072-e789-4f7f-9048-dace476c08ab"
+  (id "a6ca3f44")
+  (nets "VREF" "GND")
+)
+(part "adc1/R61" "9e2e76ef-9131-4b79-8ab1-2265c83c22e8"
+  (id "e32da4f6")
+  (nets "VREF" "VCC")
+)
+(part "adc1/R62" "5aaee647-345b-47da-98fe-fa7952af0ce8"
+  (id "a7118b46")
+  (nets "AINA_EXT_P" "AINA_P")
+)
+(part "adc1/R63" "38fe6f96-7379-4523-b784-90355f760022"
+  (id "e26bb842")
+  (nets "AINA_EXT_N" "AINA_N")
+)
+(part "adc1/C136" "e3dccb0c-baa4-4dc9-8d06-04450e9a8e54"
+  (id "bef0f6fd")
+  (nets "GND" "AINA_P")
+)
+(part "adc1/C137" "ca349137-28ef-4176-9cdf-118680a2e528"
+  (id "ee425daa")
+  (nets "GND" "AINA_N")
+)
+(part "adc1/R64" "74fce518-c939-4f0b-9d0f-6bea5572f203"
+  (id "cb516bac")
+  (nets "AINB_P" "AINB_EXT_P")
+)
+(part "adc1/R65" "ef633e0b-4744-435f-891f-bee72ef8c7e5"
+  (id "d4f653ff")
+  (nets "AINB_EXT_N" "AINB_N")
+)
+(part "adc1/C138" "732a0ffb-db3d-4115-bd1e-6e52e0484bc0"
+  (id "daca0e89")
+  (nets "GND" "AINB_P")
+)
+(part "adc1/C139" "56bd3c5c-cbd6-4db7-8894-557d0d104d14"
+  (id "daa4c6f9")
+  (nets "GND" "AINB_N")
+)
+(part "adc1/R66" "f5992e69-5c25-4eaf-aff1-b6c48f3dcd9c"
+  (id "b984e7af")
+  (nets "AINC_EXT_P" "AINC_P")
+)
+(part "adc1/R67" "ba01ca6c-c957-491a-b862-aef3d496aeeb"
+  (id "cb9178e8")
+  (nets "AINC_N" "AINC_EXT_N")
+)
+(part "adc1/C140" "4cb9045a-e22d-4dd4-8dca-9ba47127839e"
+  (id "fb84f72f")
+  (nets "GND" "AINC_P")
+)
+(part "adc1/C141" "8e312331-137b-40d0-9a83-3061f9731e51"
+  (id "ff220c11")
+  (nets "AINC_N" "GND")
+)
+(part "adc1/R68" "2535b2fa-3346-449a-9bef-ca7721eaf0da"
+  (id "f4d2d567")
+  (nets "AIND_EXT_P" "AIND_P")
+)
+(part "adc1/R69" "21aa407c-7c3c-4d7a-9f5e-cd6ed39acefc"
+  (id "c94abb7a")
+  (nets "AIND_EXT_N" "AIND_N")
+)
+(part "adc1/C142" "127d11ec-b4ba-43a2-8f82-9599a10741f0"
+  (id "c25e2e08")
+  (nets "GND" "AIND_P")
+)
+(part "adc1/C143" "cc9b8424-dd80-4f3f-ab77-057074be4e03"
+  (id "df8798cb")
+  (nets "GND" "AIND_N")
+)
+(part "adc1/R70" "7cd1c213-1726-409a-ae3f-07615de1873a"
+  (id "a25d2c88")
+  (nets "SDOA_RAW" "SDOA")
+)
+(part "adc1/R71" "28c4a8a3-48cb-49b2-a871-530b65b94a99"
+  (id "b8a6cad1")
+  (nets "SDOB_RAW" "SDOB")
+)
+(part "adc1/R72" "3414d5a5-a8c1-4ff4-a77f-4ace139b09d2"
+  (id "f4afce2b")
+  (nets "SDOC" "SDOC_RAW")
+)
+(part "adc1/R73" "4b6d0740-ab92-4ca2-9353-2d3da5d0c9af"
+  (id "f659c98f")
+  (nets "SDOD_RAW" "SDOD")
+)
+(part "adc2/U15" "59e046b9-e05b-4314-97ee-0703319603fa"
+  (id "baa5e02d")
+  (nets "SDOD_RAW" "SDOB_RAW" "VREF" "AINC_N" "VCC" "SDOC_RAW" "SDI" "REGCAP" "GND" "GND" "GND" "GND" "GND" "CS" "VLOGIC" "AINB_P" "AINA_P" "AINA_N" "AIND_N" "SCK" "SDOA_RAW" "AINC_P" "AINB_N" "AIND_P")
+  (manufacturer "Analog Devices")
+  (mpn "AD7380-4BCPZ")
+)
+(part "adc2/C144" "91ee7217-0b11-4e45-b37f-05a0a3402113"
+  (id "dd2503e7")
+  (nets "VCC" "GND")
+)
+(part "adc2/C145" "4c1aaa0e-54c4-4496-80cf-4a32c251924e"
+  (id "ca36f9c8")
+  (nets "GND" "VLOGIC")
+)
+(part "adc2/C146" "356d32bb-ffd0-4017-a111-914e06c9d9e6"
+  (id "c74b3bd8")
+  (nets "REGCAP" "GND")
+)
+(part "adc2/C147" "890a7705-f9e9-4c87-9f53-004b3418eed8"
+  (id "b408660f")
+  (nets "VREF" "GND")
+)
+(part "adc2/R74" "a755447f-1c5c-406c-bc2a-9dcb244a348f"
+  (id "f8ab2e5b")
+  (nets "VREF" "VCC")
+)
+(part "adc2/R75" "01d4ce54-36ef-48ab-bb17-1f4c0ce631e0"
+  (id "bf3f9ef3")
+  (nets "AINA_EXT_P" "AINA_P")
+)
+(part "adc2/R76" "71cbaa2c-7aff-4213-8b14-34bb48b18470"
+  (id "b522646d")
+  (nets "AINA_EXT_N" "AINA_N")
+)
+(part "adc2/C148" "83d1da99-1396-42af-9819-a7d778864614"
+  (id "f59847cf")
+  (nets "GND" "AINA_P")
+)
+(part "adc2/C149" "ac08cdd7-c629-44b6-9820-f65bb82350d9"
+  (id "c6da16fa")
+  (nets "GND" "AINA_N")
+)
+(part "adc2/R77" "f8ae360e-d994-4453-9936-073a7f7a5324"
+  (id "d7b8100d")
+  (nets "AINB_P" "AINB_EXT_P")
+)
+(part "adc2/R78" "0dfd0ddc-b5ac-4d8e-bd88-9ebc91cbd42b"
+  (id "ab7fd8ba")
+  (nets "AINB_EXT_N" "AINB_N")
+)
+(part "adc2/C150" "157d53e8-893f-42e3-9e21-85be44561695"
+  (id "e900522c")
+  (nets "GND" "AINB_P")
+)
+(part "adc2/C151" "d94771be-8a6d-4fc8-8f1f-a89675f850ca"
+  (id "d3180f6d")
+  (nets "GND" "AINB_N")
+)
+(part "adc2/R79" "7e7ad600-4b9b-4256-8b64-ca8db14d01f5"
+  (id "f27fff6d")
+  (nets "AINC_EXT_P" "AINC_P")
+)
+(part "adc2/R80" "df9cbcae-8abe-4fb6-825b-1ce21bd7fe6e"
+  (id "aeea20fe")
+  (nets "AINC_N" "AINC_EXT_N")
+)
+(part "adc2/C152" "61fd24ca-85c2-4a76-9a2d-271eb21910cb"
+  (id "d5317d0b")
+  (nets "GND" "AINC_P")
+)
+(part "adc2/C153" "a4807c65-85cb-416e-a44c-a8db3a39ff37"
+  (id "dc0aca97")
+  (nets "AINC_N" "GND")
+)
+(part "adc2/R81" "252b94f1-95f5-40fa-b0fc-87270a49da2a"
+  (id "fbf7f9f9")
+  (nets "AIND_EXT_P" "AIND_P")
+)
+(part "adc2/R82" "be5a7d63-ddb7-4e60-9c2e-dc1dd465389c"
+  (id "b8d5d7f7")
+  (nets "AIND_EXT_N" "AIND_N")
+)
+(part "adc2/C154" "b357adff-0715-45ee-bf3a-966c34c3fea8"
+  (id "d00c0bf7")
+  (nets "GND" "AIND_P")
+)
+(part "adc2/C155" "c2ad1ada-63b6-433b-b76e-7811d0746dc6"
+  (id "c4107fc2")
+  (nets "GND" "AIND_N")
+)
+(part "adc2/R83" "a7be788a-1687-427b-8d7d-8f5088a4ff4e"
+  (id "cb7490d2")
+  (nets "SDOA_RAW" "SDOA")
+)
+(part "adc2/R84" "bcdb12db-0be1-4900-8028-a73c4778a2a4"
+  (id "e4e4e92a")
+  (nets "SDOB_RAW" "SDOB")
+)
+(part "adc2/R85" "a348df08-5b52-431e-bad3-f7736e28f878"
+  (id "d0f5e48f")
+  (nets "SDOC" "SDOC_RAW")
+)
+(part "adc2/R86" "668b1786-3ece-45e8-a004-5f2cb64b9d13"
+  (id "d864cf61")
+  (nets "SDOD_RAW" "SDOD")
+)
+(part "adc3/U16" "8ad025e2-0531-4cf5-81c2-3b5f5569f6d3"
+  (id "c80e2bf8")
+  (nets "VLOGIC" "SDOB_RAW" "VREF" "AINA_P" "AINA_N" "AINB_P" "VCC" "SDI" "REGCAP" "SCK" "SDOA_RAW" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "CS" "AINB_N")
+  (manufacturer "Analog Devices")
+  (mpn "AD7380-4BCPZ")
+)
+(part "adc3/C156" "6a77fbce-a9ce-4418-8fea-0d06c291102a"
+  (id "a362f012")
+  (nets "VCC" "GND")
+)
+(part "adc3/C157" "146febd3-05ac-4a57-aa9a-c74d4f39a981"
+  (id "b663ee85")
+  (nets "VLOGIC" "GND")
+)
+(part "adc3/C158" "0752e5c9-1842-4628-9d5f-6a20b8b24d54"
+  (id "ffd7fc93")
+  (nets "REGCAP" "GND")
+)
+(part "adc3/C159" "d82d7be3-55b6-4e95-82b3-db8fae40e44c"
+  (id "c822eeba")
+  (nets "VREF" "GND")
+)
+(part "adc3/R87" "eaf348e7-9433-4e34-8723-36e3034db2b7"
+  (id "fece8b73")
+  (nets "VREF" "VCC")
+)
+(part "adc3/R88" "6af5e71e-30ef-45ef-8783-44a5882d9587"
+  (id "d43f6b73")
+  (nets "AINA_P" "AINA_EXT_P")
+)
+(part "adc3/R89" "efe15bfc-09ef-4115-9d61-e9bf4b4c4288"
+  (id "f483af5d")
+  (nets "AINA_N" "AINA_EXT_N")
+)
+(part "adc3/C160" "9a3d6659-c2ff-40b7-9b7f-9ea56006bab3"
+  (id "ba7fe85d")
+  (nets "AINA_P" "GND")
+)
+(part "adc3/C161" "7f2e2d40-87eb-4410-907f-5927183684eb"
+  (id "b52801d3")
+  (nets "AINA_N" "GND")
+)
+(part "adc3/R90" "f2658c7c-9710-449f-8696-7cc84bb93099"
+  (id "fad9397b")
+  (nets "AINB_P" "AINB_EXT_P")
+)
+(part "adc3/R91" "1a688820-b13d-4c93-aa0b-b1d8d5c8d2db"
+  (id "fa7d96cb")
+  (nets "AINB_EXT_N" "AINB_N")
+)
+(part "adc3/C162" "86fa8cdf-976e-4ecb-b4f1-8b77efcf159e"
+  (id "e6f2a532")
+  (nets "AINB_P" "GND")
+)
+(part "adc3/C163" "b3c7e599-7dd8-4a4c-a383-388f449fab8b"
+  (id "a38fc31c")
+  (nets "GND" "AINB_N")
+)
+(part "adc3/R92" "71bdf5df-2d02-4d17-8caa-a95a577c96a8"
+  (id "c5d1fd38")
+  (nets "SDOA_RAW" "SDOA")
+)
+(part "adc3/R93" "34449994-f662-4a4a-875c-c72a14734815"
+  (id "afd1ba04")
+  (nets "SDOB_RAW" "SDOB")
 )
