@@ -1,0 +1,22 @@
+(footprint "436331045822"
+  (description "436331045822-3")
+
+  (pad 1 smd rect (pos 2.80 -1.35) (size 1.20 1.00))
+  (pad 2 smd rect (pos 2.80 0.35) (size 1.20 1.00))
+  (pad 3 smd rect (pos -2.80 -1.35) (size 1.20 1.00))
+  (pad 4 smd rect (pos -2.80 0.35) (size 1.20 1.00))
+  (pad MH1 npth circle (pos 0.00 -1.88) (size 0.75 0.75) (drill 0.75))
+  (pad MH2 npth circle (pos 0.00 0.88) (size 0.75 0.75) (drill 0.75))
+  (courtyard (rect -4.400 -3.250 4.400 3.250))
+  (silkscreen
+    (line (-2.35 1.25) (-0.60 1.25))
+    (line (0.60 1.25) (2.35 1.25))
+    (line (-1.30 1.25) (-1.30 2.25))
+    (line (-1.30 2.25) (1.30 2.25))
+    (line (1.30 2.25) (1.30 1.25))
+    (line (-2.35 -2.25) (-0.60 -2.25))
+    (line (0.60 -2.25) (2.35 -2.25))
+    (line (3.80 -1.35) (3.80 -1.35))
+    (line (3.90 -1.35) (3.90 -1.35))
+  )
+)
