@@ -3,12 +3,15 @@
         res-0402 ind-1616 ind-2016 ferrite-0402
         abm8 fc-135 ecmf02-2amx6 usb4235-03-c
         mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
+        diode-sod323
         icm-20948 204928-0601
         res-0201
         ad7380-channel
         ad7380-channel-2ch
         a-wurth-wa-smsi-9774020633r
-        connector-swd
+        connector-swd-6
+        connector-motor
+        sw-ws-tasu-436331045822
         fh12-10s-0-5sh-55-
         ao3400a
         ltc6655bhms8-2-5#pbf
@@ -74,7 +77,8 @@
       (group "Boot & Reset")
       (pin F2 "NRST")
       (pin A1 "VDDA18AON")
-      (pin F4 "BOOT0"))
+      (pin F4 "BOOT0")
+      (pin H4 (as "PC13" "PWR_WKUP3") "PWR_BTN"))
 
     ;; SWD Debug
     (pins "stm32"
@@ -123,16 +127,27 @@
       (pin 1 "NRST")
       (pin 2 "GND") (id f8bfd5d5))
 
+    ;; Power button — SPST side-push tact switch on PC13/PWR_WKUP3.
+    ;; COM tied to GND via switch closure; GPIO pulled up to VDD with RC debounce.
+    (instance "SW2" sw-ws-tasu-436331045822
+      (pin 1 3 "PWR_BTN")
+      (pin 2 4 "GND") (id f8bfd5d6))
+    (series "R_PWR_BTN" (res-0402 "10k") "PWR_BTN" "VDD" (id f8bfd5d7))
+    (series "C_PWR_BTN" (cap-0402 "100nF") "PWR_BTN" "GND" (id f8bfd5d8))
+    (note "SW2 wired as active-low: press pulls PC13 to GND. PC13=PWR_WKUP3 can wake from Standby.")
+    (note "PC13 is in the backup domain — firmware must disable RTC tamper functions before using as GPIO input.")
+
     ;; SWD series dampers and header
     (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
     (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK" (id e624ddcc))
     (series "R6" (res-0402 "33R") "SWO_MCU" "SWO" (id cf985c4e))
-    (instance "swd-hdr" connector-swd
+    (instance "swd-hdr" connector-swd-6
       (pin 1 "VDD")
       (pin 2 "SWDIO")
       (pin 3 "SWCLK")
       (pin 4 "SWO")
-      (pin 5 "GND") (id c0de5wd5))
+      (pin 5 "NRST")
+      (pin 6 "GND") (id c0de5wd6))
 
     ;; HSE — 24 MHz crystal
     (instance "hse" abm8
@@ -542,6 +557,26 @@
     (note "Backlight current: R_BL (15Ω) sets ~20 mA at 3.3V with LED Vf≈3.0V typ — unit-to-unit brightness may vary at worst-case Vf=3.3V. Move R_BL to a 5V rail + ~100Ω if uniform brightness matters.")
     (note "R_BL_PD (10k pull-down) keeps Q_BL gate low while the STM32 boots, so backlight stays off until firmware drives it.")
     (note "MP_1/MP_2 FPC board-lock tabs tied to GND."))
+
+  (section "Vibration Motor" "Coin/pager vibration motor (3.3V, ≤27mA) driven low-side by AO3400A N-MOSFET with Schottky flyback clamp"
+    (role output)
+    (port "VDD" in power 3.3)
+    (pins "stm32"
+      (pin D9 (as "PE5" "TIM4_CH1") "VIB_PWM"))
+    (instance "motor" connector-motor
+      (pin 1 "VDD")
+      (pin 2 "VIB_DRAIN") (id v1b10001))
+    (instance "Q_VIB" ao3400a
+      (pin 1 "VIB_GATE")
+      (pin 2 "GND")
+      (pin 3 "VIB_DRAIN") (id v1b10002))
+    (series "R_VIB_G"  (res-0402 "100R") "VIB_PWM"  "VIB_GATE" (id v1b10003))
+    (series "R_VIB_PD" (res-0402 "100k") "VIB_GATE" "GND"      (id v1b10004))
+    (series "D_VIB" (diode-sod323 "SS14") "VDD" "VIB_DRAIN" (id v1b10005))
+    (note "AO3400A is a logic-level N-MOSFET (5.8A / 30V, Vgs(th) 1.3V typ, Rds(on) ≈25mΩ @ Vgs=3V). At 27mA the drop is <1mV — effectively zero.")
+    (note "Flyback diode D_VIB (SS14 Schottky, cathode to VDD) clamps the motor's back-EMF when the FET turns off. Without it the drain node would fly above VDD and stress Q_VIB.")
+    (note "R_VIB_G (100Ω) damps gate ringing; R_VIB_PD (100k) holds the gate low while the STM32 boots so the motor stays off until firmware drives it.")
+    (note "VIB_PWM on TIM4_CH1 (PE5) — firmware can PWM at 1–20 kHz to modulate intensity. Hard on/off also works fine."))
 
   (section "Mounting" "PCB standoffs"
     (instance "H1" a-wurth-wa-smsi-9774020633r
