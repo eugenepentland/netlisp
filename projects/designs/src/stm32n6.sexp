@@ -559,7 +559,7 @@
     (role output)
     (port "VDD" in power 3.3)
     (pins "stm32"
-      (pin D9 (as "PE5" "TIM4_CH1") "VIB_PWM"))
+      (pin B16 (as "PB2" "TIM1_CH1") "VIB_PWM"))
     (instance "motor" connector-motor
       (pin 1 "VDD")
       (pin 2 "VIB_DRAIN") (id v1b10001))
@@ -573,7 +573,7 @@
     (note "AO3400A is a logic-level N-MOSFET (5.8A / 30V, Vgs(th) 1.3V typ, Rds(on) ≈25mΩ @ Vgs=3V). At 27mA the drop is <1mV — effectively zero.")
     (note "Flyback diode D_VIB (SS14 Schottky, cathode to VDD) clamps the motor's back-EMF when the FET turns off. Without it the drain node would fly above VDD and stress Q_VIB.")
     (note "R_VIB_G (100Ω) damps gate ringing; R_VIB_PD (100k) holds the gate low while the STM32 boots so the motor stays off until firmware drives it.")
-    (note "VIB_PWM on TIM4_CH1 (PE5) — firmware can PWM at 1–20 kHz to modulate intensity. Hard on/off also works fine."))
+    (note "VIB_PWM on TIM1_CH1 (PB2) — firmware can PWM at 1–20 kHz to modulate intensity. Hard on/off also works fine."))
 
   (section "Mounting" "PCB standoffs"
     (instance "H1" a-wurth-wa-smsi-9774020633r

@@ -1,4 +1,4 @@
 (component "connector-motor"
-  (description "2-pin solder pad for vibration motor wires with strain-relief anchor holes")
+  (description "2-pin SMT solder pad for thin vibration-motor wires (~30 AWG), 1.5mm pitch")
   (pinout connector-motor)
-  (footprint battery-wire-pad))
+  (footprint motor-wire-pad-smt))
