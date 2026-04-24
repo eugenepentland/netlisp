@@ -79,21 +79,21 @@
     ;; SWD Debug
     (pins "stm32"
       (group "SWD Debug")
-      (pin W7 "SWDIO_MCU")
-      (pin V7 "SWCLK_MCU")
-      (pin T14 "SWO_MCU"))
+      (pin W7 (as "DEBUG_JTMS-SWDIO") "SWDIO_MCU")
+      (pin V7 (as "DEBUG_JTCK-SWCLK") "SWCLK_MCU")
+      (pin T14 (as "DEBUG_JTDO-SWO") "SWO_MCU"))
 
     ;; HSE (Main Clock) — 24 MHz crystal for USB HS PHY
     (pins "stm32"
       (group "HSE Clock")
-      (pin A5 "OSC_IN")
-      (pin B5 "OSC_OUT"))
+      (pin A5 (as "RCC_OSC_IN") "OSC_IN")
+      (pin B5 (as "RCC_OSC_OUT") "OSC_OUT"))
 
     ;; LSE (RTC Clock) — 32.768 kHz crystal
     (pins "stm32"
       (group "LSE Clock")
-      (pin E1 "OSC32_IN")
-      (pin D1 "OSC32_OUT"))
+      (pin E1 (as "RCC_OSC32_IN") "OSC32_IN")
+      (pin D1 (as "RCC_OSC32_OUT") "OSC32_OUT"))
 
     ;; Decoupling and filters
     (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
@@ -162,8 +162,8 @@
     (pins "stm32"
       (pin D4 "VDDA18USB" (i-typ 0.025) (i-max 0.04))
       (pin C3 "VDD33USB" (i-typ 0.025) (i-max 0.04))
-      (pin C1 "USB_DP")
-      (pin C2 "USB_DN")
+      (pin C1 (as "USB2_OTG_HS_DP") "USB_DP")
+      (pin C2 (as "USB2_OTG_HS_DM") "USB_DN")
       (pin E2 "TXRTUNE"))
     (instance "usb-esd" ecmf02-2amx6
       (pin D_1 "USB_DP")
@@ -189,10 +189,10 @@
     (port "VDDIO3" in power 1.8)
     (port "NRST" in signal role reset)
     (pins "stm32"
-      (pin PN1 "FLASH_NCS")
-      (pin PN6 "FLASH_CLK")
-      (pin PN0 "FLASH_DQS")
-      (bus "FLASH_IO" PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11))
+      (pin PN1 (as "XSPIM_P2_NCS1") "FLASH_NCS")
+      (pin PN6 (as "XSPIM_P2_CLK")  "FLASH_CLK")
+      (pin PN0 (as "XSPIM_P2_DQS0") "FLASH_DQS")
+      (bus "FLASH_IO" (as-prefix "XSPIM_P2_IO") PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11))
     (instance "flash" mx66uw1g45gxdi00
       (pin VCC VCCQ__1 VCCQ "VDDIO3")
       (pin GND VSSQ VSSQ__1 "GND")
@@ -212,11 +212,12 @@
     (protocol OctoSPI)
     (port "VDDIO2" in power 1.8)
     (pins "stm32"
-      (pin PO0 "PSRAM_NCS")
-      (pin PO4 "PSRAM_CLK")
-      (pin PO2 "PSRAM_DQS0")
-      (pin PO3 "PSRAM_DQS1")
-      (bus "PSRAM_IO" PP0 PP1 PP2 PP3 PP4 PP5 PP6 PP7
+      (pin PO0 (as "XSPIM_P1_NCS1") "PSRAM_NCS")
+      (pin PO4 (as "XSPIM_P1_CLK")  "PSRAM_CLK")
+      (pin PO2 (as "XSPIM_P1_DQS0") "PSRAM_DQS0")
+      (pin PO3 (as "XSPIM_P1_DQS1") "PSRAM_DQS1")
+      (bus "PSRAM_IO" (as-prefix "XSPIM_P1_IO")
+                      PP0 PP1 PP2 PP3 PP4 PP5 PP6 PP7
                       PP8 PP9 PP10 PP11 PP12 PP13 PP14 PP15))
     (instance "psram" aps256xxn-ob9-bg
       (pin VDD_1 VDD_2 "VDDIO2")
@@ -240,8 +241,8 @@
       (pin T1 (as "SPI5_MOSI") "IMU_MOSI")
       (pin U2 (as "SPI5_MISO") "IMU_MISO")
       (pin V1 (as "SPI5_NSS")  "IMU_NCS")
-      (pin T4 "IMU_INT1")
-      (pin R4 "IMU_FSYNC"))
+      (pin T4 (as "PG4") "IMU_INT1")
+      (pin R4 (as "PF8") "IMU_FSYNC"))
     (instance "imu" icm-20948
       (pin SCLK "IMU_SCK")
       (pin SDI "IMU_MOSI")
@@ -274,18 +275,18 @@
       (pin V10 (as "SPI6_SCK")  "RF_SPI_SCK")
       (pin T7  (as "SPI6_MOSI") "RF_SPI_MOSI")
       (pin W15 (as "SPI6_MISO") "RF_SPI_MISO")
-      (pin T8  "CS_IO_EXP")
-      ;; DDM-MIMO phase code outputs
-      (pin W18 "TXDATA_1")
-      (pin W17 "TXDATA_2")
-      ;; BPSK loop-filter gate drives
-      (pin W16 "BPSK_GATE_1")
-      (pin W14 "BPSK_GATE_2")
-      ;; ADAR2004 multiplier + receiver hardware step lines
-      (pin W13 "MRST")
-      (pin W11 "MADV")
-      (pin W9  "RxRST")
-      (pin W8  "RxADV"))
+      (pin T8  (as "PA11") "CS_IO_EXP")
+      ;; DDM-MIMO phase code outputs — plain GPIO (primary function)
+      (pin W18 (as "PN12") "TXDATA_1")
+      (pin W17 (as "PA4")  "TXDATA_2")
+      ;; BPSK loop-filter gate drives — plain GPIO
+      (pin W16 (as "PG11") "BPSK_GATE_1")
+      (pin W14 (as "PG2")  "BPSK_GATE_2")
+      ;; ADAR2004 multiplier + receiver hardware step lines — plain GPIO
+      (pin W13 (as "PB12") "MRST")
+      (pin W11 (as "PG13") "MADV")
+      (pin W9  (as "PA10") "RxRST")
+      (pin W8  (as "PG15") "RxADV"))
     (instance "expansion" 204928-0601
       ;; Even pins — power, SPI3, radar control, GND
       (pin 4 6 8 10 "VBATT")
@@ -357,7 +358,7 @@
 
   ;; STM32 GPIO for charger enable control
   (pins "stm32"
-    (pin T11 "CHG_EN"))
+    (pin T11 (as "PG1") "CHG_EN"))
   ;; 1.8V analog supplies — ferrite bead filtered
   (series "FB1" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18AON" (id a1fb0001))
   (series "FB2" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18PLL" (id a1fb0002))
@@ -404,15 +405,16 @@
     (pins "stm32"
       ;; T9 is the sole ADC_SCK driver: bit-banged GPIO during Phase-1 config,
       ;; TIM1_CH1 PWM during Phase-2 4 MSPS streaming.
-      (pin T9  (as "TIM1_CH1")  "ADC_SCK_DRV")
+      ;; Dual-role: bit-banged GPIO (PA8) during Phase-1, TIM1_CH1 PWM during Phase-2.
+      (pin T9  (as "PA8" "TIM1_CH1")  "ADC_SCK_DRV")
       ;; Shared config path: V15 bit-banged as GPIO fans out to all three ADC SDI pins.
-      (pin V15 "ADC_SDI")
+      (pin V15 (as "PA7") "ADC_SDI")
       ;; PSSI clock input — externally looped back from ADC_SCK.
       (pin T10 (as "PSSI_PDCK") "ADC_PDCK")
       ;; Per-ADC CS lines: Phase-1 GPIO output, Phase-2 TIM1_CHx hardware pulse.
-      (pin D8  (as "TIM1_CH2")  "ADC1_CS")
-      (pin A9  (as "TIM1_CH3")  "ADC2_CS")
-      (pin F9  (as "TIM1_CH4")  "ADC3_CS")
+      (pin D8  (as "PE11" "TIM1_CH2")  "ADC1_CS")
+      (pin A9  (as "PE13" "TIM1_CH3")  "ADC2_CS")
+      (pin F9  (as "PE14" "TIM1_CH4")  "ADC3_CS")
       ;; PSSI data lanes. SDOA of each ADC doubles as GPIO input for Phase-1 register readback.
       ;; ADC1 + ADC2 SDOs are on row A/B BGA edge balls for short fanout; lanes are
       ;; non-contiguous (D0/D5 don't exist on A/B), so firmware must demux by lane index.
@@ -508,9 +510,9 @@
     (pins "stm32"
       (pin D10 (as "SPI4_SCK")  "DISP_SCK")
       (pin E16 (as "SPI4_MOSI") "DISP_MOSI")
-      (pin F10 "DISP_NCS")
-      (pin D11 "DISP_NRST")
-      (pin D14 "DISP_DC")
+      (pin F10 (as "PE15") "DISP_NCS")
+      (pin D11 (as "PD10") "DISP_NRST")
+      (pin D14 (as "PE10") "DISP_DC")
       (pin D16 (as "TIM4_CH2") "DISP_BL_EN"))
     (instance "disp" fh12-10s-0-5sh-55-
       (pin 1 "DISP_LEDK")
