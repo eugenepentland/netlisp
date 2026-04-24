@@ -21,7 +21,9 @@
   (port "VIN" in (rated 2.2 5.5))
   (port "EN" in)
   ;; LP5912: 500mA max continuous. Typical headroom ~400mA to stay inside thermal budget.
-  (port "VOUT" out (nominal 1.8) (rated 1.7 1.9) (current 0.4 0.5))
+  ;; `linear` tells the power-budget analyzer to compute η = Vout/Vin, which collapses
+  ;; to Iin ≈ Iout — correct for any LDO regardless of what rail VIN ends up tied to.
+  (port "VOUT" out (nominal 1.8) (rated 1.7 1.9) (current 0.4 0.5) (efficiency linear) (enable "EN"))
   (port "LDO_PG" out optional)
   (port "GND" bidi)
 

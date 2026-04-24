@@ -211,7 +211,7 @@
   (manufacturer "Yageo")
   (mpn "RC0402FR-0733RL")
 )
-(part "J1" "286f1b86-92d8-4c9d-aa4b-c6044aebcde2"
+(part "J2" "286f1b86-92d8-4c9d-aa4b-c6044aebcde2"
   (id "c0de5wd5")
   (nets "SWCLK" "VDD" "GND" "SWO" "SWDIO")
 )
@@ -257,7 +257,7 @@
   (manufacturer "STMicroelectronics")
   (mpn "ECMF02-2AMX6")
 )
-(part "J2" "b6a24443-da9b-5238-892f-81aaa4d99d17"
+(part "J3" "b6a24443-da9b-5238-892f-81aaa4d99d17"
   (id "ca29d420")
   (nets "USB_CONN_DP" "USB_CONN_DP" "USB_CONN_DN" "USB_CONN_DN" "GND" "GND" "GND" "GND" "GND" "GND" "CC1" "VBUS" "VBUS" "VBUS" "VBUS" "CC2")
 )
@@ -421,10 +421,6 @@
   (id "aabbcc08")
   (nets "PWR_ON")
 )
-(part "J3" "368d326d-6f44-436a-adf6-7a9fb9aa5e30"
-  (id "ba77e12a")
-  (nets "GND" "VBATT")
-)
 (part "U10" "cf10e4ff-1a0e-5e95-9708-6a8658264da6"
   (id "d15p0001")
   (nets "DISP_DC" "DISP_NRST" "VDD" "VDD" "GND" "GND" "GND" "DISP_NCS" "DISP_SCK" "DISP_MOSI" "DISP_LEDK" "DISP_LEDA")
@@ -462,6 +458,10 @@
   (nets "GND")
   (manufacturer "Wurth Elektronik")
   (mpn "9774020633R")
+)
+(part "battery/J4" "368d326d-6f44-436a-adf6-7a9fb9aa5e30"
+  (id "ca03a8ae")
+  (nets "VBATT" "GND")
 )
 (part "charger/U11" "63eb9809-23e1-482b-a48d-e4e93312568f"
   (id "e3bccbf8")

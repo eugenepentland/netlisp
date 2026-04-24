@@ -31,7 +31,8 @@
 
   (port "VIN" in)
   ;; TPS63806 rated for 2A continuous at 3.3V out. Typical duty budget 1.5A.
-  (port "VOUT" out (current 1.5 2.0))
+  ;; Datasheet efficiency ~90% at 3.7 Vin → 3.3 Vout, mid-load.
+  (port "VOUT" out (nominal 3.3) (current 1.5 2.0) (efficiency 0.9) (enable "VIN"))
   (port "PG" out)
   (port "GND" bidi)
 
