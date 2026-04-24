@@ -192,10 +192,6 @@
   (id "d44c84c9")
   (nets "GND" "BOOT0")
 )
-(part "SW1" "033cb2cc-f665-5692-9950-f3adbfea488d"
-  (id "f8bfd5d5")
-  (nets "GND" "NRST")
-)
 (part "SW2" "dceb8ce0-72ab-5ac0-880f-d75e9a7b3d05"
   (id "f8bfd5d6")
   (nets "GND" "GND" "PWR_BTN" "PWR_BTN")

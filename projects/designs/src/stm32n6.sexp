@@ -123,9 +123,6 @@
     ;; Boot & Reset passives and switch
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
     (series "R_BOOT0" (res-0201 "10k") "BOOT0" "GND" (id d44c84c9))
-    (instance "SW1" (res-0402 "0R")
-      (pin 1 "NRST")
-      (pin 2 "GND") (id f8bfd5d5))
 
     ;; Power button — SPST side-push tact switch on PC13/PWR_WKUP3.
     ;; COM tied to GND via switch closure; GPIO pulled up to VDD with RC debounce.

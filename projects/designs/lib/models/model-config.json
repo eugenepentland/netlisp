@@ -12,5 +12,6 @@
   "dsbga-15":{"model":"tps63806yffr.step","offset":[0,0,0],"rotation":[0,0,0]},
   "abm810000mhz12d2w":{"model":"abm8-24-000mhz-10-b1u-t.step","offset":[0,0,0],"rotation":[0,0,0]},
   "a-wurth-wa-smsi-9774020633r":{"offset":[0,0,0],"rotation":[0,0,0]},
-  "conn-8p94x3p16x6p50-16l-gct":{"offset":[0,0,0],"rotation":[90,0,0]}
+  "conn-8p94x3p16x6p50-16l-gct":{"offset":[0,0,0],"rotation":[90,0,0]},
+  "436331045822":{"offset":[0,-0.5,0],"rotation":[0,0,270]}
 }
