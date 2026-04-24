@@ -8,7 +8,7 @@
         ad7380-channel
         ad7380-channel-2ch
         a-wurth-wa-smsi-9774020633r
-        connector-swd connector-battery
+        connector-swd
         fh12-10s-0-5sh-55-
         ao3400a
         ltc6655bhms8-2-5#pbf
@@ -325,7 +325,9 @@
     (note "CS_IO_EXP, TXDATA_1/2, BPSK_GATE_1/2, MRST/MADV, RxRST/RxADV are plain GPIOs — firmware must be able to toggle between chirps but no hardware timer needed."))
 
   ;; === Power Chain (design blocks) ===
-  ;; VBUS -> charger -> VBATT -> buck -> VDD (3.3V) -> ldo -> V1P8 (1.8V)
+  ;; battery -> VBATT -> buck -> VDD (3.3V) -> ldo -> V1P8 (1.8V)
+  ;; charger trickle-charges VBATT from VBUS when USB is plugged in.
+  (sub-block "battery" "blocks/battery-1s-lipo.sexp")
   (sub-block "charger" "blocks/charger.sexp")
   (sub-block "buck" "blocks/buck-boost.sexp")
   (sub-block "ldo" "blocks/ldo.sexp")
@@ -334,11 +336,11 @@
   ;; one consolidated (net ...) form so the validator doesn't flag them as
   ;; split across multiple sections.
   (net "GND"    "VSSA" "VSSAON" "VSSAPMU" "VSSSMPS"
-                "charger/GND" "buck/GND" "ldo/GND"
+                "battery/GND" "charger/GND" "buck/GND" "ldo/GND"
                 "adc1/GND"    "adc2/GND"    "adc3/GND"
                 (id fd3769fb) (id a3355d70) (id c1d107cc))
   (net "VBUS"   "charger/VBUS")
-  (net "VBATT"  "charger/VBATT" "buck/VIN")
+  (net "VBATT"  "battery/VBATT" "charger/VBATT" "buck/VIN")
   (net "VDD"    "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4"
                 "adc1/VCC"    "adc2/VCC"    "adc3/VCC")
   (net "PG_3V3" "buck/PG" "ldo/EN")
@@ -483,11 +485,14 @@
     (instance "TP7" testpoint (pin 1 "BOOT0")   (id aabbcc07))
     (instance "TP8" testpoint (pin 1 "PWR_ON")  (id aabbcc08)))
 
-  (section "Battery Connector" "Solder pads with strain relief for LiPo wires"
-    (port "VBATT" out (rated 3.0 4.2))
-    (instance "batt" connector-battery
-      (pin 1 "VBATT")
-      (pin 2 "GND") (id ba77e12a)))
+  (note "TP1" "Battery voltage — expect 3.0–4.2V when LiPo attached")
+  (note "TP2" "3.3V main rail from buck — first probe point when bring-up fails")
+  (note "TP3" "1.8V analog/PLL rail from LDO — only live once PG_3V3 asserts")
+  (note "TP4" "0.8V core from STM32 internal SMPS — comes up only after VDD is stable")
+  (note "TP5" "MCU reset line — low during reset, high when MCU is running")
+  (note "TP6" "Buck power-good — high means VDD is in regulation and LDO is enabled")
+  (note "TP7" "Boot mode select — pull high to force system bootloader on power-up")
+  (note "TP8" "STM32 PWR_ON output — drives downstream regulator enables")
 
   (section "Display" "0.96\" ST7735S 80×160 TFT on 10-pin 0.5mm FPC — 4-wire SPI (write-only), PWM-dimmable backlight"
     (role output)
