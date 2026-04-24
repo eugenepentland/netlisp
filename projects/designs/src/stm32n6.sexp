@@ -18,7 +18,7 @@
 
   (instance "stm32" stm32n657l0h3q (id b22d91d5))
 
-  (section "STM32N657L0H3Q" "ARM Cortex-M55 MCU"
+  (section "STM32N657L0H3Q Core System" "ARM Cortex-M55 MCU - Minimum Hardware Requirements"
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
     (port "NRST" out signal role reset)
@@ -96,56 +96,57 @@
         (pin 1 "NRST")
         (pin 2 "GND") (id f8bfd5d5))
       (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
-      (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)")))
+      (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
 
-  (section "SWD Debug"
-    (role output)
-    (protocol SWD)
-    (port "VDD" in power 3.3)
-    (pins "stm32"
-      (pin W7 "SWDIO_MCU")
-      (pin V7 "SWCLK_MCU")
-      (pin T14 "SWO_MCU"))
-    (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
-    (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK" (id e624ddcc))
-    (series "R6" (res-0402 "33R") "SWO_MCU" "SWO" (id cf985c4e))
-    (instance "swd-hdr" connector-swd
-      (pin 1 "VDD")
-      (pin 2 "SWDIO")
-      (pin 3 "SWCLK")
-      (pin 4 "SWO")
-      (pin 5 "GND") (id c0de5wd5)))
+    (section "SWD Debug"
+      (role output)
+      (protocol SWD)
+      (port "VDD" in power 3.3)
+      (pins "stm32"
+        (pin W7 "SWDIO_MCU")
+        (pin V7 "SWCLK_MCU")
+        (pin T14 "SWO_MCU"))
+      (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
+      (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK" (id e624ddcc))
+      (series "R6" (res-0402 "33R") "SWO_MCU" "SWO" (id cf985c4e))
+      (instance "swd-hdr" connector-swd
+        (pin 1 "VDD")
+        (pin 2 "SWDIO")
+        (pin 3 "SWCLK")
+        (pin 4 "SWO")
+        (pin 5 "GND") (id c0de5wd5)))
 
-  (section "HSE (Main Clock)" "24 MHz crystal for USB HS PHY"
-    (port "V1P8" in power 1.8)
-    (port "OSC_IN" out clock)
-    (calc "Load capacitors"
-      (let cl 10.0)
-      (let cstray 5.0)
-      (let cload (* 2.0 (- cl cstray))))
-    (pins "stm32"
-      (pin A5 "OSC_IN")
-      (pin B5 "OSC_OUT"))
-    (instance "hse" abm8
-      (pin X1 "OSC_IN")
-      (pin GND_1 GND_2 "GND")
-      (pin X2 "OSC_OUT") (id a4b23ed4))
-    (series (cap-0402 "10pF" np0) "OSC_IN" "GND" "OSC_OUT" "GND" (id b5986a13)))
+    (section "HSE (Main Clock)" "24 MHz crystal for USB HS PHY"
+      (port "V1P8" in power 1.8)
+      (port "OSC_IN" out clock)
+      (calc "Load capacitors"
+        (let cl 10.0)
+        (let cstray 5.0)
+        (let cload (* 2.0 (- cl cstray))))
+      (pins "stm32"
+        (pin A5 "OSC_IN")
+        (pin B5 "OSC_OUT"))
+      (instance "hse" abm8
+        (pin X1 "OSC_IN")
+        (pin GND_1 GND_2 "GND")
+        (pin X2 "OSC_OUT") (id a4b23ed4))
+      (series (cap-0402 "10pF" np0) "OSC_IN" "GND" "OSC_OUT" "GND" (id b5986a13)))
 
-  (section "LSE (RTC Clock)" "32.768 kHz crystal"
-    (port "V1P8" in power 1.8)
-    (port "OSC32_IN" out clock)
-    (calc "Load capacitors"
-      (let cl 7.0)
-      (let cstray 3.0)
-      (let cload (* 2.0 (- cl cstray))))
-    (pins "stm32"
-      (pin E1 "OSC32_IN")
-      (pin D1 "OSC32_OUT"))
-    (instance "lse" fc-135
-      (pin 1 "OSC32_IN")
-      (pin 2 "OSC32_OUT") (id b2a39445))
-    (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54)))
+    (section "LSE (RTC Clock)" "32.768 kHz crystal"
+      (port "V1P8" in power 1.8)
+      (port "OSC32_IN" out clock)
+      (calc "Load capacitors"
+        (let cl 7.0)
+        (let cstray 3.0)
+        (let cload (* 2.0 (- cl cstray))))
+      (pins "stm32"
+        (pin E1 "OSC32_IN")
+        (pin D1 "OSC32_OUT"))
+      (instance "lse" fc-135
+        (pin 1 "OSC32_IN")
+        (pin 2 "OSC32_OUT") (id b2a39445))
+      (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54)))
+  )
 
   (section "USB" "USB 2.0 High-Speed with Type-C connector (USB4235-03-C)"
     (role input)
