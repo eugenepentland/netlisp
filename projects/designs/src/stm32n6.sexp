@@ -21,132 +21,138 @@
   (section "STM32N657L0H3Q Core System" "ARM Cortex-M55 MCU - Minimum Hardware Requirements"
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
+    (port "VDDCORE" out power 0.8)
     (port "NRST" out signal role reset)
 
-    (section "VDD Power"
-      (pins "stm32"
-        (pin J14 K14 L14 "VDD" (i-typ 0.08) (i-max 0.15))
-        (pin F1 "VDD" (i-typ 0.0001) (i-max 0.001))
-        (pin H6 "VDDA18AON" (i-typ 0.0001) (i-max 0.005))
-        (pin A19 F12 H14 N16 P8 P12 P14 W1 W19 "GND")
-        (pin N6 "VSSA")
-        (pin G6 "VSSAON")
-        (pin H2 "VSSAPMU"))
-      (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
-      (note "F1 (VBAT) tied to VDD — LiPo 4.2V exceeds VBAT max (3.6V), so backup domain only active when VDD is up"))
+    (calc "HSE load capacitors"
+      (let cl 10.0)
+      (let cstray 5.0)
+      (let cload (* 2.0 (- cl cstray))))
+    (calc "LSE load capacitors"
+      (let cl 7.0)
+      (let cstray 3.0)
+      (let cload (* 2.0 (- cl cstray))))
 
-    (section "SMPS Power" "Internal 0.8V core regulator"
-      (port "VDD" in power 3.3)
-      (port "VDDCORE" out power 0.8)
-      (pins "stm32"
-        (pin H1 "VDDA18PMU" (i-typ 0.005) (i-max 0.01))
-        (pin L1 L2 L3 L4 L5 "VDDSMPS" (i-typ 0.08) (i-max 0.2))
-        (pin K1 K2 K3 K4 K5 "VLXSMPS")
-        (pin G2 "VDDCORE")
-        (pin J1 J2 J3 J4 J5 "VSSSMPS")
-        (pin P7 P9 P10 P11 P13 "VDDCORE")
-        (pin W6 "VDDCORE")
-        (pin G4 "PWR_ON"))
-      (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418 (id b422d7a1) (id a60c6e44) (id abe074be) (id ac98150c)))
-      (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21))
-      (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
-      (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
-      (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16))
-      (series "L1" (ind-2016 "1uH") "VLXSMPS" "VDDCORE" (id f130c61b))
-      (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
-      (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
-      (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0))
-      (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
-      (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2" (id db0a04fb) (id c4ca02d6))
-      (note "G4 (PWR_ON) is an STM32 output — drives enables for downstream regulators, not the internal SMPS. No external pull needed; TP8 gives bring-up visibility."))
+    ;; VDD Power
+    (pins "stm32"
+      (group "VDD Power")
+      (pin J14 K14 L14 "VDD" (i-typ 0.08) (i-max 0.15))
+      (pin F1 "VDD" (i-typ 0.0001) (i-max 0.001))
+      (pin H6 "VDDA18AON" (i-typ 0.0001) (i-max 0.005))
+      (pin A19 F12 H14 N16 P8 P12 P14 W1 W19 "GND")
+      (pin N6 "VSSA")
+      (pin G6 "VSSAON")
+      (pin H2 "VSSAPMU"))
 
-    (section "Analog & I/O Rails"
-      (port "V1P8" in power 1.8)
-      (port "VDD" in power 3.3)
-      (pins "stm32"
-        (pin M6 "VDDA18PLL" (i-typ 0.005) (i-max 0.01))
-        (pin P6 "VDDA18ADC" (i-typ 0.002) (i-max 0.005))
-        (pin V6 "VDDA18CSI" (i-typ 0.01) (i-max 0.02))
-        (pin W2 "VREF+")
-        (pin V2 "VSSA")
-        (pin H16 J16 K16 L16 "VDDIO2" (i-typ 0.02) (i-max 0.05))
-        (pin M14 M16 "VDDIO3" (i-typ 0.02) (i-max 0.05))
-        (pin F7 F8 "VDDIO4" (i-typ 0.02) (i-max 0.05))
-        (pin G1 "V08CAP"))
-      (decouple (cap-0201 "100nF") 1 per-pin stm32
-        "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845))
-      ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
-      (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
-      (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 (id c6c9160e))
-      (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
-      (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 (id b897a15f))
-      (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 (id e4c292f6))
-      (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 (id cf78bc5e)))
+    ;; SMPS Power — internal 0.8V core regulator
+    (pins "stm32"
+      (group "SMPS Power")
+      (pin H1 "VDDA18PMU" (i-typ 0.005) (i-max 0.01))
+      (pin L1 L2 L3 L4 L5 "VDDSMPS" (i-typ 0.08) (i-max 0.2))
+      (pin K1 K2 K3 K4 K5 "VLXSMPS")
+      (pin G2 "VDDCORE")
+      (pin J1 J2 J3 J4 J5 "VSSSMPS")
+      (pin P7 P9 P10 P11 P13 "VDDCORE")
+      (pin W6 "VDDCORE")
+      (pin G4 "PWR_ON"))
 
-    (section "Boot & Reset"
-      (port "V1P8" in power 1.8)
-      (port "NRST" out signal role reset)
-      (pins "stm32"
-        (pin F2 "NRST")
-        (pin A1 "VDDA18AON")
-        (pin F4 "BOOT0"))
-      (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
-      (series "R_BOOT0" (res-0201 "10k") "BOOT0" "GND" (id d44c84c9))
-      (instance "SW1" (res-0402 "0R")
-        (pin 1 "NRST")
-        (pin 2 "GND") (id f8bfd5d5))
-      (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
-      (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
+    ;; Analog & I/O Rails
+    (pins "stm32"
+      (group "Analog & I/O Rails")
+      (pin M6 "VDDA18PLL" (i-typ 0.005) (i-max 0.01))
+      (pin P6 "VDDA18ADC" (i-typ 0.002) (i-max 0.005))
+      (pin V6 "VDDA18CSI" (i-typ 0.01) (i-max 0.02))
+      (pin W2 "VREF+")
+      (pin V2 "VSSA")
+      (pin H16 J16 K16 L16 "VDDIO2" (i-typ 0.02) (i-max 0.05))
+      (pin M14 M16 "VDDIO3" (i-typ 0.02) (i-max 0.05))
+      (pin F7 F8 "VDDIO4" (i-typ 0.02) (i-max 0.05))
+      (pin G1 "V08CAP"))
 
-    (section "SWD Debug"
-      (role output)
-      (protocol SWD)
-      (port "VDD" in power 3.3)
-      (pins "stm32"
-        (pin W7 "SWDIO_MCU")
-        (pin V7 "SWCLK_MCU")
-        (pin T14 "SWO_MCU"))
-      (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
-      (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK" (id e624ddcc))
-      (series "R6" (res-0402 "33R") "SWO_MCU" "SWO" (id cf985c4e))
-      (instance "swd-hdr" connector-swd
-        (pin 1 "VDD")
-        (pin 2 "SWDIO")
-        (pin 3 "SWCLK")
-        (pin 4 "SWO")
-        (pin 5 "GND") (id c0de5wd5)))
+    ;; Boot & Reset
+    (pins "stm32"
+      (group "Boot & Reset")
+      (pin F2 "NRST")
+      (pin A1 "VDDA18AON")
+      (pin F4 "BOOT0"))
 
-    (section "HSE (Main Clock)" "24 MHz crystal for USB HS PHY"
-      (port "V1P8" in power 1.8)
-      (port "OSC_IN" out clock)
-      (calc "Load capacitors"
-        (let cl 10.0)
-        (let cstray 5.0)
-        (let cload (* 2.0 (- cl cstray))))
-      (pins "stm32"
-        (pin A5 "OSC_IN")
-        (pin B5 "OSC_OUT"))
-      (instance "hse" abm8
-        (pin X1 "OSC_IN")
-        (pin GND_1 GND_2 "GND")
-        (pin X2 "OSC_OUT") (id a4b23ed4))
-      (series (cap-0402 "10pF" np0) "OSC_IN" "GND" "OSC_OUT" "GND" (id b5986a13)))
+    ;; SWD Debug
+    (pins "stm32"
+      (group "SWD Debug")
+      (pin W7 "SWDIO_MCU")
+      (pin V7 "SWCLK_MCU")
+      (pin T14 "SWO_MCU"))
 
-    (section "LSE (RTC Clock)" "32.768 kHz crystal"
-      (port "V1P8" in power 1.8)
-      (port "OSC32_IN" out clock)
-      (calc "Load capacitors"
-        (let cl 7.0)
-        (let cstray 3.0)
-        (let cload (* 2.0 (- cl cstray))))
-      (pins "stm32"
-        (pin E1 "OSC32_IN")
-        (pin D1 "OSC32_OUT"))
-      (instance "lse" fc-135
-        (pin 1 "OSC32_IN")
-        (pin 2 "OSC32_OUT") (id b2a39445))
-      (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54)))
-  )
+    ;; HSE (Main Clock) — 24 MHz crystal for USB HS PHY
+    (pins "stm32"
+      (group "HSE Clock")
+      (pin A5 "OSC_IN")
+      (pin B5 "OSC_OUT"))
+
+    ;; LSE (RTC Clock) — 32.768 kHz crystal
+    (pins "stm32"
+      (group "LSE Clock")
+      (pin E1 "OSC32_IN")
+      (pin D1 "OSC32_OUT"))
+
+    ;; Decoupling and filters
+    (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
+    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418 (id b422d7a1) (id a60c6e44) (id abe074be) (id ac98150c)))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21))
+    (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
+    (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
+    (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16))
+    (series "L1" (ind-2016 "1uH") "VLXSMPS" "VDDCORE" (id f130c61b))
+    (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
+    (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
+    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0))
+    (decouple (cap-0201 "100nF") 1 per-pin stm32
+      "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845))
+    ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
+    (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
+    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 (id c6c9160e))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
+    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 (id b897a15f))
+    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 (id e4c292f6))
+    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 (id cf78bc5e))
+
+    ;; Boot & Reset passives and switch
+    (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
+    (series "R_BOOT0" (res-0201 "10k") "BOOT0" "GND" (id d44c84c9))
+    (instance "SW1" (res-0402 "0R")
+      (pin 1 "NRST")
+      (pin 2 "GND") (id f8bfd5d5))
+
+    ;; SWD series dampers and header
+    (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
+    (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK" (id e624ddcc))
+    (series "R6" (res-0402 "33R") "SWO_MCU" "SWO" (id cf985c4e))
+    (instance "swd-hdr" connector-swd
+      (pin 1 "VDD")
+      (pin 2 "SWDIO")
+      (pin 3 "SWCLK")
+      (pin 4 "SWO")
+      (pin 5 "GND") (id c0de5wd5))
+
+    ;; HSE — 24 MHz crystal
+    (instance "hse" abm8
+      (pin X1 "OSC_IN")
+      (pin GND_1 GND_2 "GND")
+      (pin X2 "OSC_OUT") (id a4b23ed4))
+    (series (cap-0402 "10pF" np0) "OSC_IN" "GND" "OSC_OUT" "GND" (id b5986a13))
+
+    ;; LSE — 32.768 kHz crystal
+    (instance "lse" fc-135
+      (pin 1 "OSC32_IN")
+      (pin 2 "OSC32_OUT") (id b2a39445))
+    (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54))
+
+    (note "F1 (VBAT) tied to VDD — LiPo 4.2V exceeds VBAT max (3.6V), so backup domain only active when VDD is up")
+    (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
+    (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2" (id db0a04fb) (id c4ca02d6))
+    (note "G4 (PWR_ON) is an STM32 output — drives enables for downstream regulators, not the internal SMPS. No external pull needed; TP8 gives bring-up visibility.")
+    (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
+    (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
 
   (section "USB" "USB 2.0 High-Speed with Type-C connector (USB4235-03-C)"
     (role input)
