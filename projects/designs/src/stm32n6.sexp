@@ -4,7 +4,7 @@
         abm8 fc-135 ecmf02-2amx6 usb4235-03-c
         mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
         diode-sod323
-        icm-20948 204928-0601
+        bno08x 204928-0601
         res-0201
         ad7380-channel
         ad7380-channel-2ch
@@ -243,32 +243,40 @@
     (series "R12" (res-0201 "10k") "PSRAM_NCS" "VDDIO2" (id bfd3a713))
     (note "FW: If VDDIO2=1.8V, set OTP124 bit 16 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
 
-  (section "IMU" "ICM-20948 9-axis IMU via SPI5"
+  (section "IMU" "BNO08x 9-axis IMU with sensor fusion via SPI5"
     (protocol SPI)
     (port "VDD" in power 3.3)
-    (port "IMU_INT1" out signal role interrupt)
-    (port "IMU_FSYNC" in signal role sync)
+    (port "IMU_INT" out signal role interrupt)
+    (port "IMU_NRST" in signal role reset)
     (pins "stm32"
       (pin R1 (as "SPI5_SCK")  "IMU_SCK")
       (pin T1 (as "SPI5_MOSI") "IMU_MOSI")
       (pin U2 (as "SPI5_MISO") "IMU_MISO")
       (pin V1 (as "SPI5_NSS")  "IMU_NCS")
-      (pin T4 (as "PG4") "IMU_INT1")
-      (pin R4 (as "PF8") "IMU_FSYNC"))
-    (instance "imu" icm-20948
-      (pin SCLK "IMU_SCK")
-      (pin SDI "IMU_MOSI")
-      (pin SDO "IMU_MISO")
-      (pin nCS "IMU_NCS")
-      (pin INT1 "IMU_INT1")
-      (pin FSYNC "IMU_FSYNC")
-      (pin VDD "VDD")
-      (pin VDDIO "VDD")
-      (pin REGOUT "IMU_REGOUT")
-      (pin GND "GND")
-      (pin RESV_20 "GND") (id e8c00656))
-    (series (cap-0201 "100nF" x7r) "VDD" "GND" "IMU_REGOUT" "GND" (id d22644cb))
-    (note "FW: FSYNC config — DELAY_TIME_EN=1, EXT_SYNC_SET per sensor"))
+      (pin T4 (as "PG4") "IMU_INT")
+      (pin R4 (as "PF8") "IMU_NRST"))
+    (instance "imu" bno08x
+      (pin 2 25 "GND")
+      (pin 3 28 "VDD")
+      (pin 4 "VDD")
+      (pin 5 "VDD")
+      (pin 6 "VDD")
+      (pin 9 "IMU_CAP")
+      (pin 10 "GND")
+      (pin 11 "IMU_NRST")
+      (pin 14 "IMU_INT")
+      (pin 17 "IMU_MOSI")
+      (pin 18 "IMU_NCS")
+      (pin 19 "IMU_SCK")
+      (pin 20 "IMU_MISO")
+      (pin 26 "GND") (id c6c681f6))
+    (decouple "VDD" (cap-0201 "100nF") 2 per-pin imu (id a91783d4))
+    (series (cap-0201 "100nF" x7r) "IMU_CAP" "GND" (id d8d54eef))
+    (series "R_NRST" (res-0201 "10k") "IMU_NRST" "VDD" (id c2c12378))
+    (note "BNO08x SPI mode: PS1=PS0=1 (tied to VDD), BOOTN=1 (normal boot)")
+    (note "Clock select: CLKSEL0=0 (GND), XOUT32/CLKSEL1=GND, XIN32 NC — internal RC oscillator")
+    (note "ENV_SCL/ENV_SDA (15/16) and RESV_NC (1,7,8,12,13,21-24,27) left unconnected")
+    (note "FW: BNO08x uses SH-2 protocol over SHTP — wait for INT after NRST release before SPI traffic"))
 
   (section "Expansion Connector" "Molex SlimStack 204928-0601, 60-pin 0.4mm BTB — 10 analog channels + radar front-end control"
     (role output)
