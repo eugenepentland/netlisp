@@ -3,4 +3,5 @@
   (pinout "204928-0601")
   (footprint "2049280601")
   (manufacturer "Molex")
-  (mpn "204928-0601"))
+  (mpn "204928-0601")
+  (datasheet "download.pdf"))

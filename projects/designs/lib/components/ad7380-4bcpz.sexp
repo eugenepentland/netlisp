@@ -3,4 +3,5 @@
   (pinout "ad7380-4bcpz")
   (footprint "qfn50p400x400x60-25n-d")
   (manufacturer "Analog Devices")
-  (mpn "AD7380-4BCPZ"))
+  (mpn "AD7380-4BCPZ")
+  (datasheet "ad7380-4.pdf"))
