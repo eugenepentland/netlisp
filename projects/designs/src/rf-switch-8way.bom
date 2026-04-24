@@ -2,37 +2,37 @@
 ;; Stores identity and properties per instance
 
 (part "U1" "59f66d22-bc6d-4c55-9d90-698a8cac817d"
-  (id "b5966eeb")
+  (id "b0268fad")
   (nets "RF7" "V3" "NC" "V4" "V2" "RFC" "RF2" "VDD" "RF4" "LS" "RF3" "RF8" "RF5" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "VSS_EXT" "RF6" "RF1" "V1")
   (manufacturer "Peregrine Semiconductor")
   (mpn "PE42582")
 )
 (part "J1" "d7f9bee7-7d4a-4659-92ba-2420b44f21e1"
-  (id "e3c949aa")
+  (id "e45f7764")
   (nets "RFC" "GND" "GND")
 )
 (part "J2" "3388276c-e0af-4082-ba7c-e20c9c61e00e"
-  (id "f6e7219b")
+  (id "f3fcd2ef")
   (nets "RF7" "RF2" "RF4" "RF3" "RF8" "RF5" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF6" "RF1")
   (manufacturer "SAMTEC")
   (mpn "GRF1-J-P-08-E-RA-TH1-E")
 )
 (part "C1" "082b37ef-200e-4ef5-a56f-a85fbfecb635"
-  (id "ec233758")
+  (id "b87e1971")
   (nets "VDD" "GND")
 )
 (part "C2" "cbe8bc2b-31bb-472e-b77a-f551a1b68d93"
-  (id "d85fec4b")
+  (id "b4578af7")
   (nets "VDD" "GND")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
 (part "C3" "920bb72b-809c-4496-8284-68a7ef50e796"
-  (id "c1014f74")
+  (id "c9d83a20")
   (nets "VDD" "GND")
 )
 (part "C4" "9210263b-df17-4f3c-8cb9-818c771fe06c"
-  (id "b0facc45")
+  (id "f73aa2e1")
   (nets "GND" "VSS_EXT")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")

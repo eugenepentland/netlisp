@@ -4,6 +4,7 @@
 (part "U1" "d5c44a42-0b42-4da7-a2b7-3b2d1dc8ed80"
   (id "f2146cc1")
   (nets "INPUT_BIAS" "RF_OUTPUT" "RF_INPUT" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND")
+  (description "PMA3-14LN+ GaAs pHEMT Wideband LNA")
   (manufacturer "Mini-Circuits")
   (mpn "PMA3-14LN+")
 )
