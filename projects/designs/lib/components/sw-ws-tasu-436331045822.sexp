@@ -3,4 +3,5 @@
   (pinout "436331045822")
   (footprint "436331045822")
   (manufacturer "Wurth Elektronik")
-  (mpn "436331045822"))
+  (mpn "436331045822")
+  (ignore-requirements))

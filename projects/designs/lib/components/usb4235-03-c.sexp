@@ -1,4 +1,12 @@
 (component "usb4235-03-c"
   (description "USB4235-03-C")
   (pinout "usb4235-03-c")
-  (footprint "conn-8p94x3p16x6p50-16l-gct"))
+  (footprint "conn-8p94x3p16x6p50-16l-gct")
+  (requirement "CC1 (pin A5) must be pulled to GND with a 5.1 kΩ ±10% resistor (Rd) to advertise this port as a UFP/sink (Default USB Power, up to 3 A at 5 V); without it, USB Type-C hosts will not source VBUS to the device" (check (pullup-range (pin "CC1") (net "GND") (min-ohms 4590) (max-ohms 5610))))
+  (requirement "CC2 (pin B5) must independently be pulled to GND with its own 5.1 kΩ ±10% resistor (Rd) — both CC lines need pulldowns because the cable can plug in either orientation and only one CC pin is wired through at a time" (check (pullup-range (pin "CC2") (net "GND") (min-ohms 4590) (max-ohms 5610))))
+  (requirement "Shield/mounting pin 17 must be tied to GND for ESD return and mechanical retention" (check (connected (pin "17") (pin "GND"))))
+  (requirement "Shield/mounting pin 18 must be tied to GND for ESD return and mechanical retention" (check (connected (pin "18") (pin "GND"))))
+  (requirement "For USB 2.0-only operation through this connector, DP1 (pin A6) must be tied to DP2 (pin B6) — USB 2.0 Type-C cables internally short these pins, so the device must present a single D+ signal across both sides to be orientation-agnostic" (check (connected (pin "DP1") (pin "DP2"))))
+  (requirement "Similarly, DN1 (pin A7) must be tied to DN2 (pin B7) for USB 2.0 orientation-agnostic operation" (check (connected (pin "DN1") (pin "DN2"))))
+  (requirement "VBUS needs local decoupling near the connector (typically 10 µF ceramic + 0.1 µF); total bulk capacitance on VBUS should not exceed ~10 µF without an inrush-limit circuit, to remain compliant with USB Type-C hot-plug requirements" (check (decoupling (pin "VBUS") (pin "GND") (min-uf 4.7))))
+  (requirement "SBU1 (pin A8) and SBU2 (pin B8) carry alt-mode signals (DisplayPort, audio accessory, etc.); they may be left unconnected for USB 2.0-only designs, but adding a low-capacitance ESD diode on each is recommended since they are exposed pins"))

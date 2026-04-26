@@ -29,7 +29,9 @@
   (series "R_PG" (res-0402 "100k") "PG" "VOUT" (id cf6e4768))
   (net "GND" "AGND")
 
-  (port "VIN" in)
+  ;; VIN datasheet range 1.3-5.5V; this design feeds it from VBATT (1S LiPo, 3.0-4.2V),
+  ;; well inside the device envelope.
+  (port "VIN" in (rated 1.3 5.5))
   ;; TPS63806 rated for 2A continuous at 3.3V out. Typical duty budget 1.5A.
   ;; Datasheet efficiency ~90% at 3.7 Vin → 3.3 Vout, mid-load.
   (port "VOUT" out (nominal 3.3) (current 1.5 2.0) (efficiency 0.9) (enable "VIN"))

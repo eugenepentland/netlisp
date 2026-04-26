@@ -4,4 +4,5 @@
   (footprint "2049280601")
   (manufacturer "Molex")
   (mpn "204928-0601")
-  (datasheet "download.pdf"))
+  (datasheet "download.pdf")
+  (ignore-requirements))

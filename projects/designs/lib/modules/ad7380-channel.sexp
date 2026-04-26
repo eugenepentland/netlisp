@@ -34,7 +34,9 @@
     (instance "C_VCC"    (cap-0201 "1uF")  (pin 1 "VCC")    (pin 2 "GND"))
     (instance "C_VLOG"   (cap-0201 "1uF")  (pin 1 "VLOGIC") (pin 2 "GND"))
     (instance "C_REGCAP" (cap-0201 "1uF")  (pin 1 "REGCAP") (pin 2 "GND"))
-    (instance "C_REFIN"  (cap-0201 "100nF") (pin 1 "REFIN")  (pin 2 "GND"))
+    ;; 1µF reservoir per AD7380 datasheet — buffers SAR sample-cap kicks and
+    ;; smooths the LTC6655 reference under switching load.
+    (instance "C_REFIN"  (cap-0201 "1uF") (pin 1 "REFIN")  (pin 2 "GND"))
 
     ;; Anti-alias filters per differential leg: 33R series + 68pF to GND
     ;; Channel A
@@ -67,7 +69,10 @@
     ;; External-facing ports (bridged to parent nets via (net ...) ties)
     (port "VCC"       in  (rated 3.15 3.45))
     (port "VLOGIC"    in  (rated 1.65 1.95))
-    (port "REFIN"     in  (rated 2.45 3.35))
+    ;; LTC6655-2.5 nominal 2.5V ±0.025% over temperature → port range
+    ;; intentionally tight, well inside the AD7380 datasheet limits of
+    ;; 2.49V min and 3.4V absolute max.
+    (port "REFIN"     in  (rated 2.5 3.4))
     (port "GND"       bidi)
     (port "SCK"       in)
     (port "SDI"       in)

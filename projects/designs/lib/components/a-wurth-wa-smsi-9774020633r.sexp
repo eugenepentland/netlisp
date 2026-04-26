@@ -3,4 +3,5 @@
   (pinout a-wurth-wa-smsi-9774020633r)
   (footprint a-wurth-wa-smsi-9774020633r)
   (manufacturer "Wurth Elektronik")
-  (mpn "9774020633R"))
+  (mpn "9774020633R")
+  (ignore-requirements))

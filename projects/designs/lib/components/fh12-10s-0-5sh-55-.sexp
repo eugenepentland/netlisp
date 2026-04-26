@@ -5,4 +5,5 @@
   (manufacturer "Hirose")
   (mpn "FH12-10S-0.5SH(55)")
   (datasheet "FH12_Catalog_D31648_en.pdf")
-  (datasheet "CFAF80160A0-0096TxDatasheet.pdf"))
+  (datasheet "CFAF80160A0-0096TxDatasheet.pdf")
+  (ignore-requirements))
