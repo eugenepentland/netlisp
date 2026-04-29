@@ -15,6 +15,8 @@
         fh12-10s-0-5sh-55-
         ao3400a
         ltc6655bhms8-2-5#pbf
+        stm6601aq2bdm6f
+        fiducial-0p75-2p25
         testpoint)
 
 (design-block "Cyclops Digital"
@@ -80,6 +82,12 @@
       (pin F4 "BOOT0")
       (pin H4 (as "PC13" "PWR_WKUP3") "PWR_BTN"))
 
+    ;; Power-button controller handshake (STM6601 in its own section)
+    (pins "stm32"
+      (group "Power Button Controller")
+      (pin N1 (as "PG6") "PSHOLD")
+      (pin V16 (as "PG9") "PWR_INT"))
+
     ;; SWD Debug
     (pins "stm32"
       (group "SWD Debug")
@@ -124,16 +132,6 @@
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
     (series "R_BOOT0" (res-0201 "10k") "BOOT0" "GND" (id d44c84c9))
 
-    ;; Power button — SPST side-push tact switch on PC13/PWR_WKUP3.
-    ;; COM tied to GND via switch closure; GPIO pulled up to VDD with RC debounce.
-    (instance "SW2" sw-ws-tasu-436331045822
-      (pin 1 3 "PWR_BTN")
-      (pin 2 4 "GND") (id f8bfd5d6))
-    (series "R_PWR_BTN" (res-0402 "10k") "PWR_BTN" "VDD" (id f8bfd5d7))
-    (series "C_PWR_BTN" (cap-0402 "100nF") "PWR_BTN" "GND" (id f8bfd5d8))
-    (note "SW2 wired as active-low: press pulls PC13 to GND. PC13=PWR_WKUP3 can wake from Standby.")
-    (note "PC13 is in the backup domain — firmware must disable RTC tamper functions before using as GPIO input.")
-
     ;; SWD series dampers and header
     (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
     (series "R5" (res-0402 "33R") "SWCLK_MCU" "SWCLK" (id e624ddcc))
@@ -165,6 +163,70 @@
     (note "G4 (PWR_ON) is an STM32 output — drives enables for downstream regulators, not the internal SMPS. No external pull needed; TP8 gives bring-up visibility.")
     (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
     (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
+
+  (section "Power Button Controller" "STM6601A push-button on/off controller — gates the system buck for true off-state (~5 µA total system draw); single-button design, hang recovery via STM32 IWDG"
+    (port "VBATT" in power 3.7)
+    (port "VDD" in power 3.3)
+    (port "NRST" bidi signal role reset)
+    (port "PWR_EN" out signal)
+
+    ;; Single-button design: SR (pin 2), CSRD (pin 5) and ~VCCLO (pin 7) intentionally
+    ;; left NC. SR floats high via the AQ2B internal 100k pullup; the chip's hardware
+    ;; long-press recovery (which requires PB+SR held simultaneously per datasheet p.13)
+    ;; is therefore unreachable. Hang recovery is delegated to the STM32 IWDG watchdog —
+    ;; on IWDG reset, PG6 returns to Hi-Z and R_PSHOLD_PD pulls PSHOLD low, causing the
+    ;; STM6601 to deassert EN and power-cycle the system cleanly.
+    (instance "U_PWR" stm6601aq2bdm6f
+      (pin 1 "VBATT")
+      (pin 3 "VREF_PWR")
+      (pin 4 "PSHOLD")
+      (pin 6 "PB_RAW")
+      (pin 8 "PWR_BTN")
+      (pin 9 "PWR_EN")
+      (pin 10 "NRST")
+      (pin 11 "PWR_INT")
+      (pin 12 "GND") (id b6c01a01))
+
+    ;; Side-push tact switch — closure pulls ~PB low through STM6601's debounce.
+    ;; STM6601 has internal 100k pullup on ~PB, no external pullup needed.
+    (instance "SW2" sw-ws-tasu-436331045822
+      (pin 1 3 "PB_RAW")
+      (pin 2 4 "GND") (id f8bfd5d6))
+
+    ;; ~PB input (pin 6): light EMI/ESD filter cap. Internal pullup handles bias.
+    (series "C_PB" (cap-0402 "100nF") "PB_RAW" "GND" (id b6c0aa02))
+
+    ;; VREF (pin 3): 1 µF mandatory cap per datasheet.
+    (series "C_VREF_PWR" (cap-0402 "1uF") "VREF_PWR" "GND" (id b6c0aa03))
+
+    ;; ~PBOUT (pin 8) open-drain → 10k pullup to VDD; PC13/PWR_WKUP3 is the receiver.
+    (series "R_PWR_BTN" (res-0402 "10k")   "PWR_BTN" "VDD" (id f8bfd5d7))
+    (series "C_PWR_BTN" (cap-0402 "100nF") "PWR_BTN" "GND" (id f8bfd5d8))
+
+    ;; ~RST (pin 10) open-drain → 10k pullup on NRST per datasheet rec.
+    (series "R_NRST_PU" (res-0402 "10k") "NRST" "VDD" (id b6c0aa06))
+
+    ;; ~INT (pin 11) open-drain → 10k pullup on PWR_INT.
+    (series "R_INT_PU" (res-0402 "10k") "PWR_INT" "VDD" (id b6c0aa07))
+
+    ;; STM6601 VCC (pin 1) decoupling — single 100 nF on VBATT.
+    (series "C_VCC_PWR" (cap-0402 "100nF") "VBATT" "GND" (id b6c0aa05))
+
+    ;; PSHOLD weak pulldown — guarantees STM6601 sees PSHOLD low when PG6 is Hi-Z
+    ;; (STM32 reset window, IWDG-triggered or otherwise). 1MΩ → 3.3 µA leak when PG6
+    ;; drives high, negligible. Without this, recovery depends on board leakage and
+    ;; STM32 reset-time GPIO behavior — bench-verifiable but not robust by design.
+    (series "R_PSHOLD_PD" (res-0402 "1M") "PSHOLD" "GND" (id b6c0aa08))
+
+    (note "U_PWR" "STM6601AQ2BDM6F variant: active-HIGH EN, drives buck/EN directly (no inverter/P-FET). VTH+ = 3.30V typ, VTH- = 3.10V typ (low-batt dropout), tON_BLANK = 1.4-3.0s. VCC tied to VBATT (always-on, 3.0-4.2V), quiescent typ 2.5 µA.")
+    (note "SW2: press pulls ~PB to GND through STM6601 internal debounce. ~PB has internal 100k pullup so no external pullup; C_PB is just EMI/ESD.")
+    (note "PSHOLD (pin 4 / PG6 / N1): firmware MUST drive HIGH within tON_BLANK (1.4-3.0s) of boot or STM6601 latches off. Drive LOW for clean software-initiated power-down. R_PSHOLD_PD provides the Hi-Z fallback during MCU reset that makes IWDG-recovery work.")
+    (note "~SR (pin 2) intentionally floats — single-button design. Internal 100k pullup keeps it HIGH. STM6601's hardware long-press recovery (which requires PB+SR held simultaneously per datasheet p.13) is unreachable in this configuration. Hang recovery is delegated to the STM32 IWDG watchdog — see firmware contract.")
+    (note "~VCCLO (pin 7) left NC — low-batt flag unused for now; can be wired to a GPIO later for low-batt UI without board respin.")
+    (note "~PBOUT (pin 8) → PC13/PWR_WKUP3: debounced button events wake MCU from Standby. Firmware times PBOUT to distinguish short press (≤2s, app event) from long press (>2s, invokes clean shutdown by driving PSHOLD low). PC13 is in the backup domain — firmware must disable RTC tamper functions before using as GPIO input.")
+    (note "EN (pin 9) → buck/EN via PWR_EN: when HIGH = system on, when LOW = buck shuts down → VDD collapses → LDO drops (its EN is gated on buck PG) → MCU + all peripherals off. Off-state battery draw ≈ STM6601 (2.5 µA) + MCP73831 quiescent (≈3 µA) ≈ 5 µA total.")
+    (note "~INT (pin 11 / PG9 / V16): asserts on PB press AND on undervoltage detection. Firmware reads PBOUT to disambiguate: PBOUT also low = button press; PBOUT high but INT low = undervoltage warning, sync state and shut down within ~50 ms (CSRD omitted so tSRD ≈ 0).")
+    (note "Firmware contract for option-C UX: (1) IWDG enabled early in main(), refreshed only from main loop (never from ISR), 4-8 s timeout. (2) PSHOLD driven HIGH within 1.4 s of NRST release. (3) PBOUT timer distinguishes short (app event) vs long (>2s, drop PSHOLD) press. (4) PC13 RTC tamper disabled before use as GPIO. (5) On clean shutdown, drive PSHOLD low and stop driving — let it stay low while STM6601 deasserts EN."))
 
   (section "USB" "USB 2.0 High-Speed with Type-C connector (USB4235-03-C)"
     (role input)
@@ -277,7 +339,7 @@
       (pin 19 "IMU_SCK")
       (pin 20 "IMU_MISO")
       (pin 26 "GND") (id c6c681f6))
-    (decouple "VDD" (cap-0201 "100nF") 2 per-pin imu (id a91783d4))
+    (decouple "VDD" (cap-0201 "100nF") 1 per-pin imu (id a91783d4))
     (series (cap-0201 "100nF" x7r) "IMU_CAP" "GND" (id d8d54eef))
     (series "R_NRST" (res-0201 "10k") "IMU_NRST" "VDD" (id c2c12378))
     (note "BNO08x SPI mode: PS1=PS0=1 (tied to VDD), BOOTN=1 (normal boot)")
@@ -378,6 +440,7 @@
   (net "VBATT"  "battery/VBATT" "charger/VBATT" "buck/VIN")
   (net "VDD"    "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4"
                 "adc1/VCC"    "adc2/VCC"    "adc3/VCC")
+  (net "PWR_EN" "buck/EN")
   (net "PG_3V3" "buck/PG" "ldo/EN")
   (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3"
                 "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
@@ -599,6 +662,13 @@
       (pin 1 "GND") (id d3a10001))
     (instance "H2" a-wurth-wa-smsi-9774020633r
       (pin 1 "GND") (id d3a10002)))
+
+  (section "Fiducials" "0.75mm copper / 2.25mm mask fiducials for pick-and-place vision alignment — 3 on top side as primary alignment triangle, 1 on bottom for back-side flip-and-fly"
+    (instance "FID1" fiducial-0p75-2p25 (id b6f1d101))
+    (instance "FID2" fiducial-0p75-2p25 (id b6f1d102))
+    (instance "FID3" fiducial-0p75-2p25 (id b6f1d103))
+    (instance "FID4" fiducial-0p75-2p25 (id b6f1d104))
+    (note "FID1/FID2/FID3 should be placed near the corners of the top side forming a non-collinear triangle (typically L-shape, 3-5 mm in from board edge). FID4 mirrors FID1's position on the bottom layer for back-side assembly registration."))
 
   (port "VBATT" in (rated 3.0 4.2))
   (port "VBUS"  in (rated 4.0 5.5))
