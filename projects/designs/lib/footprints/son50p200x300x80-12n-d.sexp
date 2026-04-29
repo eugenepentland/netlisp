@@ -1,0 +1,20 @@
+(footprint "SON50P200X300X80-12N-D"
+  (description "TDFN12 (2 x 3 mm)")
+
+  (pad 1 smd rect (pos -0.85 -1.25) (size 1.00 0.25))
+  (pad 2 smd rect (pos -0.85 -0.75) (size 1.00 0.25))
+  (pad 3 smd rect (pos -0.85 -0.25) (size 1.00 0.25))
+  (pad 4 smd rect (pos -0.85 0.25) (size 1.00 0.25))
+  (pad 5 smd rect (pos -0.85 0.75) (size 1.00 0.25))
+  (pad 6 smd rect (pos -0.85 1.25) (size 1.00 0.25))
+  (pad 7 smd rect (pos 0.85 1.25) (size 1.00 0.25))
+  (pad 8 smd rect (pos 0.85 0.75) (size 1.00 0.25))
+  (pad 9 smd rect (pos 0.85 0.25) (size 1.00 0.25))
+  (pad 10 smd rect (pos 0.85 -0.25) (size 1.00 0.25))
+  (pad 11 smd rect (pos 0.85 -0.75) (size 1.00 0.25))
+  (pad 12 smd rect (pos 0.85 -1.25) (size 1.00 0.25))
+  (courtyard (rect -1.600 -1.750 1.600 1.750))
+  (silkscreen
+    (circle (-1.35 -1.88) 0.13)
+  )
+)
