@@ -365,9 +365,15 @@
       (pin T7  (as "SPI6_MOSI") "RF_SPI_MOSI")
       (pin W15 (as "SPI6_MISO") "RF_SPI_MISO")
       (pin T8  (as "PA11") "CS_IO_EXP")
-      ;; DDM-MIMO phase code outputs — plain GPIO (primary function)
-      (pin W18 (as "PN12") "TXDATA_1")
-      (pin W17 (as "PA4")  "TXDATA_2")
+      ;; DDM-MIMO phase code outputs — plain GPIO (primary function).
+      ;; Placed on VDDIO4 (currently tied to VDD = 3.3V) so the bank can be
+      ;; switched to V1P8 in a future revision if the daughterboard needs
+      ;; 1.8V drive for the ADAR2001 TXDATA inputs without re-pinning.
+      ;; Note: VDDIO4 also powers the SPI3 lines (PC10/PC11/PC12) and three
+      ;; PSSI data pins (PC1/PC6/PH9), so any future bank-voltage change
+      ;; affects those signals too — see review notes.
+      (pin F6 (as "PC8") "TXDATA_1")
+      (pin D5 (as "PC9") "TXDATA_2")
       ;; BPSK loop-filter gate drives — plain GPIO
       (pin W16 (as "PG11") "BPSK_GATE_1")
       (pin W14 (as "PG2")  "BPSK_GATE_2")
@@ -439,11 +445,11 @@
   (net "VBUS"   "charger/VBUS")
   (net "VBATT"  "battery/VBATT" "charger/VBATT" "buck/VIN")
   (net "VDD"    "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4"
-                "adc1/VCC"    "adc2/VCC"    "adc3/VCC")
+                "adc1/VCC"    "adc2/VCC"    "adc3/VCC"
+                "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
   (net "PWR_EN" "buck/EN")
   (net "PG_3V3" "buck/PG" "ldo/EN")
-  (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3"
-                "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
+  (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3")
   (net "CHG_EN" "charger/EN")
 
   ;; STM32 GPIO for charger enable control
@@ -532,7 +538,7 @@
     (note "Phase 2 (4 MSPS streaming): T9 switched to TIM1_CH1 AF to PWM the shared ADC_SCK net; TIM1_CH2/CH3/CH4 simultaneously pulse all three CS lines. PSSI latches all 10 active SDO lanes in parallel on PDCK edges into DMA'd RAM (adc3 SDOC/SDOD unused).")
     (note "Clock topology: T9 is the sole driver of ADC_SCK — bit-banged GPIO during config, TIM1_CH1 PWM during streaming. PSSI_PDCK on T10 loops back to sample the same net.")
     (note "SCK damping: single 22Ω series on T9 at the STM32 side. PDCK uses 0R (input only).")
-    (note "Each ADC: VCC (pin 4) = 3.3V, VLOGIC (pin 2) = 1.8V, REGCAP (pin 3) = 1µF to GND only, REFIN (pin 17) tied to VDD via 0R (upgrade to ADR4533 in future rev for full ENOB).")
+    (note "Each ADC: VCC (pin 4) = 3.3V, VLOGIC (pin 2) = 3.3V (tied to VDD; AD7380 VLOGIC operating range is 1.7V..VCC, so the digital interface is 3.3V end-to-end and matches the STM32's VDD-bank GPIOs without level shifting), REGCAP (pin 3) = 1µF to GND only, REFIN (pin 17) tied to VDD via 0R (upgrade to ADR4533 in future rev for full ENOB).")
     (note "Per-channel anti-alias: 33Ω series + 68pF to GND on each differential leg at the ADC pin. Keep pair-matched within 2 mm over solid GND.")
     (note "SDO 100Ω dampers close to each ADC suppress digital coupling back into the analog section.")
     (note "Pin 15 (DNC) unmapped on all three. GND pins 1,5,14,16 + exposed pad (25) need ≥4 thermal vias to the plane."))
@@ -1041,7 +1047,7 @@
   (verifies (req "U13" 1ad4d78d)
     "LTC6655-2.5 sources up to 5mA per datasheet; 3 ADCs × 1.2mA = 3.6mA total reference current, comfortably under the 5mA capability.")
   (verifies (req "U13" 1195268c)
-    "Power-up sequence: VCC (=VDD, 3.3V from buck) and VLOGIC (=V1P8, 1.8V from LDO whose EN gates on buck PG) come up before VREF_2V5 — LTC6655 enable tracks VDD via SHDN tied to VIN. External signals are driven by the STM32 which itself starts after both rails are stable.")
+    "Power-up sequence: VCC and VLOGIC both = VDD (3.3V from buck) and come up together before VREF_2V5 — LTC6655 enable tracks VDD via SHDN tied to VIN. External signals are driven by the STM32 which itself starts after VDD is stable.")
   (verifies (req "U13" "80542082")
     "tPOWERUP 5ms enforced in firmware (adc.c sequencer: HAL_Delay(10) before the first SPI conversion command).")
   (verifies (req "U13" ee30a203)
@@ -1059,7 +1065,7 @@
   (verifies (req "U14" 1ad4d78d)
     "Shared LTC6655 reference; aggregate 3-ADC current 3.6mA < 5mA.")
   (verifies (req "U14" 1195268c)
-    "Same buck-then-LDO-then-VREF sequencing as U13.")
+    "Same as U13 — VCC and VLOGIC both on VDD, ramp together.")
   (verifies (req "U14" "80542082")
     "Same firmware 10ms post-reset delay before first conversion.")
   (verifies (req "U14" ee30a203)
