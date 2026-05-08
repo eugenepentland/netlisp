@@ -1,23 +1,22 @@
 (import stm32n657l0h3q
-        cap-0201 cap-0402 cap-0603 cap-0805
-        res-0402 ind-1616 ind-2016 ferrite-0402
-        abm8 fc-135 ecmf02-2amx6 usb4235-03-c
-        mx66uw1g45gxdi00 aps256xxn-ob9-bg diode-0402
-        diode-sod323
-        bno08x 204928-0601
-        res-0201
-        ad7380-channel
-        ad7380-channel-2ch
-        a-wurth-wa-smsi-9774020633r
+        cap-0201 cap-0402 cap-0603
+        res-0402 res-0201
+        ind-1616 ind-2016 ferrite-0402
+        abm8 fc-135
         connector-swd-6
-        connector-motor
-        sw-ws-tasu-436331045822
-        fh12-10s-0-5sh-55-
-        ao3400a
-        ltc6655bhms8-2-5#pbf
-        stm6601aq2bdm6f
+        a-wurth-wa-smsi-9774020633r
+        204928-0601
         fiducial-0p75-2p25
-        testpoint)
+        testpoint
+        ;; peripheral modules — implementation details sealed inside
+        usb-c-hs
+        mx66uw-flash aps256-psram
+        bno08x-imu
+        ad7380-channel ad7380-channel-2ch
+        ltc6655-vref
+        st7735s-display
+        vibration-motor
+        stm6601-power-button)
 
 (design-block "Cyclops Digital"
 
@@ -81,12 +80,6 @@
       (pin A1 "VDDA18AON")
       (pin F4 "BOOT0")
       (pin H4 (as "PC13" "PWR_WKUP3") "PWR_BTN"))
-
-    ;; Power-button controller handshake (STM6601 in its own section)
-    (pins "stm32"
-      (group "Power Button Controller")
-      (pin N1 (as "PG6") "PSHOLD")
-      (pin V16 (as "PG9") "PWR_INT"))
 
     ;; SWD Debug
     (pins "stm32"
@@ -164,188 +157,63 @@
     (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
     (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
 
-  (section "Power Button Controller" "STM6601A push-button on/off controller — gates the system buck for true off-state (~5 µA total system draw); single-button design, hang recovery via STM32 IWDG"
-    (port "VBATT" in power 3.7)
-    (port "VDD" in power 3.3)
-    (port "NRST" bidi signal role reset)
-    (port "PWR_EN" out signal)
+  (section "Power Button Controller" "STM6601A power button — chip details sealed in stm6601-power-button module"
+    (pins "stm32"
+      (group "Power Button Handshake")
+      (pin N1  (as "PG6") "PSHOLD")
+      (pin V16 (as "PG9") "PWR_INT"))
+    (note "PG6 → PSHOLD: firmware MUST drive HIGH within tON_BLANK (1.4-3.0s) of boot or the STM6601 latches off. On IWDG reset, PG6 returns to Hi-Z and the module's internal R_PSHOLD_PD pulls PSHOLD low, causing the STM6601 to deassert EN and power-cycle cleanly.")
+    (note "PWR_BTN (PC13/PWR_WKUP3): debounced button events wake MCU from Standby. PC13 is in the backup domain — firmware must disable RTC tamper functions before using as a GPIO input.")
+    (note "Off-state battery draw ≈ STM6601 (2.5 µA) + MCP73831 charger quiescent (≈3 µA) ≈ 5 µA total — system buck is fully disabled, only the always-on VBATT rail leaks.")
+    (note "Firmware contract: (1) IWDG enabled early in main(), refreshed only from main loop (never from ISR), 4-8 s timeout. (2) PSHOLD driven HIGH within 1.4 s of NRST release. (3) PBOUT timer distinguishes short (app event) vs long (>2s, drop PSHOLD) press. (4) PC13 RTC tamper disabled before use as GPIO. (5) On clean shutdown, drive PSHOLD low and stop driving — let it stay low while STM6601 deasserts EN."))
+  (sub-block "pwr_btn" (stm6601-power-button))
 
-    ;; Single-button design: SR (pin 2), CSRD (pin 5) and ~VCCLO (pin 7) intentionally
-    ;; left NC. SR floats high via the AQ2B internal 100k pullup; the chip's hardware
-    ;; long-press recovery (which requires PB+SR held simultaneously per datasheet p.13)
-    ;; is therefore unreachable. Hang recovery is delegated to the STM32 IWDG watchdog —
-    ;; on IWDG reset, PG6 returns to Hi-Z and R_PSHOLD_PD pulls PSHOLD low, causing the
-    ;; STM6601 to deassert EN and power-cycle the system cleanly.
-    (instance "U_PWR" stm6601aq2bdm6f
-      (pin 1 "VBATT")
-      (pin 3 "VREF_PWR")
-      (pin 4 "PSHOLD")
-      (pin 6 "PB_RAW")
-      (pin 8 "PWR_BTN")
-      (pin 9 "PWR_EN")
-      (pin 10 "NRST")
-      (pin 11 "PWR_INT")
-      (pin 12 "GND") (id b6c01a01))
-
-    ;; Side-push tact switch — closure pulls ~PB low through STM6601's debounce.
-    ;; STM6601 has internal 100k pullup on ~PB, no external pullup needed.
-    (instance "SW2" sw-ws-tasu-436331045822
-      (pin 1 3 "PB_RAW")
-      (pin 2 4 "GND") (id f8bfd5d6))
-
-    ;; ~PB input (pin 6): light EMI/ESD filter cap. Internal pullup handles bias.
-    (series "C_PB" (cap-0402 "100nF") "PB_RAW" "GND" (id b6c0aa02))
-
-    ;; VREF (pin 3): 1 µF mandatory cap per datasheet.
-    (series "C_VREF_PWR" (cap-0402 "1uF") "VREF_PWR" "GND" (id b6c0aa03))
-
-    ;; ~PBOUT (pin 8) open-drain → 10k pullup to VDD; PC13/PWR_WKUP3 is the receiver.
-    (series "R_PWR_BTN" (res-0402 "10k")   "PWR_BTN" "VDD" (id f8bfd5d7))
-    (series "C_PWR_BTN" (cap-0402 "100nF") "PWR_BTN" "GND" (id f8bfd5d8))
-
-    ;; ~RST (pin 10) open-drain → 10k pullup on NRST per datasheet rec.
-    (series "R_NRST_PU" (res-0402 "10k") "NRST" "VDD" (id b6c0aa06))
-
-    ;; ~INT (pin 11) open-drain → 10k pullup on PWR_INT.
-    (series "R_INT_PU" (res-0402 "10k") "PWR_INT" "VDD" (id b6c0aa07))
-
-    ;; STM6601 VCC (pin 1) decoupling — single 100 nF on VBATT.
-    (series "C_VCC_PWR" (cap-0402 "100nF") "VBATT" "GND" (id b6c0aa05))
-
-    ;; PSHOLD weak pulldown — guarantees STM6601 sees PSHOLD low when PG6 is Hi-Z
-    ;; (STM32 reset window, IWDG-triggered or otherwise). 1MΩ → 3.3 µA leak when PG6
-    ;; drives high, negligible. Without this, recovery depends on board leakage and
-    ;; STM32 reset-time GPIO behavior — bench-verifiable but not robust by design.
-    (series "R_PSHOLD_PD" (res-0402 "1M") "PSHOLD" "GND" (id b6c0aa08))
-
-    (note "U_PWR" "STM6601AQ2BDM6F variant: active-HIGH EN, drives buck/EN directly (no inverter/P-FET). VTH+ = 3.30V typ, VTH- = 3.10V typ (low-batt dropout), tON_BLANK = 1.4-3.0s. VCC tied to VBATT (always-on, 3.0-4.2V), quiescent typ 2.5 µA.")
-    (note "SW2: press pulls ~PB to GND through STM6601 internal debounce. ~PB has internal 100k pullup so no external pullup; C_PB is just EMI/ESD.")
-    (note "PSHOLD (pin 4 / PG6 / N1): firmware MUST drive HIGH within tON_BLANK (1.4-3.0s) of boot or STM6601 latches off. Drive LOW for clean software-initiated power-down. R_PSHOLD_PD provides the Hi-Z fallback during MCU reset that makes IWDG-recovery work.")
-    (note "~SR (pin 2) intentionally floats — single-button design. Internal 100k pullup keeps it HIGH. STM6601's hardware long-press recovery (which requires PB+SR held simultaneously per datasheet p.13) is unreachable in this configuration. Hang recovery is delegated to the STM32 IWDG watchdog — see firmware contract.")
-    (note "~VCCLO (pin 7) left NC — low-batt flag unused for now; can be wired to a GPIO later for low-batt UI without board respin.")
-    (note "~PBOUT (pin 8) → PC13/PWR_WKUP3: debounced button events wake MCU from Standby. Firmware times PBOUT to distinguish short press (≤2s, app event) from long press (>2s, invokes clean shutdown by driving PSHOLD low). PC13 is in the backup domain — firmware must disable RTC tamper functions before using as GPIO input.")
-    (note "EN (pin 9) → buck/EN via PWR_EN: when HIGH = system on, when LOW = buck shuts down → VDD collapses → LDO drops (its EN is gated on buck PG) → MCU + all peripherals off. Off-state battery draw ≈ STM6601 (2.5 µA) + MCP73831 quiescent (≈3 µA) ≈ 5 µA total.")
-    (note "~INT (pin 11 / PG9 / V16): asserts on PB press AND on undervoltage detection. Firmware reads PBOUT to disambiguate: PBOUT also low = button press; PBOUT high but INT low = undervoltage warning, sync state and shut down within ~50 ms (CSRD omitted so tSRD ≈ 0).")
-    (note "Firmware contract for option-C UX: (1) IWDG enabled early in main(), refreshed only from main loop (never from ISR), 4-8 s timeout. (2) PSHOLD driven HIGH within 1.4 s of NRST release. (3) PBOUT timer distinguishes short (app event) vs long (>2s, drop PSHOLD) press. (4) PC13 RTC tamper disabled before use as GPIO. (5) On clean shutdown, drive PSHOLD low and stop driving — let it stay low while STM6601 deasserts EN."))
-
-  (section "USB" "USB 2.0 High-Speed with Type-C connector (USB4235-03-C)"
+  (section "USB" "USB 2.0 HS via USB-C — chip details sealed in usb-c-hs module"
     (role input)
     (protocol USB2.0-HS)
-    (port "VDDA18USB" in power 1.8)
-    (port "VDD33USB" in power 3.3)
     (pins "stm32"
+      (group "USB 2.0 HS PHY")
       (pin D4 "VDDA18USB" (i-typ 0.025) (i-max 0.04))
       (pin C3 "VDD33USB" (i-typ 0.025) (i-max 0.04))
       (pin C1 (as "USB2_OTG_HS_DP") "USB_DP")
       (pin C2 (as "USB2_OTG_HS_DM") "USB_DN")
-      (pin E2 "TXRTUNE"))
-    (instance "usb-esd" ecmf02-2amx6
-      (pin D_1 "USB_DP")
-      (pin D_2 "USB_DN")
-      (pin GND "GND")
-      (pin "D-" "USB_CONN_DN")
-      (pin "D+" "USB_CONN_DP") (id e6a1a21e))
-    (instance "usb-c" usb4235-03-c
-      (pin A1 A12 B1 B12 17 18 "GND")
-      (pin A4 A9 B4 B9 "VBUS")
-      (pin A5 "CC1")
-      (pin B5 "CC2")
-      (pin A6 B6 "USB_CONN_DP")
-      (pin A7 B7 "USB_CONN_DN") (id ca29d420))
-    (series (res-0402 "5.1k") "CC1" "GND" "CC2" "GND" (id b9a29bc3))
-    (series "R8" (res-0201 "200R") "TXRTUNE" "GND" (id b40b1319))
-    ;; VBUS local decoupling at the connector — 10µF X5R ceramic per USB-IF
-    ;; hot-plug guidance and the usb4235-03-c datasheet's "≥4.7µF, ≤10µF
-    ;; without inrush limiting" recommendation.
-    (decouple "VBUS" (cap-0805 "10uF") 1 per-pin usb-c A4 (id b9c5d000))
-    (note "5.1k pull-downs on CC1/CC2 for UFP (device) role")
-    (note "SBU1 (A8) and SBU2 (B8) left unconnected — unused in USB 2.0 device mode")
-    (note "Pins 17/18 are shield/shell GND (mid-mount tabs)"))
+      (pin E2 "TXRTUNE")))
+  (sub-block "usb" (usb-c-hs))
 
-  (section "XSPI2 NOR Flash" "MX66UW1G45G 1Gbit OctoSPI NOR"
+  (section "XSPI2 NOR Flash" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
     (protocol OctoSPI)
-    (port "VDDIO3" in power 1.8)
-    (port "NRST" in signal role reset)
     (pins "stm32"
+      (group "XSPI2 NOR Flash")
       (pin PN1 (as "XSPIM_P2_NCS1") "FLASH_NCS")
       (pin PN6 (as "XSPIM_P2_CLK")  "FLASH_CLK")
       (pin PN0 (as "XSPIM_P2_DQS0") "FLASH_DQS")
-      (bus "FLASH_IO" (as-prefix "XSPIM_P2_IO") PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11))
-    (instance "flash" mx66uw1g45gxdi00
-      (pin VCC VCCQ__1 VCCQ "VDDIO3")
-      (pin GND VSSQ VSSQ__1 "GND")
-      (pin "~{CS}" "FLASH_NCS")
-      (pin SCLK "FLASH_CLK")
-      (pin DQS "FLASH_DQS")
-      (bus "FLASH_IO" "SIO")
-      (pin "~{RESET}" "FLASH_RESET") (id e5833220))
-    (decouple "VDDIO3" (cap-0201 "100nF") 1 per-pin flash (id da033de3))
-    (series "R10" (res-0201 "10k") "FLASH_RESET" "VDDIO3" (id c734428e))
-    (series "R11" (res-0201 "10k") "FLASH_NCS" "VDDIO3" (id ce543c3a))
-    (series "D2" (diode-0402 "PMEG2005AEA") "NRST" "FLASH_RESET" (id ab720208))
-    (note "D2: reverse diode NRST->FLASH_RESET for simultaneous reset (AN5967 14.4.3)")
-    (note "FW: If VDDIO3=1.8V, set OTP124 bit 15 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
+      (bus "FLASH_IO" (as-prefix "XSPIM_P2_IO") PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11)))
+  (sub-block "flash" (mx66uw-flash))
 
-  (section "XSPI1 PSRAM" "APS256XXN 256Mbit OctoSPI PSRAM"
+  (section "XSPI1 PSRAM" "APS256XXN 256Mbit OctoSPI PSRAM — chip details sealed in aps256-psram module"
     (protocol OctoSPI)
-    (port "VDDIO2" in power 1.8)
     (pins "stm32"
+      (group "XSPI1 PSRAM")
       (pin PO0 (as "XSPIM_P1_NCS1") "PSRAM_NCS")
       (pin PO4 (as "XSPIM_P1_CLK")  "PSRAM_CLK")
       (pin PO2 (as "XSPIM_P1_DQS0") "PSRAM_DQS0")
       (pin PO3 (as "XSPIM_P1_DQS1") "PSRAM_DQS1")
       (bus "PSRAM_IO" (as-prefix "XSPIM_P1_IO")
                       PP0 PP1 PP2 PP3 PP4 PP5 PP6 PP7
-                      PP8 PP9 PP10 PP11 PP12 PP13 PP14 PP15))
-    (instance "psram" aps256xxn-ob9-bg
-      (pin VDD_1 VDD_2 "VDDIO2")
-      (pin VSS_1 VSS_2 "GND")
-      (pin "CE#" "PSRAM_NCS")
-      (pin CLK "PSRAM_CLK")
-      (pin "DQS/_DM0" "PSRAM_DQS0")
-      (pin "DQS/_DM1" "PSRAM_DQS1")
-      (bus "PSRAM_IO" "IO") (id f66182fb))
-    (decouple "VDDIO2" (cap-0201 "100nF") 1 per-pin psram (id b162a181))
-    ;; Bulk cap for refresh-burst peaks (datasheet: 4.7µF–10µF on VDD rail
-    ;; to absorb the ~25mA pulses during periodic Halfsleep refreshes).
-    (decouple "VDDIO2" (cap-0603 "4.7uF") 1 per-pin psram VDD_1 (id b162a182))
-    (series "R12" (res-0201 "10k") "PSRAM_NCS" "VDDIO2" (id bfd3a713))
-    (note "FW: If VDDIO2=1.8V, set OTP124 bit 16 (HSLV) + PWR_SVMCRx VDDIOxVRSEL"))
+                      PP8 PP9 PP10 PP11 PP12 PP13 PP14 PP15)))
+  (sub-block "psram" (aps256-psram))
 
-  (section "IMU" "BNO08x 9-axis IMU with sensor fusion via SPI5"
+  (section "IMU" "BNO08x 9-axis IMU on SPI5 — chip details sealed in bno08x-imu module"
     (protocol SPI)
-    (port "VDD" in power 3.3)
-    (port "IMU_INT" out signal role interrupt)
-    (port "IMU_NRST" in signal role reset)
     (pins "stm32"
+      (group "IMU SPI5")
       (pin R1 (as "SPI5_SCK")  "IMU_SCK")
       (pin T1 (as "SPI5_MOSI") "IMU_MOSI")
       (pin U2 (as "SPI5_MISO") "IMU_MISO")
       (pin V1 (as "SPI5_NSS")  "IMU_NCS")
-      (pin T4 (as "PG4") "IMU_INT")
-      (pin R4 (as "PF8") "IMU_NRST"))
-    (instance "imu" bno08x
-      (pin 2 25 "GND")
-      (pin 3 28 "VDD")
-      (pin 4 "VDD")
-      (pin 5 "VDD")
-      (pin 6 "VDD")
-      (pin 9 "IMU_CAP")
-      (pin 10 "GND")
-      (pin 11 "IMU_NRST")
-      (pin 14 "IMU_INT")
-      (pin 17 "IMU_MOSI")
-      (pin 18 "IMU_NCS")
-      (pin 19 "IMU_SCK")
-      (pin 20 "IMU_MISO")
-      (pin 26 "GND") (id c6c681f6))
-    (decouple "VDD" (cap-0201 "100nF") 1 per-pin imu (id a91783d4))
-    (series (cap-0201 "100nF" x7r) "IMU_CAP" "GND" (id d8d54eef))
-    (series "R_NRST" (res-0201 "10k") "IMU_NRST" "VDD" (id c2c12378))
-    (note "BNO08x SPI mode: PS1=PS0=1 (tied to VDD), BOOTN=1 (normal boot)")
-    (note "Clock select: CLKSEL0=0 (GND), XOUT32/CLKSEL1=GND, XIN32 NC — internal RC oscillator")
-    (note "ENV_SCL/ENV_SDA (15/16) and RESV_NC (1,7,8,12,13,21-24,27) left unconnected")
-    (note "FW: BNO08x uses SH-2 protocol over SHTP — wait for INT after NRST release before SPI traffic"))
+      (pin T4 (as "PG4")       "IMU_INT")
+      (pin R4 (as "PF8")       "IMU_NRST")))
+  (sub-block "imu" (bno08x-imu))
 
   (section "Expansion Connector" "Molex SlimStack 204928-0601, 60-pin 0.4mm BTB — 10 analog channels + radar front-end control"
     (role output)
@@ -441,15 +309,59 @@
   (net "GND"    "VSSA" "VSSAON" "VSSAPMU" "VSSSMPS"
                 "battery/GND" "charger/GND" "buck/GND" "ldo/GND"
                 "adc1/GND"    "adc2/GND"    "adc3/GND"
+                "motor/GND"   "imu/GND"     "vref/GND"
+                "flash/GND"   "psram/GND"   "usb/GND"
+                "disp/GND"    "pwr_btn/GND"
                 (id fd3769fb) (id a3355d70) (id c1d107cc))
-  (net "VBUS"   "charger/VBUS")
-  (net "VBATT"  "battery/VBATT" "charger/VBATT" "buck/VIN")
+  (net "VBUS"   "charger/VBUS" "usb/VBUS")
+  (net "VBATT"  "battery/VBATT" "charger/VBATT" "buck/VIN" "pwr_btn/VBATT")
   (net "VDD"    "buck/VOUT" "ldo/VIN" "VDD33USB" "VDDIO4"
                 "adc1/VCC"    "adc2/VCC"    "adc3/VCC"
-                "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC")
-  (net "PWR_EN" "buck/EN")
+                "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC"
+                "motor/VDD"   "imu/VDD"     "vref/VDD"
+                "disp/VDD"    "pwr_btn/VDD")
+  (net "VIB_PWM"  "motor/PWM")
+  (net "IMU_SCK"  "imu/SCK")
+  (net "IMU_MOSI" "imu/MOSI")
+  (net "IMU_MISO" "imu/MISO")
+  (net "IMU_NCS"  "imu/CS")
+  (net "IMU_INT"  "imu/INT")
+  (net "IMU_NRST" "imu/NRST")
+  (net "NRST"      "flash/NRST" "pwr_btn/NRST")
+  (net "FLASH_NCS" "flash/CS")
+  (net "FLASH_CLK" "flash/CLK")
+  (net "FLASH_DQS" "flash/DQS")
+  (net "FLASH_IO0" "flash/FLASH_IO0") (net "FLASH_IO1" "flash/FLASH_IO1")
+  (net "FLASH_IO2" "flash/FLASH_IO2") (net "FLASH_IO3" "flash/FLASH_IO3")
+  (net "FLASH_IO4" "flash/FLASH_IO4") (net "FLASH_IO5" "flash/FLASH_IO5")
+  (net "FLASH_IO6" "flash/FLASH_IO6") (net "FLASH_IO7" "flash/FLASH_IO7")
+  (net "PSRAM_NCS"  "psram/CS")
+  (net "PSRAM_CLK"  "psram/CLK")
+  (net "PSRAM_DQS0" "psram/DQS0")
+  (net "PSRAM_DQS1" "psram/DQS1")
+  (net "PSRAM_IO0"  "psram/PSRAM_IO0")  (net "PSRAM_IO1"  "psram/PSRAM_IO1")
+  (net "PSRAM_IO2"  "psram/PSRAM_IO2")  (net "PSRAM_IO3"  "psram/PSRAM_IO3")
+  (net "PSRAM_IO4"  "psram/PSRAM_IO4")  (net "PSRAM_IO5"  "psram/PSRAM_IO5")
+  (net "PSRAM_IO6"  "psram/PSRAM_IO6")  (net "PSRAM_IO7"  "psram/PSRAM_IO7")
+  (net "PSRAM_IO8"  "psram/PSRAM_IO8")  (net "PSRAM_IO9"  "psram/PSRAM_IO9")
+  (net "PSRAM_IO10" "psram/PSRAM_IO10") (net "PSRAM_IO11" "psram/PSRAM_IO11")
+  (net "PSRAM_IO12" "psram/PSRAM_IO12") (net "PSRAM_IO13" "psram/PSRAM_IO13")
+  (net "PSRAM_IO14" "psram/PSRAM_IO14") (net "PSRAM_IO15" "psram/PSRAM_IO15")
+  (net "USB_DP"  "usb/USB_DP")
+  (net "USB_DN"  "usb/USB_DN")
+  (net "TXRTUNE" "usb/TXRTUNE")
+  (net "DISP_SCK"   "disp/SCK")
+  (net "DISP_MOSI"  "disp/MOSI")
+  (net "DISP_NCS"   "disp/CS")
+  (net "DISP_DC"    "disp/DC")
+  (net "DISP_NRST"  "disp/NRST")
+  (net "DISP_BL_EN" "disp/BL_EN")
+  (net "PSHOLD"  "pwr_btn/PSHOLD")
+  (net "PWR_BTN" "pwr_btn/PWR_BTN")
+  (net "PWR_INT" "pwr_btn/PWR_INT")
+  (net "PWR_EN" "buck/EN" "pwr_btn/PWR_EN")
   (net "PG_3V3" "buck/PG" "ldo/EN")
-  (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3")
+  (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3" "flash/VDDIO" "psram/VDD")
   (net "CHG_EN" "charger/EN")
 
   ;; STM32 GPIO for charger enable control
@@ -464,29 +376,11 @@
   ;; VREF+ (W2) tied to filtered VDDA18ADC — STM32N6 VREF+ max is VDDA18ADC (1.8V), not VDD (AN5967 §3.3).
   (net "VDDA18ADC" "VREF+")
 
-  (section "ADC Voltage Reference" "LTC6655-2.5 ultra-low-noise 2.5V precision reference shared by 3x AD7380 ADCs"
-    (port "VDD" in power 3.3)
-    (port "VREF_2V5" out power 2.5)
-    (instance "vref" ltc6655bhms8-2-5#pbf
-      ;; SHDN tied to VIN — datasheet warns against floating (weak internal pullup).
-      (pin 1 "VDD")
-      (pin 2 "VDD")
-      ;; All four GND pins to the plane; pin 4 is the datasheet star-ground return.
-      (pin 3 4 5 8 "GND")
-      ;; Force + sense are one net electrically (Kelvin); separation is a PCB layout concern.
-      (pin 6 "VREF_2V5")
-      (pin 7 "VREF_2V5") (id a4525001))
-    (instance "C_VREF_IN"  (cap-0201 "100nF") (pin 1 "VDD")      (pin 2 "GND") (id a4525002))
-    ;; NP0/C0G dielectric to eliminate piezoelectric noise (LTC6655 datasheet
-    ;; warns against X7R for low-noise applications). Note: 10µF NP0 in 0603
-    ;; is at the edge of commercial availability — sourcing may require a
-    ;; 1206/1210 package; verify on BOM resolve.
-    (instance "C_VREF_OUT" (cap-0603 "10uF" np0)  (pin 1 "VREF_2V5") (pin 2 "GND") (id a4525003))
-    (note "LTC6655B: 2ppm/°C, ±0.025%, 0.625µVp-p 0.1–10Hz noise. Far lower noise than ADR4525 — worth the cost for full ENOB on 3x AD7380.")
-    (note "C_VREF_OUT (10µF) is the star-node bulk cap: on PCB it must sit at the star pour under adc2, not at pin 7.")
-    (note "Layout: VOUT_F (pin 7) and VOUT_S (pin 6) route as separate traces to a common star pour. Three branches from the star fan out to adc1/adc2/adc3 REFIN — do not daisy-chain (SAR sampling kicks couple between ADCs).")
-    (note "Pin 4 needs its own direct via to GND plane within ~1mm of the pad — it's where LTC6655 return current physically exits.")
-    (note "Per-ADC REFIN bypass: each ad7380-channel module has a 100nF ceramic close to pin 17 per LTC6655 datasheet recommendation."))
+  ;; LTC6655-2.5 ultra-low-noise 2.5V precision reference shared by 3x AD7380 ADCs.
+  ;; Star-node placement: bulk cap belongs at the star pour under adc2, not at pin 7 of vref.
+  ;; Three branches from the star fan out to adc1/adc2/adc3 REFIN — do not daisy-chain.
+  ;; Per-ADC REFIN bypass: each ad7380-channel module has a 100nF ceramic close to pin 17.
+  (sub-block "vref" (ltc6655-vref))
 
   (section "ADC Array" "3x AD7380-4 quad 16-bit 4MSPS ADCs — 12 channels total via bit-banged config + PSSI parallel readout"
     (protocol SPI)
@@ -555,7 +449,7 @@
 
   ;; Bridge the module's internal ports to the parent board nets.
   ;; Shared power (VDD/V1P8/GND) is tied in the consolidated rail forms above.
-  (net "VREF_2V5" "adc1/REFIN" "adc2/REFIN" "adc3/REFIN")
+  (net "VREF_2V5" "vref/VREF" "adc1/REFIN" "adc2/REFIN" "adc3/REFIN")
   ;; Shared SPI buses (MCU side → all 3 ADCs).
   (net "ADC_SCK" "adc1/SCK" "adc2/SCK" "adc3/SCK")
   (net "ADC_SDI" "adc1/SDI" "adc2/SDI" "adc3/SDI")
@@ -603,65 +497,26 @@
   (note "TP7" "Boot mode select — pull high to force system bootloader on power-up")
   (note "TP8" "STM32 PWR_ON output — drives downstream regulator enables")
 
-  (section "Display" "0.96\" ST7735S 80×160 TFT on 10-pin 0.5mm FPC — 4-wire SPI (write-only), PWM-dimmable backlight"
+  (section "Display" "ST7735S 80×160 TFT — chip details sealed in st7735s-display module"
     (role output)
     (protocol SPI)
-    (port "VDD" in power 3.3)
     (pins "stm32"
+      (group "Display SPI4 + Backlight")
       (pin D10 (as "SPI4_SCK")  "DISP_SCK")
       (pin E16 (as "SPI4_MOSI") "DISP_MOSI")
-      (pin F10 (as "PE15") "DISP_NCS")
-      (pin D11 (as "PD10") "DISP_NRST")
-      (pin D14 (as "PE10") "DISP_DC")
-      (pin D16 (as "TIM4_CH2") "DISP_BL_EN"))
-    (instance "disp" fh12-10s-0-5sh-55-
-      (pin 1 "DISP_LEDK")
-      (pin 2 "DISP_LEDA")
-      (pin 3 "VDD")
-      (pin 4 "VDD")
-      (pin 5 "GND")
-      (pin 6 "DISP_NCS")
-      (pin 7 "DISP_NRST")
-      (pin 8 "DISP_MOSI")
-      (pin 9 "DISP_SCK")
-      (pin 10 "DISP_DC")
-      (pin MP_1 MP_2 "GND") (id d15p0001))
-    (instance "C_DISP" (cap-0603 "100nF")
-      (pin 1 "VDD")
-      (pin 2 "GND") (id d15p0002))
-    (series "R_BL" (res-0402 "15R") "VDD" "DISP_LEDA" (id d15p0003))
-    (instance "Q_BL" ao3400a
-      (pin 1 "DISP_BL_EN")
-      (pin 2 "GND")
-      (pin 3 "DISP_LEDK") (id d15p0004))
-    (series "R_BL_PD" (res-0402 "10k") "DISP_BL_EN" "GND" (id d15p0005))
-    (note "ST7735S is write-only from the STM32 side — no MISO routed. SPI mode 0 (CPOL=0, CPHA=0), MSB first, up to ~15 MHz write clock.")
-    (note "80×160 panel variant: firmware must apply column +26 / row +1 offsets and correct MADCTL, otherwise the image shifts or tears. Most common bring-up gotcha on this panel.")
-    (note "DISP_BL_EN is on TIM4_CH2 (D16/PD13). Drive high for full brightness or configure TIM4 for PWM to dim — 1–20 kHz is fine, AO3400A switches fast enough.")
-    (note "FPC pin 3 (SPI4W) tied to VDD selects 4-wire SPI mode (D/C line distinguishes command from data bytes).")
-    (note "Backlight current: R_BL (15Ω) sets ~20 mA at 3.3V with LED Vf≈3.0V typ — unit-to-unit brightness may vary at worst-case Vf=3.3V. Move R_BL to a 5V rail + ~100Ω if uniform brightness matters.")
-    (note "R_BL_PD (10k pull-down) keeps Q_BL gate low while the STM32 boots, so backlight stays off until firmware drives it.")
-    (note "MP_1/MP_2 FPC board-lock tabs tied to GND."))
+      (pin F10 (as "PE15")      "DISP_NCS")
+      (pin D11 (as "PD10")      "DISP_NRST")
+      (pin D14 (as "PE10")      "DISP_DC")
+      (pin D16 (as "TIM4_CH2")  "DISP_BL_EN"))
+    (note "DISP_BL_EN is on TIM4_CH2 (D16). Drive high for full brightness or configure TIM4 for PWM to dim — 1–20 kHz is fine."))
+  (sub-block "disp" (st7735s-display))
 
-  (section "Vibration Motor" "Coin/pager vibration motor (3.3V, ≤27mA) driven low-side by AO3400A N-MOSFET with Schottky flyback clamp"
-    (role output)
-    (port "VDD" in power 3.3)
+  (section "Vibration Motor" "Coin/pager vibration motor — low-side AO3400A driver sealed in vibration-motor module"
     (pins "stm32"
       (pin B16 (as "PB2" "TIM1_CH1") "VIB_PWM"))
-    (instance "motor" connector-motor
-      (pin 1 "VDD")
-      (pin 2 "VIB_DRAIN") (id v1b10001))
-    (instance "Q_VIB" ao3400a
-      (pin 1 "VIB_GATE")
-      (pin 2 "GND")
-      (pin 3 "VIB_DRAIN") (id v1b10002))
-    (series "R_VIB_G"  (res-0402 "100R") "VIB_PWM"  "VIB_GATE" (id v1b10003))
-    (series "R_VIB_PD" (res-0402 "100k") "VIB_GATE" "GND"      (id v1b10004))
-    (series "D_VIB" (diode-sod323 "SS14") "VDD" "VIB_DRAIN" (id v1b10005))
-    (note "AO3400A is a logic-level N-MOSFET (5.8A / 30V, Vgs(th) 1.3V typ, Rds(on) ≈25mΩ @ Vgs=3V). At 27mA the drop is <1mV — effectively zero.")
-    (note "Flyback diode D_VIB (SS14 Schottky, cathode to VDD) clamps the motor's back-EMF when the FET turns off. Without it the drain node would fly above VDD and stress Q_VIB.")
-    (note "R_VIB_G (100Ω) damps gate ringing; R_VIB_PD (100k) holds the gate low while the STM32 boots so the motor stays off until firmware drives it.")
     (note "VIB_PWM on TIM1_CH1 (PB2) — firmware can PWM at 1–20 kHz to modulate intensity. Hard on/off also works fine."))
+  ;; sub-block placed at design-block top level — sub-block forms aren't evaluated inside sections.
+  (sub-block "motor" (vibration-motor))
 
   (section "Mounting" "PCB standoffs"
     (instance "H1" a-wurth-wa-smsi-9774020633r
