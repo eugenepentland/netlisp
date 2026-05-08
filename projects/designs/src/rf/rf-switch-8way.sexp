@@ -24,12 +24,12 @@
     (pin 19 "RF8")
     (pin 20 "NC")
     (pin 22 "RFC")
-    (pin 24 "RF1"))
+    (pin 24 "RF1") (id ea6a128c))
 
   ;; Common port (RFC) SMA connector
   (instance "J1" sma-j-p-h-st-em1
     (pin 1 "RFC")
-    (pin 2 3 "GND"))
+    (pin 2 3 "GND") (id c30f6080))
 
   ;; 8-port ganged MMCX for RF1-RF8
   ;; Each port has 1 signal pin (X.1) and 4 ground shield pins (X.2-X.5)
@@ -50,26 +50,26 @@
     (pin G2 G3 G4 G5 "GND")
     (pin H1 "RF8")
     (pin H2 H3 H4 H5 "GND")
-    (pin MH1 MH2 MH3 MH4 MH5 MH6 MH7 MH8 "GND"))
+    (pin MH1 MH2 MH3 MH4 MH5 MH6 MH7 MH8 "GND") (id cf8187c8))
 
   ;; VDD decoupling - place close to pin 8
   (instance "C1" (cap-0402 "10uF")
     (pin 1 "VDD")
-    (pin 2 "GND"))
+    (pin 2 "GND") (id acebe1e2))
 
   (instance "C2" (cap-0402 "100nF")
     (pin 1 "VDD")
-    (pin 2 "GND"))
+    (pin 2 "GND") (id e363416c))
 
   (instance "C3" (cap-0402 "10nF")
     (pin 1 "VDD")
-    (pin 2 "GND"))
+    (pin 2 "GND") (id b852547f))
 
   ;; VSS_EXT bypass - smooths the internal negative voltage generator.
   ;; For spur-free instrumentation use, replace with an external -3.3V rail.
   (instance "C4" (cap-0402 "100nF")
     (pin 1 "VSS_EXT")
-    (pin 2 "GND"))
+    (pin 2 "GND") (id b23aaa77))
 
   ;; External ports
   (port "RFC" bidi)

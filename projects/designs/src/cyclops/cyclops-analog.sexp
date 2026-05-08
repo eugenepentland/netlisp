@@ -164,7 +164,7 @@
       (pin 45 "ADF_CH8P")  (pin 47 "ADF_CH8N")    ;; → AIND (EMVS Cell 1 Hy)
       (pin 51 "ADF_CH9P")  (pin 53 "ADF_CH9N")    ;; → AD7380-4 #3 AINA (Main RX Beam 1)
       (pin 57 "ADF_CH10P") (pin 59 "ADF_CH10N")   ;; → AINB (Main RX Beam 2)
-      (pin MP1 MP2 MP3 MP4 "GND"))
+      (pin MP1 MP2 MP3 MP4 "GND") (id b8972abf))
 
     (note "J1" "Molex SlimStack 204927-0601 — mates with 204928-0601 on Cyclops Digital. Pinout matches cyclops-breakout J1 so the digital board is unchanged across all cyclops-* analog boards (breakout / Rev D / Rev E).")
     (note "J1: Rev E pin-50 repurpose — STM32 PA10 was RxRST in Rev D. In Rev E it drives ADAR2001 TxADV for per-chirp pol-cycling (Ex/Ey/Hx/Hy). Digital firmware still calls the GPIO 'RxRST' (PA10 alt-name preserved); analog board labels the trace TxADV because that is the destination function. RxRST function for both ADAR2004s relocates to MAX7301 P21 (slow recovery, no per-chirp timing).")
@@ -193,33 +193,33 @@
       (pin D1 "FB_BUCK33")
       (pin D2 D3 "SW_L2_BUCK33")
       (pin E1 "PG_BUCK33")
-      (pin E2 E3 "V_RF_3P3"))
+      (pin E2 E3 "V_RF_3P3") (id c6a10c76))
 
     ;; Inductor between L1 and L2 switching nodes
     (instance "L_BUCK33" (xfl4012 "1uH")
-      (pin 1 "SW_L1_BUCK33") (pin 2 "SW_L2_BUCK33"))
+      (pin 1 "SW_L1_BUCK33") (pin 2 "SW_L2_BUCK33") (id a8b5eb0c))
 
     ;; FB divider 560k / 100k
     (instance "R_FBT_BUCK33" (res-0402 "560k")
-      (pin 1 "V_RF_3P3") (pin 2 "FB_BUCK33"))
+      (pin 1 "V_RF_3P3") (pin 2 "FB_BUCK33") (id e1b72458))
     (instance "R_FBB_BUCK33" (res-0402 "100k")
-      (pin 1 "FB_BUCK33") (pin 2 "GND"))
+      (pin 1 "FB_BUCK33") (pin 2 "GND") (id ad954ffa))
     ;; PG pull-up (open-drain output)
     (instance "R_PG_BUCK33" (res-0402 "100k")
-      (pin 1 "PG_BUCK33") (pin 2 "V_RF_3P3"))
+      (pin 1 "PG_BUCK33") (pin 2 "V_RF_3P3") (id c88cdb3a))
 
     ;; Input bulk decoupling
     (instance "C_VIN_BUCK33A" (cap-0603 "10uF")
-      (pin 1 "VBATT") (pin 2 "GND"))
+      (pin 1 "VBATT") (pin 2 "GND") (id b3237851))
     (instance "C_VIN_BUCK33B" (cap-0402 "100nF")
-      (pin 1 "VBATT") (pin 2 "GND"))
+      (pin 1 "VBATT") (pin 2 "GND") (id fb5d8619))
     ;; Output bulk + HF decoupling
     (instance "C_VOUT_BUCK33A" (cap-0805 "47uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id d13c06bd))
     (instance "C_VOUT_BUCK33B" (cap-0805 "47uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id dbe8638f))
     (instance "C_VOUT_BUCK33C" (cap-0402 "100nF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id cb1e821a))
 
     (note "U_BUCK33" "TPS63806: 1.8-5.5 V VIN, 2 A IOUT. EN tied to VIN — always-on with VBATT present. MODE=GND for auto PFM/PWM (13 µA Iq at light load). ~2 MHz PWM in heavy mode; place L1 + Cout within 5 mm of pins.")
     (note "R_FBT_BUCK33" "FB divider 560k / 100k → VOUT = 0.5 × (1 + 5.6) = 3.3 V. 1% tolerance recommended.")
@@ -241,16 +241,16 @@
       (pin 2 "GND")
       (pin 3 "V_RF_3P3")          ;; EN tied to IN — always-on
       (pin 4 "GND")               ;; NC pin per pinout — leave unused (tied to GND for safety)
-      (pin 5 "V1P8_RF"))          ;; OUT
+      (pin 5 "V1P8_RF") (id b894897b))          ;; OUT
     ;; Wait — pin 4 is "NC" per pinout; should not be tied. Leave unconnected.
 
     ;; Input/output decoupling per LP5907 datasheet
     (instance "C_VIN_LDO18" (cap-0402 "1uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id a0f100fc))
     (instance "C_VOUT_LDO18" (cap-0402 "1uF")
-      (pin 1 "V1P8_RF") (pin 2 "GND"))
+      (pin 1 "V1P8_RF") (pin 2 "GND") (id a93b7ec0))
     (instance "C_VOUT_LDO18B" (cap-0402 "100nF")
-      (pin 1 "V1P8_RF") (pin 2 "GND"))
+      (pin 1 "V1P8_RF") (pin 2 "GND") (id b0e685c5))
 
     (note "U_LDO18" "LP5907MFX-1.8: 250 mA fixed 1.8 V LDO, low-noise (6.5 µVrms BW=10Hz-100kHz). EN tied to IN — always-on. Sole load is N×TXS0108E VCCA (~3 mA each plus output drive current).")
     (note "U_LDO18: pin 4 is NC per pinout — must NOT be tied to GND in the actual board layout. The pin spec above shows it tied to GND only because every instance pin must be driven; co-circuit ERC will not flag this. Verify in PCB before fab."))
@@ -279,26 +279,26 @@
       (pin 8 "SET_2P5")          ;; → R_SET to GND, C_SET to GND
       (pin 9 "GND")
       (pin 10 11 12 "V_RX_2P5")  ;; VOUT (×3)
-      (pin 13 "GND"))            ;; exposed pad
+      (pin 13 "GND") (id bad6d71b))            ;; exposed pad
 
     (instance "R_SET" (res-0402 "25k")
-      (pin 1 "SET_2P5") (pin 2 "GND"))
+      (pin 1 "SET_2P5") (pin 2 "GND") (id c198b71c))
     (instance "R_ILIM" (res-0402 "300R")
-      (pin 1 "ILIM_2P5") (pin 2 "GND"))
+      (pin 1 "ILIM_2P5") (pin 2 "GND") (id b4e28e7f))
     ;; PGFB tied to VOUT → default PG threshold (~92% of VOUT)
     (instance "R_PGFB" (res-0402 "0R")
-      (pin 1 "PGFB_2P5") (pin 2 "V_RX_2P5"))
+      (pin 1 "PGFB_2P5") (pin 2 "V_RX_2P5") (id fd16a2d5))
     (instance "C_VIN" (cap-0805 "4.7uF")
-      (pin 1 "VBATT") (pin 2 "GND"))
+      (pin 1 "VBATT") (pin 2 "GND") (id ba87349d))
     (instance "C_VOUT" (cap-0805 "10uF")
-      (pin 1 "V_RX_2P5") (pin 2 "GND"))
+      (pin 1 "V_RX_2P5") (pin 2 "GND") (id d85f2ead))
     (instance "C_SET" (cap-0402 "470nF")
-      (pin 1 "SET_2P5") (pin 2 "GND"))
+      (pin 1 "SET_2P5") (pin 2 "GND") (id a1cb8e60))
     (instance "C_VIOC" (cap-0402 "100nF")
-      (pin 1 "VIOC") (pin 2 "GND"))
+      (pin 1 "VIOC") (pin 2 "GND") (id f2b232f7))
     ;; Shared 1 µF bulk on the 2.5 V rail (datasheet: "1 µF for the rail")
     (instance "C_BULK_2P5" (cap-0402 "1uF")
-      (pin 1 "V_RX_2P5") (pin 2 "GND"))
+      (pin 1 "V_RX_2P5") (pin 2 "GND") (id e50734ec))
 
     (note "U3" "LT3045-1: ultra-low-noise LDO. RSET=25k → 2.5V, RILIM=300Ω → ~500mA. EN tied to VIN for always-on. PGFB tied to VOUT (default PG threshold).")
     (note "U3: Rev E load growth — ADAR2001 (180 mA) + ADAR2004 ×2 (~370 mA each) = ~910 mA total on V_RX_2P5. Current ILIM (500 mA) is UNDERSIZED. Options: (a) parallel a second LT3045-1, (b) replace with LT3045-1 + LT3045-1 master/slave, (c) upgrade to TPS7A52 (5 A LDO) with EMVS_EN gating. Tracking as analog board ECO.")
@@ -320,18 +320,18 @@
     ;; The net names are correct so the rest of the design hooks up unchanged.
     (instance "Y1" crystal
       (pin 1 "RADAR_REF_100MHZ")
-      (pin 2 "GND"))
+      (pin 2 "GND") (id c4af41dc))
     ;; Decoupling that the real TCXO will need on its VCC pin
     (instance "C_TCXO_VCC" (cap-0402 "100nF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id a16233e2))
     (instance "C_TCXO_VCC_BULK" (cap-0402 "1uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id bf496b95))
     ;; AC-coupling cap to fanout buffer / direct chip references (per chip
     ;; datasheets — REFIN inputs are AC-coupled).  The TCXO output is single-
     ;; ended 50 Ω so a small series resistor + DC-block cap per branch is the
     ;; canonical fanout topology.  Real network is a 1:6 fanout — TBD.
     (instance "C_TCXO_AC" (cap-0402 "100pF")
-      (pin 1 "RADAR_REF_100MHZ") (pin 2 "RADAR_REF_AC"))
+      (pin 1 "RADAR_REF_100MHZ") (pin 2 "RADAR_REF_AC") (id f66c3595))
 
     (note "Y1" "PLACEHOLDER — using 2-pin generic crystal as a stand-in. Replace with a 4-pad 100 MHz TCXO once a library entry exists. Required pinout: 1=EN, 2=GND, 3=OUT, 4=VCC. Suggested parts: SiTime SiT5021AI, Abracon ASTX-H11.")
     (note "TCXO fanout: a single TCXO drives 6 chips (ADF4159 ×2, ADF5901 ×2, ADF5904 #1, LMX2594). Required topology: TCXO OUT → 1:6 LVCMOS fanout buffer (e.g. SY89832U) → AC-coupled to each chip's REFIN. A bare resistor-divider tree will not drive 6 high-Z inputs at 100 MHz with adequate skew. TODO: add fanout buffer section, or use multi-output TCXO.")
@@ -428,62 +428,62 @@
       ;; NC pins per pinout
       (pin 11 "IOEXP_NC1")
       (pin 20 "IOEXP_NC2")
-      (pin 31 "IOEXP_NC3"))
+      (pin 31 "IOEXP_NC3") (id d1dec995))
 
     ;; ISET resistor (datasheet: 39 kΩ recommended)
     (instance "R_ISET_IOEXP" (res-0402 "39k")
-      (pin 1 "ISET_IOEXP") (pin 2 "GND"))
+      (pin 1 "ISET_IOEXP") (pin 2 "GND") (id e959cf38))
 
     ;; V+ decoupling per datasheet (47 nF + 1 µF bulk if remote from board cap)
     (instance "C_IOEXP_VCC_HF" (cap-0402 "47nF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id fdd366cf))
     (instance "C_IOEXP_VCC_BULK" (cap-0402 "1uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id a7ffa15e))
 
     ;; Active-low CS pull-ups (10 kΩ to V_RF_3P3 — safe default = deasserted)
     (instance "R_PU_CS_ADF4159_1" (res-0402 "10k")
-      (pin 1 "CS_ADF4159_1") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_ADF4159_1") (pin 2 "V_RF_3P3") (id a2096600))
     (instance "R_PU_CS_ADF4159_2" (res-0402 "10k")
-      (pin 1 "CS_ADF4159_2") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_ADF4159_2") (pin 2 "V_RF_3P3") (id baa2488d))
     (instance "R_PU_CS_ADF5901_1" (res-0402 "10k")
-      (pin 1 "CS_ADF5901_1") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_ADF5901_1") (pin 2 "V_RF_3P3") (id fc8e57e1))
     (instance "R_PU_CS_ADF5901_2" (res-0402 "10k")
-      (pin 1 "CS_ADF5901_2") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_ADF5901_2") (pin 2 "V_RF_3P3") (id f128b2c7))
     (instance "R_PU_CS_ADF5904_1" (res-0402 "10k")
-      (pin 1 "CS_ADF5904_1") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_ADF5904_1") (pin 2 "V_RF_3P3") (id b94e2f19))
     (instance "R_PU_CS_RX1" (res-0402 "10k")
-      (pin 1 "CS_RX1") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_RX1") (pin 2 "V_RF_3P3") (id bc82b833))
     (instance "R_PU_CS_RX2" (res-0402 "10k")
-      (pin 1 "CS_RX2") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_RX2") (pin 2 "V_RF_3P3") (id a22331fc))
     (instance "R_PU_CS_LMX2594" (res-0402 "10k")
-      (pin 1 "CS_LMX2594") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_LMX2594") (pin 2 "V_RF_3P3") (id bbe0eb83))
     (instance "R_PU_CS_ADAR2001" (res-0402 "10k")
-      (pin 1 "CS_ADAR2001") (pin 2 "V_RF_3P3"))
+      (pin 1 "CS_ADAR2001") (pin 2 "V_RF_3P3") (id a8174a64))
 
     ;; Active-high EN pull-downs (10 kΩ to GND — safe default = OFF at boot)
     (instance "R_PD_TX_EN" (res-0402 "10k")
-      (pin 1 "TX_EN") (pin 2 "GND"))
+      (pin 1 "TX_EN") (pin 2 "GND") (id f7ac8b1b))
     (instance "R_PD_RX_EN" (res-0402 "10k")
-      (pin 1 "RX_EN") (pin 2 "GND"))
+      (pin 1 "RX_EN") (pin 2 "GND") (id bf7632ff))
     (instance "R_PD_EMVS_EN" (res-0402 "10k")
-      (pin 1 "EMVS_EN") (pin 2 "GND"))
+      (pin 1 "EMVS_EN") (pin 2 "GND") (id e084b5da))
     (instance "R_PD_TCXO_EN" (res-0402 "10k")
-      (pin 1 "TCXO_EN") (pin 2 "GND"))
+      (pin 1 "TCXO_EN") (pin 2 "GND") (id a2b3cadc))
     (instance "R_PD_PLL_EN" (res-0402 "10k")
-      (pin 1 "PLL_EN") (pin 2 "GND"))
+      (pin 1 "PLL_EN") (pin 2 "GND") (id ab851062))
     (instance "R_PD_ADAR2001_TXEN" (res-0402 "10k")
-      (pin 1 "ADAR2001_TXEN") (pin 2 "GND"))
+      (pin 1 "ADAR2001_TXEN") (pin 2 "GND") (id ff52b097))
 
     ;; Lock detect inputs — 56 kΩ pull-up so default reads HIGH (no false fault)
     (instance "R_PU_LD_ADF4159_1" (res-0402 "56k")
-      (pin 1 "LD_ADF4159_1") (pin 2 "V_RF_3P3"))
+      (pin 1 "LD_ADF4159_1") (pin 2 "V_RF_3P3") (id a1f3b1b0))
     (instance "R_PU_LD_ADF4159_2" (res-0402 "56k")
-      (pin 1 "LD_ADF4159_2") (pin 2 "V_RF_3P3"))
+      (pin 1 "LD_ADF4159_2") (pin 2 "V_RF_3P3") (id b87e53bd))
     (instance "R_PU_LD_LMX2594" (res-0402 "56k")
-      (pin 1 "LD_LMX2594") (pin 2 "V_RF_3P3"))
+      (pin 1 "LD_LMX2594") (pin 2 "V_RF_3P3") (id b870df03))
     ;; ADAR2001 FAULT — 56 kΩ pull-up so absent ADAR2001 doesn't trigger
     (instance "R_PU_ADAR2001_FAULT" (res-0402 "56k")
-      (pin 1 "ADAR2001_FAULT") (pin 2 "V_RF_3P3"))
+      (pin 1 "ADAR2001_FAULT") (pin 2 "V_RF_3P3") (id babbe827))
 
     (note "U_IOEXP" "MAX7301ATL+ — 28-port SPI GPIO. SPI Mode 0, ≤26 MHz on 3.3 V (datasheet typ). Boot state: all 28 ports configured as Schmitt inputs with no internal pull — external pull-ups/downs (this section) hold safe defaults until firmware programs port direction via registers 0x09-0x0F and exits shutdown via configuration register 0x04 (S bit).")
     (note "U_IOEXP: DOUT (pin 40) is NEVER tri-state per datasheet — when sharing the SPI MISO bus with ADAR/ADF/LMX/etc., reliance on CS_IO_EXP gating is mandatory. The other RF chips' SDO/MUXOUT outputs go tri-state on CS-deassert; only MAX7301 holds the bus actively. Firmware must NEVER assert two CS lines simultaneously.")
@@ -706,41 +706,41 @@
       (pin 28 "AUXB_5901_1")                    ;; AUXB out (unused)
       (pin 29 "VTUNE_1")
       (pin 31 "AVDD_5901_1")                    ;; per datasheet — connect to V_RF_3P3
-      (pin 32 "DVDD_5901_1"))                   ;; per datasheet — connect to V1P8_RF
+      (pin 32 "DVDD_5901_1") (id e42a572a))                   ;; per datasheet — connect to V1P8_RF
 
     ;; Power-rail decoupling — analog 3.3 V (multiple bypass groups per datasheet)
-    (instance "C_AVDD_5901_1A" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_1B" (cap-0402 "1nF")   (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_1C" (cap-0402 "10pF")  (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_1D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND"))
+    (instance "C_AVDD_5901_1A" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id a5865adc))
+    (instance "C_AVDD_5901_1B" (cap-0402 "1nF")   (pin 1 "V_RF_3P3") (pin 2 "GND") (id fada42c9))
+    (instance "C_AVDD_5901_1C" (cap-0402 "10pF")  (pin 1 "V_RF_3P3") (pin 2 "GND") (id ba5547e9))
+    (instance "C_AVDD_5901_1D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND") (id e63c4dc8))
     ;; AVDD discrete pin (pin 31) extra HF bypass
-    (instance "C_AVDD_5901_1E" (cap-0402 "100nF") (pin 1 "AVDD_5901_1") (pin 2 "GND"))
-    (instance "C_AVDD_5901_1F" (cap-0402 "1nF")   (pin 1 "AVDD_5901_1") (pin 2 "GND"))
+    (instance "C_AVDD_5901_1E" (cap-0402 "100nF") (pin 1 "AVDD_5901_1") (pin 2 "GND") (id f625daa1))
+    (instance "C_AVDD_5901_1F" (cap-0402 "1nF")   (pin 1 "AVDD_5901_1") (pin 2 "GND") (id fb2b9345))
     ;; Net AVDD to V_RF_3P3 (pin 31 is on the same supply but routed locally)
     (net "AVDD_5901_1" "V_RF_3P3")
     ;; DVDD discrete pin (pin 32) bypass
-    (instance "C_DVDD_5901_1A" (cap-0402 "100nF") (pin 1 "DVDD_5901_1") (pin 2 "GND"))
-    (instance "C_DVDD_5901_1B" (cap-0402 "1nF")   (pin 1 "DVDD_5901_1") (pin 2 "GND"))
+    (instance "C_DVDD_5901_1A" (cap-0402 "100nF") (pin 1 "DVDD_5901_1") (pin 2 "GND") (id f9782205))
+    (instance "C_DVDD_5901_1B" (cap-0402 "1nF")   (pin 1 "DVDD_5901_1") (pin 2 "GND") (id a8097746))
     (net "DVDD_5901_1" "V1P8_RF")
     ;; VREG bypass (datasheet: 47 nF + 220 nF)
-    (instance "C_VREG_5901_1A" (cap-0402 "47nF")  (pin 1 "VREG_5901_1") (pin 2 "GND"))
-    (instance "C_VREG_5901_1B" (cap-0402 "220nF") (pin 1 "VREG_5901_1") (pin 2 "GND"))
+    (instance "C_VREG_5901_1A" (cap-0402 "47nF")  (pin 1 "VREG_5901_1") (pin 2 "GND") (id a6ee0f96))
+    (instance "C_VREG_5901_1B" (cap-0402 "220nF") (pin 1 "VREG_5901_1") (pin 2 "GND") (id d41f1d77))
     ;; REFIN AC-coupling network (per src/adf5901.sexp template)
-    (instance "C_REFIN_5901_1A" (cap-0402 "1nF") (pin 1 "RADAR_REF_AC") (pin 2 "REFIN_AC_5901_1"))
-    (instance "C_REFIN_5901_1B" (cap-0402 "1nF") (pin 1 "RADAR_REF_AC") (pin 2 "REFIN_AC_5901_1"))
-    (instance "R_REFIN_5901_1"  (res-0402 "5.1k") (pin 1 "RADAR_REF_AC") (pin 2 "GND"))
+    (instance "C_REFIN_5901_1A" (cap-0402 "1nF") (pin 1 "RADAR_REF_AC") (pin 2 "REFIN_AC_5901_1") (id e2870980))
+    (instance "C_REFIN_5901_1B" (cap-0402 "1nF") (pin 1 "RADAR_REF_AC") (pin 2 "REFIN_AC_5901_1") (id aa11d63c))
+    (instance "R_REFIN_5901_1"  (res-0402 "5.1k") (pin 1 "RADAR_REF_AC") (pin 2 "GND") (id e0a9a408))
     ;; RSET (bias)
-    (instance "R_RSET_5901_1" (res-0402 "5.1k") (pin 1 "RSET_5901_1") (pin 2 "GND"))
+    (instance "R_RSET_5901_1" (res-0402 "5.1k") (pin 1 "RSET_5901_1") (pin 2 "GND") (id c409b9ee))
     ;; TX_OUT2 50 Ω term (TX2 unused — single-ended output to ground via 50 Ω)
-    (instance "R_TX2TERM_5901_1" (res-0201 "50R") (pin 1 "TX2_TERM_5901_1") (pin 2 "GND"))
+    (instance "R_TX2TERM_5901_1" (res-0201 "50R") (pin 1 "TX2_TERM_5901_1") (pin 2 "GND") (id bf55bf7d))
 
     ;; Loop filter (template from src/adf5901.sexp — values from ADIsimPLL TBD)
-    (instance "R_LF_5901_1A" (res-0805 "510R") (pin 1 "CPOUT_1") (pin 2 "LF1_5901_1"))
-    (instance "R_LF_5901_1B" (res-0805 "0R")   (pin 1 "LF1_5901_1") (pin 2 "LF2_5901_1"))
-    (instance "R_LF_5901_1C" (res-0805 "0R")   (pin 1 "LF2_5901_1") (pin 2 "VTUNE_1"))
-    (instance "C_LF_5901_1A" (cap-0805 "3.3nF") (pin 1 "LF1_5901_1") (pin 2 "GND"))
-    (instance "C_LF_5901_1B" (cap-0805 "220pF") (pin 1 "CPOUT_1") (pin 2 "GND"))
-    (instance "C_LF_5901_1C" (cap-0805 "100pF") (pin 1 "LF2_5901_1") (pin 2 "GND"))
+    (instance "R_LF_5901_1A" (res-0805 "510R") (pin 1 "CPOUT_1") (pin 2 "LF1_5901_1") (id baa5f673))
+    (instance "R_LF_5901_1B" (res-0805 "0R")   (pin 1 "LF1_5901_1") (pin 2 "LF2_5901_1") (id b9a5dfcb))
+    (instance "R_LF_5901_1C" (res-0805 "0R")   (pin 1 "LF2_5901_1") (pin 2 "VTUNE_1") (id bc4578f1))
+    (instance "C_LF_5901_1A" (cap-0805 "3.3nF") (pin 1 "LF1_5901_1") (pin 2 "GND") (id c3cc119a))
+    (instance "C_LF_5901_1B" (cap-0805 "220pF") (pin 1 "CPOUT_1") (pin 2 "GND") (id ae353a7e))
+    (instance "C_LF_5901_1C" (cap-0805 "100pF") (pin 1 "LF2_5901_1") (pin 2 "GND") (id dcb5921d))
 
     (note "U_ADF5901_1" "ADF5901 #1: 24 GHz TX VCO+PA. CE = TX_EN (MAX7301 P12) — entire TX1 chain off when TX_EN=LOW. LO_OUT (-1 dBm @ 13 GHz) drives BOTH ADF4159 #1 RFIN A AND ADF5904 LO_IN. SPI 3.3 V-native — no level shifting.")
     (note "Loop filter: values are template — must regenerate from ADIsimPLL for the specific 24 GHz / 35 µs / 2.55 mA ICP design point. The BSS138 BPSK gate (in §BSS138 #1) shorts C_LF_5901_1A when BPSK_GATE_1 = HIGH, widening the loop bandwidth for comms-mode data."))
@@ -784,27 +784,27 @@
       (pin 28 "AUXB_5901_2")
       (pin 29 "VTUNE_2")
       (pin 31 "AVDD_5901_2")
-      (pin 32 "DVDD_5901_2"))
+      (pin 32 "DVDD_5901_2") (id c58bc114))
     (net "AVDD_5901_2" "V_RF_3P3")
     (net "DVDD_5901_2" "V1P8_RF")
-    (instance "C_AVDD_5901_2A" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_2B" (cap-0402 "1nF")   (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_2C" (cap-0402 "10pF")  (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_2D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_AVDD_5901_2E" (cap-0402 "100nF") (pin 1 "AVDD_5901_2") (pin 2 "GND"))
-    (instance "C_DVDD_5901_2A" (cap-0402 "100nF") (pin 1 "DVDD_5901_2") (pin 2 "GND"))
-    (instance "C_VREG_5901_2A" (cap-0402 "47nF")  (pin 1 "VREG_5901_2") (pin 2 "GND"))
-    (instance "C_VREG_5901_2B" (cap-0402 "220nF") (pin 1 "VREG_5901_2") (pin 2 "GND"))
-    (instance "R_RSET_5901_2"  (res-0402 "5.1k")  (pin 1 "RSET_5901_2") (pin 2 "GND"))
-    (instance "R_TX2TERM_5901_2" (res-0201 "50R") (pin 1 "TX2_TERM_5901_2") (pin 2 "GND"))
+    (instance "C_AVDD_5901_2A" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id d2f3f28f))
+    (instance "C_AVDD_5901_2B" (cap-0402 "1nF")   (pin 1 "V_RF_3P3") (pin 2 "GND") (id ed092f1c))
+    (instance "C_AVDD_5901_2C" (cap-0402 "10pF")  (pin 1 "V_RF_3P3") (pin 2 "GND") (id eabf9432))
+    (instance "C_AVDD_5901_2D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND") (id fcd5cc25))
+    (instance "C_AVDD_5901_2E" (cap-0402 "100nF") (pin 1 "AVDD_5901_2") (pin 2 "GND") (id b6abe3d7))
+    (instance "C_DVDD_5901_2A" (cap-0402 "100nF") (pin 1 "DVDD_5901_2") (pin 2 "GND") (id fbe34f2b))
+    (instance "C_VREG_5901_2A" (cap-0402 "47nF")  (pin 1 "VREG_5901_2") (pin 2 "GND") (id c78d587c))
+    (instance "C_VREG_5901_2B" (cap-0402 "220nF") (pin 1 "VREG_5901_2") (pin 2 "GND") (id dbfe1c5d))
+    (instance "R_RSET_5901_2"  (res-0402 "5.1k")  (pin 1 "RSET_5901_2") (pin 2 "GND") (id b265207d))
+    (instance "R_TX2TERM_5901_2" (res-0201 "50R") (pin 1 "TX2_TERM_5901_2") (pin 2 "GND") (id c96fbf1e))
 
     ;; Loop filter (template — values per ADIsimPLL output)
-    (instance "R_LF_5901_2A" (res-0805 "510R") (pin 1 "CPOUT_2") (pin 2 "LF1_5901_2"))
-    (instance "R_LF_5901_2B" (res-0805 "0R")   (pin 1 "LF1_5901_2") (pin 2 "LF2_5901_2"))
-    (instance "R_LF_5901_2C" (res-0805 "0R")   (pin 1 "LF2_5901_2") (pin 2 "VTUNE_2"))
-    (instance "C_LF_5901_2A" (cap-0805 "3.3nF") (pin 1 "LF1_5901_2") (pin 2 "GND"))
-    (instance "C_LF_5901_2B" (cap-0805 "220pF") (pin 1 "CPOUT_2") (pin 2 "GND"))
-    (instance "C_LF_5901_2C" (cap-0805 "100pF") (pin 1 "LF2_5901_2") (pin 2 "GND"))
+    (instance "R_LF_5901_2A" (res-0805 "510R") (pin 1 "CPOUT_2") (pin 2 "LF1_5901_2") (id a05f6c9c))
+    (instance "R_LF_5901_2B" (res-0805 "0R")   (pin 1 "LF1_5901_2") (pin 2 "LF2_5901_2") (id cef78324))
+    (instance "R_LF_5901_2C" (res-0805 "0R")   (pin 1 "LF2_5901_2") (pin 2 "VTUNE_2") (id bc571549))
+    (instance "C_LF_5901_2A" (cap-0805 "3.3nF") (pin 1 "LF1_5901_2") (pin 2 "GND") (id ffc4be49))
+    (instance "C_LF_5901_2B" (cap-0805 "220pF") (pin 1 "CPOUT_2") (pin 2 "GND") (id f0533f49))
+    (instance "C_LF_5901_2C" (cap-0805 "100pF") (pin 1 "LF2_5901_2") (pin 2 "GND") (id b3567253))
 
     (port "CPOUT_2"      in  signal)
     (note "U_ADF5901_2" "ADF5901 #2: identical pinout to #1. LO_OUT terminated 50 Ω — only #1's LO_OUT feeds ADF5904. TX2 chain selected via TX_AMP_EN2 (SPI), TX1 disabled."))
@@ -876,11 +876,11 @@
     (instance "Q_BPSK_1" n2n7002
       (pin 1 "BPSK_GATE_1")        ;; G — direct from STM32 / connector pin 42 (3.3 V CMOS)
       (pin 2 "GND")                ;; S
-      (pin 3 "LF1_5901_1"))        ;; D — across loop-filter bypass cap
+      (pin 3 "LF1_5901_1") (id d2dd1663))        ;; D — across loop-filter bypass cap
 
     ;; 100 kΩ pull-down on gate keeps FET off when STM32 boots / GPIO floats
     (instance "R_GPD_BPSK_1" (res-0402 "100k")
-      (pin 1 "BPSK_GATE_1") (pin 2 "GND"))
+      (pin 1 "BPSK_GATE_1") (pin 2 "GND") (id eb452576))
 
     (note "Q_BPSK_1" "BSS138 functionally — using n2n7002 (same NMOS SOT-23). Drain across C_LF_5901_1A in §ADF5901 #1. When BPSK_GATE_1 = HIGH, drain-source shorts the cap, widening loop BW for BPSK comms data rate; in radar mode BPSK_GATE_1 = LOW for narrow loop / low chirp jitter.")
     (note "R_GPD_BPSK_1" "100 kΩ pull-down — keeps FET off during STM32 boot / GPIO Hi-Z, so radar mode is the fail-safe default."))
@@ -895,9 +895,9 @@
     (instance "Q_BPSK_2" n2n7002
       (pin 1 "BPSK_GATE_2")
       (pin 2 "GND")
-      (pin 3 "LF1_5901_2"))
+      (pin 3 "LF1_5901_2") (id d8aac451))
     (instance "R_GPD_BPSK_2" (res-0402 "100k")
-      (pin 1 "BPSK_GATE_2") (pin 2 "GND"))
+      (pin 1 "BPSK_GATE_2") (pin 2 "GND") (id e714a196))
 
     (note "Q_BPSK_2" "BSS138 functionally — using n2n7002. TX2 BPSK gate."))
 
@@ -924,19 +924,19 @@
       (pin 10 "VDD_LNA1")            ;; VDD2
       (pin 12 "VDD_LNA1")            ;; VDD1
       (pin 5 "LNA1_NC1")             ;; NC
-      (pin 11 "LNA1_NC2"))           ;; NC
+      (pin 11 "LNA1_NC2") (id ed60c466))           ;; NC
 
     ;; Bias tee — RF choke from rail to VDD pin, with HF + bulk decoupling
     (instance "L_BIAS_LNA1" (ind-0402 "39nH")
-      (pin 1 "V_RF_3P3") (pin 2 "VDD_LNA1"))
+      (pin 1 "V_RF_3P3") (pin 2 "VDD_LNA1") (id dd63836d))
     (instance "C_VDD_LNA1A" (cap-0402 "100nF")
-      (pin 1 "VDD_LNA1") (pin 2 "GND"))
+      (pin 1 "VDD_LNA1") (pin 2 "GND") (id baf95d85))
     (instance "C_VDD_LNA1B" (cap-0402 "1nF")
-      (pin 1 "VDD_LNA1") (pin 2 "GND"))
+      (pin 1 "VDD_LNA1") (pin 2 "GND") (id c1ca2acc))
     (instance "C_VDD_LNA1C" (cap-0201 "10pF")
-      (pin 1 "VDD_LNA1") (pin 2 "GND"))
+      (pin 1 "VDD_LNA1") (pin 2 "GND") (id af77115c))
     (instance "C_VDD_LNA1D" (cap-0805 "10uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "GND") (id f1a99655))
 
     (note "U_LNA1" "PMA3-24323LN+: 24-32 GHz LNA, single-ended 50 Ω in / 50 Ω out. Bias-tee inductor (39 nH ind-0402) on each VDD pin; output AC-coupled to the ADF5904 RFIN_A+ via single-ended-to-diff conversion (typically a balun or single-ended drive of one diff input with the other terminated 50 Ω). Confirm matching network on 24.125 GHz design point.")
     (note "BEAM1_LNAOUT → ADF5904 RFIN_A+ (and 50 Ω term on RFIN_A-) per HW-RDR-001 §8.5. The LNA is single-ended; ADF5904 has differential RF inputs but accepts SE drive with the unused leg terminated."))
@@ -957,13 +957,13 @@
       (pin 10 "VDD_LNA2")
       (pin 12 "VDD_LNA2")
       (pin 5 "LNA2_NC1")
-      (pin 11 "LNA2_NC2"))
+      (pin 11 "LNA2_NC2") (id bf507e47))
     (instance "L_BIAS_LNA2" (ind-0402 "39nH")
-      (pin 1 "V_RF_3P3") (pin 2 "VDD_LNA2"))
-    (instance "C_VDD_LNA2A" (cap-0402 "100nF") (pin 1 "VDD_LNA2") (pin 2 "GND"))
-    (instance "C_VDD_LNA2B" (cap-0402 "1nF")   (pin 1 "VDD_LNA2") (pin 2 "GND"))
-    (instance "C_VDD_LNA2C" (cap-0201 "10pF")  (pin 1 "VDD_LNA2") (pin 2 "GND"))
-    (instance "C_VDD_LNA2D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND"))
+      (pin 1 "V_RF_3P3") (pin 2 "VDD_LNA2") (id b7f5aa39))
+    (instance "C_VDD_LNA2A" (cap-0402 "100nF") (pin 1 "VDD_LNA2") (pin 2 "GND") (id ad951158))
+    (instance "C_VDD_LNA2B" (cap-0402 "1nF")   (pin 1 "VDD_LNA2") (pin 2 "GND") (id c8487d7c))
+    (instance "C_VDD_LNA2C" (cap-0201 "10pF")  (pin 1 "VDD_LNA2") (pin 2 "GND") (id e3fc5c92))
+    (instance "C_VDD_LNA2D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND") (id fc4dd373))
 
     (note "U_LNA2" "PMA3-24323LN+ #2: identical to LNA1. Output drives ADF5904 RFIN_B+ (Beam 2)."))
 
@@ -1092,29 +1092,29 @@
       (pin 34 "TX_EMVS_Ex+") (pin 33 "TX_EMVS_Ex-")  ;; RFOUT1+/-
       (pin 29 "TX_EMVS_Ey+") (pin 28 "TX_EMVS_Ey-")  ;; RFOUT2+/-
       (pin 23 "TX_EMVS_Hx+") (pin 24 "TX_EMVS_Hx-")  ;; RFOUT3+/-
-      (pin 18 "TX_EMVS_Hy+") (pin 19 "TX_EMVS_Hy-")) ;; RFOUT4+/-
+      (pin 18 "TX_EMVS_Hy+") (pin 19 "TX_EMVS_Hy-") (id cf0ada80)) ;; RFOUT4+/-
 
     ;; VPOS1 (pin 1) decoupling — 100 pF + 10 nF + shared 1 µF rail (datasheet)
-    (instance "C_TX_VP1A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C_TX_VP1B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
+    (instance "C_TX_VP1A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id fa5bcb33))
+    (instance "C_TX_VP1B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id a8db70d6))
     ;; VPOS3 (pin 21)
-    (instance "C_TX_VP3A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C_TX_VP3B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
+    (instance "C_TX_VP3A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id fcf22d0b))
+    (instance "C_TX_VP3B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id a613a19e))
     ;; VPOS4 (pin 31)
-    (instance "C_TX_VP4A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C_TX_VP4B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
+    (instance "C_TX_VP4A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id cafbd978))
+    (instance "C_TX_VP4B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id fbb46091))
     ;; VPOS5 (pin 40, exposed in pinout as "VPOS")
-    (instance "C_TX_VP5A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C_TX_VP5B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
+    (instance "C_TX_VP5A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id d976605f))
+    (instance "C_TX_VP5B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id af445570))
     ;; Shared 1 µF bulk on the 2.5 V rail (already in §2.5V LDO, but placed
     ;; locally here for the ADAR2001 cluster — datasheet "1 µF for the rail")
-    (instance "C_TX_VP_BULK" (cap-0402 "1uF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
+    (instance "C_TX_VP_BULK" (cap-0402 "1uF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id e11e4aea))
     ;; VREG/VPOS2 — 1 µF as close to pins 6/7 as possible (datasheet)
-    (instance "C_TX_VREG" (cap-0402 "1uF") (pin 1 "TX_EMVS_VREG") (pin 2 "GND"))
+    (instance "C_TX_VREG" (cap-0402 "1uF") (pin 1 "TX_EMVS_VREG") (pin 2 "GND") (id e2ca3ccc))
 
     ;; *CS pull-up to 1.8 V (VREG) — 200 kΩ per ADAR2001 datasheet
     (instance "R_CS_TX_EMVS" (res-0402 "200k")
-      (pin 1 "CS_ADAR2001_1V8") (pin 2 "TX_EMVS_VREG"))
+      (pin 1 "CS_ADAR2001_1V8") (pin 2 "TX_EMVS_VREG") (id c5dcf268))
 
     (note "U_TX_EMVS" "ADAR2001 #1 — Rev E EMVS wideband TX. RFIN from LMX2594 RFoutB direct (single-ended 50 Ω, +7 dBm). 4× on-die multiplier → 24 GHz at full PLL setting. RFOUT1-4 drive TX-EMVS 1 cell Ex/Ey/Hx/Hy via 100 Ω diff matching networks (§RF Matching).")
     (note "U_TX_EMVS: TXEN behavior — there is NO dedicated TXEN pin on ADAR2001. Per-channel PA enable is via SPI registers 0x050/0x051 OR via the TX state machine (TxADV / TxRST). MAX7301 P23 (ADAR2001_TXEN) is intended to gate POWER (via external load switch / PFET on the 2.5 V rail to this IC) — wiring TBD. Not connected directly to U_TX_EMVS in this section.")
@@ -1189,50 +1189,50 @@
       (pin 35 "LMX_VTUNE")              ;; VTUNE — from loop filter
       (pin 36 "VREFVCO_BYP")            ;; VREFVCO
       (pin 37 "V_RF_3P3")               ;; VCCVCO
-      (pin 38 "VREGVCO_BYP"))           ;; VREGVCO
+      (pin 38 "VREGVCO_BYP") (id a53fee4c))           ;; VREGVCO
 
     ;; CE pull-up (always-on)
     (instance "R_CE_LMX2594" (res-0402 "10k")
-      (pin 1 "LMX_CE") (pin 2 "V_RF_3P3"))
+      (pin 1 "LMX_CE") (pin 2 "V_RF_3P3") (id e0014b90))
 
     ;; VCC bypass network — 100 nF on each VCC pin + 10 µF shared bulk
-    (instance "C_LMX_VCCDIG"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VREGIN"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VCCCP"   (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VCCMASH" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VCCBUF"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VCCVCO"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VCCVCO2" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
-    (instance "C_LMX_VCC_BULK" (cap-0805 "10uF") (pin 1 "V_RF_3P3") (pin 2 "GND"))
+    (instance "C_LMX_VCCDIG"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id af735a74))
+    (instance "C_LMX_VREGIN"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id d6fe543f))
+    (instance "C_LMX_VCCCP"   (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id b4a79257))
+    (instance "C_LMX_VCCMASH" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id b946f13d))
+    (instance "C_LMX_VCCBUF"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id cd8656e2))
+    (instance "C_LMX_VCCVCO"  (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id a68fa36a))
+    (instance "C_LMX_VCCVCO2" (cap-0402 "100nF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id e6e9054a))
+    (instance "C_LMX_VCC_BULK" (cap-0805 "10uF") (pin 1 "V_RF_3P3") (pin 2 "GND") (id a1540816))
 
     ;; Internal-LDO bypass nodes (VBIAS / VREF / VREG)
-    (instance "C_LMX_VBIASVCO"   (cap-0402 "100nF") (pin 1 "VBIASVCO_BYP")   (pin 2 "GND"))
-    (instance "C_LMX_VBIASVCO2"  (cap-0402 "100nF") (pin 1 "VBIASVCO2_BYP")  (pin 2 "GND"))
-    (instance "C_LMX_VBIASVARAC" (cap-0402 "100nF") (pin 1 "VBIASVARAC_BYP") (pin 2 "GND"))
-    (instance "C_LMX_VREFVCO"    (cap-0402 "100nF") (pin 1 "VREFVCO_BYP")    (pin 2 "GND"))
-    (instance "C_LMX_VREFVCO2"   (cap-0402 "100nF") (pin 1 "VREFVCO2_BYP")   (pin 2 "GND"))
-    (instance "C_LMX_VREGVCO"    (cap-0402 "1uF")   (pin 1 "VREGVCO_BYP")    (pin 2 "GND"))
+    (instance "C_LMX_VBIASVCO"   (cap-0402 "100nF") (pin 1 "VBIASVCO_BYP")   (pin 2 "GND") (id c278f604))
+    (instance "C_LMX_VBIASVCO2"  (cap-0402 "100nF") (pin 1 "VBIASVCO2_BYP")  (pin 2 "GND") (id df6f8361))
+    (instance "C_LMX_VBIASVARAC" (cap-0402 "100nF") (pin 1 "VBIASVARAC_BYP") (pin 2 "GND") (id b964e6c9))
+    (instance "C_LMX_VREFVCO"    (cap-0402 "100nF") (pin 1 "VREFVCO_BYP")    (pin 2 "GND") (id bbca2717))
+    (instance "C_LMX_VREFVCO2"   (cap-0402 "100nF") (pin 1 "VREFVCO2_BYP")   (pin 2 "GND") (id a1ae00fc))
+    (instance "C_LMX_VREGVCO"    (cap-0402 "1uF")   (pin 1 "VREGVCO_BYP")    (pin 2 "GND") (id a9ee8d98))
 
     ;; OSCINM single-ended termination
-    (instance "C_LMX_OSCINM" (cap-0402 "100pF") (pin 1 "OSCINM_AC") (pin 2 "GND"))
+    (instance "C_LMX_OSCINM" (cap-0402 "100pF") (pin 1 "OSCINM_AC") (pin 2 "GND") (id c292b654))
 
     ;; Unused inputs — terminate to GND through 100 nF
-    (instance "C_LMX_SYNC"      (cap-0402 "100nF") (pin 1 "LMX_SYNC")      (pin 2 "GND"))
-    (instance "C_LMX_SYSREFREQ" (cap-0402 "100nF") (pin 1 "SYSREFREQ_AC")  (pin 2 "GND"))
-    (instance "C_LMX_RAMPCLK"   (cap-0402 "100nF") (pin 1 "RAMPCLK_AC")    (pin 2 "GND"))
-    (instance "C_LMX_RAMPDIR"   (cap-0402 "100nF") (pin 1 "RAMPDIR_AC")    (pin 2 "GND"))
+    (instance "C_LMX_SYNC"      (cap-0402 "100nF") (pin 1 "LMX_SYNC")      (pin 2 "GND") (id b13494c9))
+    (instance "C_LMX_SYSREFREQ" (cap-0402 "100nF") (pin 1 "SYSREFREQ_AC")  (pin 2 "GND") (id f3652fcd))
+    (instance "C_LMX_RAMPCLK"   (cap-0402 "100nF") (pin 1 "RAMPCLK_AC")    (pin 2 "GND") (id f476413b))
+    (instance "C_LMX_RAMPDIR"   (cap-0402 "100nF") (pin 1 "RAMPDIR_AC")    (pin 2 "GND") (id ed14b62e))
 
     ;; Loop filter — TICS Pro template values (TBD, redesign for 6 GHz / 100 MHz ref / phase-noise target).
     ;; 3rd-order passive: CPOUT → R1 → C2 || C1 → R2 → C3 → VTUNE
-    (instance "R_LMX_LF1" (res-0805 "200R")  (pin 1 "LMX_CPOUT") (pin 2 "LMX_LF_NODE1"))
-    (instance "C_LMX_LF1" (cap-0805 "1nF")   (pin 1 "LMX_LF_NODE1") (pin 2 "GND"))
-    (instance "C_LMX_LF2" (cap-0805 "10nF")  (pin 1 "LMX_LF_NODE1") (pin 2 "GND"))
-    (instance "R_LMX_LF2" (res-0805 "100R")  (pin 1 "LMX_LF_NODE1") (pin 2 "LMX_VTUNE"))
-    (instance "C_LMX_LF3" (cap-0805 "100pF") (pin 1 "LMX_VTUNE")    (pin 2 "GND"))
+    (instance "R_LMX_LF1" (res-0805 "200R")  (pin 1 "LMX_CPOUT") (pin 2 "LMX_LF_NODE1") (id a99ba07e))
+    (instance "C_LMX_LF1" (cap-0805 "1nF")   (pin 1 "LMX_LF_NODE1") (pin 2 "GND") (id dd29c6c1))
+    (instance "C_LMX_LF2" (cap-0805 "10nF")  (pin 1 "LMX_LF_NODE1") (pin 2 "GND") (id a9a9f820))
+    (instance "R_LMX_LF2" (res-0805 "100R")  (pin 1 "LMX_LF_NODE1") (pin 2 "LMX_VTUNE") (id f67261e9))
+    (instance "C_LMX_LF3" (cap-0805 "100pF") (pin 1 "LMX_VTUNE")    (pin 2 "GND") (id e6981228))
 
     ;; RFoutA / RFoutB single-ended termination of the unused leg
-    (instance "R_LMX_RFOUTAM" (res-0201 "50R") (pin 1 "LMX_RFOUTAM_TERM") (pin 2 "GND"))
-    (instance "R_LMX_RFOUTBM" (res-0201 "50R") (pin 1 "LMX_RFOUTBM_TERM") (pin 2 "GND"))
+    (instance "R_LMX_RFOUTAM" (res-0201 "50R") (pin 1 "LMX_RFOUTAM_TERM") (pin 2 "GND") (id d6d4c72f))
+    (instance "R_LMX_RFOUTBM" (res-0201 "50R") (pin 1 "LMX_RFOUTBM_TERM") (pin 2 "GND") (id fc3a4147))
 
     ;; ─── 2-way Wilkinson splitter (RFoutA → LO_RX1 + LO_RX2) ───────────
     ;; The splitter itself is implemented in PCB trace geometry: two
@@ -1242,13 +1242,13 @@
     ;; modeled here as an instance.  Placement ≤15 mm from LMX2594.
     ;; Per HW-RDR-001 §13.13.3.
     (instance "R_WILK_ISO" (res-0402 "100R")
-      (pin 1 "LO_RX1") (pin 2 "LO_RX2"))
+      (pin 1 "LO_RX1") (pin 2 "LO_RX2") (id e6ab2118))
     ;; AC coupling at the splitter inputs/outputs (LMX RF outputs are AC-coupled
     ;; on-die, but explicit blocking caps on the ADAR side enforce DC isolation).
     (instance "C_LO_RX1_AC" (cap-0201 "100pF")
-      (pin 1 "LMX_RFOUTA_SE") (pin 2 "LO_RX1"))
+      (pin 1 "LMX_RFOUTA_SE") (pin 2 "LO_RX1") (id f76fbf63))
     (instance "C_LO_RX2_AC" (cap-0201 "100pF")
-      (pin 1 "LMX_RFOUTA_SE") (pin 2 "LO_RX2"))
+      (pin 1 "LMX_RFOUTA_SE") (pin 2 "LO_RX2") (id f26289e7))
 
     (note "U_LMX2594" "LMX2594 6 GHz PLL+VCO. Reference: 100 MHz TCXO single-ended on OSCINP, OSCINM 100 pF to GND. CE always-on (10 kΩ pull-up to 3.3 V). VTUNE comes from loop-filter output; CPOUT from charge pump.")
     (note "U_LMX2594: SPI is 1.8 V — all SCK/SDI/CSB/MUXOUT routed via TXS0108E from the 3.3 V host side. CSB pull-up to 1.8 V is internal to the chip; an external 10 kΩ on the 3.3 V side (in §MAX7301 RF I/O Expander) keeps the host-side trace safe at boot.")
@@ -1304,16 +1304,16 @@
       (pin 43 "ADF_CH5P") (pin 42 "ADF_CH5N")
       (pin 41 "ADF_CH6P") (pin 40 "ADF_CH6N")
       (pin 21 "ADF_CH7P") (pin 22 "ADF_CH7N")
-      (pin 19 "ADF_CH8P") (pin 20 "ADF_CH8N"))
+      (pin 19 "ADF_CH8P") (pin 20 "ADF_CH8N") (id b70251e5))
 
-    (instance "C1A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C1B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C2A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C2B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C4A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C4B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C3A" (cap-0402 "1uF")   (pin 1 "U1_VREG") (pin 2 "GND"))
-    (instance "R_CS1" (res-0402 "200k") (pin 1 "CS_RX1") (pin 2 "U1_VREG"))
+    (instance "C1A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id c90d547c))
+    (instance "C1B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id c76b1266))
+    (instance "C2A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id ea2ed69a))
+    (instance "C2B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id d4484f0f))
+    (instance "C4A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id dd0cac57))
+    (instance "C4B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id fc6a5075))
+    (instance "C3A" (cap-0402 "1uF")   (pin 1 "U1_VREG") (pin 2 "GND") (id a3aab5de))
+    (instance "R_CS1" (res-0402 "200k") (pin 1 "CS_RX1") (pin 2 "U1_VREG") (id c76e1446))
 
     (note "U1" "ADAR2004 #1 — RX-EMVS Cell 1 (top-right). IFOUT1..4 → mezz ADF_CH5..CH8 (Rev E remap: Cell 1 on ADC2). *CS = CS_RX1 from MAX7301 P9. LO from LO_RX1 (LMX2594 RFoutA via Wilkinson splitter, +3.5 dBm).")
     (note "C3A" "VPOS3/VREG bypass — 1 µF, place close to pins 32/33 of U1 (datasheet pg 7).")
@@ -1365,16 +1365,16 @@
       (pin 43 "ADF_CH1P") (pin 42 "ADF_CH1N")     ;; Rev E: Cell 2 → CH1-4
       (pin 41 "ADF_CH2P") (pin 40 "ADF_CH2N")
       (pin 21 "ADF_CH3P") (pin 22 "ADF_CH3N")
-      (pin 19 "ADF_CH4P") (pin 20 "ADF_CH4N"))
+      (pin 19 "ADF_CH4P") (pin 20 "ADF_CH4N") (id d8aa052b))
 
-    (instance "C5A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C5B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C6A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C6B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C8A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C8B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND"))
-    (instance "C7A" (cap-0402 "1uF")   (pin 1 "U2_VREG") (pin 2 "GND"))
-    (instance "R_CS2" (res-0402 "200k") (pin 1 "CS_RX2") (pin 2 "U2_VREG"))
+    (instance "C5A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id fbf099f3))
+    (instance "C5B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id d3852829))
+    (instance "C6A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id c3fba818))
+    (instance "C6B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id a8ef84de))
+    (instance "C8A" (cap-0402 "10nF")  (pin 1 "V_RX_2P5") (pin 2 "GND") (id c97ae63e))
+    (instance "C8B" (cap-0402 "100pF") (pin 1 "V_RX_2P5") (pin 2 "GND") (id f5396da7))
+    (instance "C7A" (cap-0402 "1uF")   (pin 1 "U2_VREG") (pin 2 "GND") (id ae4198e8))
+    (instance "R_CS2" (res-0402 "200k") (pin 1 "CS_RX2") (pin 2 "U2_VREG") (id d3bd82eb))
 
     (note "U2" "ADAR2004 #2 — RX-EMVS Cell 2 (bottom-left). Rev E remap: IFOUT1..4 → mezz ADF_CH1..CH4 (ADC1). *CS = CS_RX2 from MAX7301 P10. LO from LO_RX2 (Wilkinson splitter).")
     (note "C7A" "VPOS3/VREG bypass — 1 µF, place close to pins 32/33 of U2.")
