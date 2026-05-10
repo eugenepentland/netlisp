@@ -10,15 +10,7 @@
         lp5907mfx-1-8-nopb
         tps63806
         crystal
-        xfl4012
-        cap-0201
-        cap-0402
-        cap-0603
-        cap-0805
-        ind-0402
-        res-0201
-        res-0402
-        res-0805)
+        xfl4012)
 
 ;; ============================================================================
 ;; Cyclops Analog daughterboard — Rev E (per HW-RDR-001 Rev E, 2026-04-29)

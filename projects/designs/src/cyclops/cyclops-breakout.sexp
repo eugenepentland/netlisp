@@ -1,4 +1,4 @@
-(import 204927-0601 204928-0601 pin-header-1x30)
+(import 204927-0601 204928-0601 pin-header-1x30 a-wurth-wa-smsi-9774020633r)
 
 ;; Breakout / pass-through board for the Cyclops Digital ↔ Analog expansion link.
 ;; J1 is the 204927-0601 SlimStack receptacle that mates with the 204928-0601
@@ -14,7 +14,7 @@
 (design-block "Cyclops Expansion Breakout"
 
   ;; Mezzanine connector — mates with the Cyclops Digital expansion header.
-  (instance "J1" 204928-0601
+  (instance "J1" 204927-0601
     ;; Even pins — power, SPI3, radar control, GND (mirrored along Y axis: n → 62 - n)
     (pin 58 56 54 52 "VBATT")
     (pin 48 46 "V1P8")
@@ -51,45 +51,49 @@
     (pin 3 "ADF_CH10P")  (pin 1 "ADF_CH10N")
     (pin MP1 MP2 MP3 MP4 "GND") (id c45ff0a8))
 
-  ;; Mezzanine connector — mates with the Cyclops Analog expansion receptacle.
-  ;; 204928-0601 is the male plug (counterpart to J1's 204927-0601 receptacle),
-  ;; so the analog board's 204927-0601 plugs into this side of the breakout.
-  ;; Pin numbers are mirrored 1:1 with J1, giving a straight pass-through.
-  (instance "J4" 204927-0601
-    ;; Even pins — power, SPI3, radar control, GND (mirrored along Y axis: n → 62 - n)
-    (pin 58 56 54 52 "VBATT")
-    (pin 48 46 "V1P8")
-    (pin 44 "EXP_SPI_SCK")
-    (pin 42 "EXP_SPI_MISO")
-    (pin 40 "EXP_SPI_MOSI")
-    (pin 38 "EXP_SPI_NCS")
-    (pin 36 "CS_IO_EXP")
-    (pin 32 "RF_SPI_SCK")
-    (pin 30 "RF_SPI_MOSI")
-    (pin 28 "RF_SPI_MISO")
-    (pin 24 "TXDATA_1")
-    (pin 22 "TXDATA_2")
-    (pin 20 "BPSK_GATE_1")
-    (pin 18 "BPSK_GATE_2")
-    (pin 16 "MRST")
-    (pin 12 "RxRST")
-    (pin 10 "CNV_MASTER")
-    (pin 8 "RxADV")
-    (pin 6 "CHIRP_START")
-    (pin 4 "MADV")
-    (pin 60 50 34 26 14 2 "GND")
-    ;; Odd pins — 10 differential pairs with a GND shield between each pair (mirrored: n → 60 - n)
-    (pin 59 53 47 41 35 29 23 17 11 5 "GND")
-    (pin 57 "ADF_CH1P")  (pin 55 "ADF_CH1N")
-    (pin 51 "ADF_CH2P")  (pin 49 "ADF_CH2N")
-    (pin 45 "ADF_CH3P")  (pin 43 "ADF_CH3N")
-    (pin 39 "ADF_CH4P")  (pin 37 "ADF_CH4N")
-    (pin 33 "ADF_CH5P")  (pin 31 "ADF_CH5N")
-    (pin 27 "ADF_CH6P")  (pin 25 "ADF_CH6N")
-    (pin 21 "ADF_CH7P")  (pin 19 "ADF_CH7N")
-    (pin 15 "ADF_CH8P")  (pin 13 "ADF_CH8N")
-    (pin 9 "ADF_CH9P")   (pin 7 "ADF_CH9N")
-    (pin 3 "ADF_CH10P")  (pin 1 "ADF_CH10N")
+  ;; Mezzanine connector — 204928-0601 plug, mates with the Cyclops Analog
+  ;; board's 204927-0601 receptacle pin-1-to-pin-1 (no mirror). Pinout is
+  ;; identical to the Cyclops Digital `expansion` instance in
+  ;; stm32n6.sexp, so the analog board sees the same pin-function map as
+  ;; if it plugged directly into the digital board. The pass-through to
+  ;; J1 happens by net name (J1's mirrored pin numbers and J4's straight
+  ;; pin numbers reference the same nets and so are connected on the PCB).
+  (instance "J4" 204928-0601
+    ;; Even pins — power, SPI3, radar control, GND
+    (pin 4 6 8 10 "VBATT")
+    (pin 14 16 "V1P8")
+    (pin 18 "EXP_SPI_SCK")
+    (pin 20 "EXP_SPI_MISO")
+    (pin 22 "EXP_SPI_MOSI")
+    (pin 24 "EXP_SPI_NCS")
+    ;; Radar front-end control block (pins 26-52)
+    (pin 52 "CNV_MASTER")
+    (pin 56 "CHIRP_START")
+    (pin 30 "RF_SPI_SCK")
+    (pin 32 "RF_SPI_MOSI")
+    (pin 34 "RF_SPI_MISO")
+    (pin 26 "CS_IO_EXP")
+    (pin 38 "TXDATA_1")
+    (pin 40 "TXDATA_2")
+    (pin 42 "BPSK_GATE_1")
+    (pin 44 "BPSK_GATE_2")
+    (pin 46 "MRST")
+    (pin 58 "MADV")
+    (pin 50 "RxRST")
+    (pin 54 "RxADV")
+    (pin 2 12 36 28 48 60 "GND")
+    ;; Odd pins — 10 differential analog channels, each pair preceded by a GND shield
+    (pin 1 7 13 19 25 31 37 43 49 55 "GND")
+    (pin 3 "ADF_CH1P")   (pin 5 "ADF_CH1N")
+    (pin 9 "ADF_CH2P")   (pin 11 "ADF_CH2N")
+    (pin 15 "ADF_CH3P")  (pin 17 "ADF_CH3N")
+    (pin 21 "ADF_CH4P")  (pin 23 "ADF_CH4N")
+    (pin 27 "ADF_CH5P")  (pin 29 "ADF_CH5N")
+    (pin 33 "ADF_CH6P")  (pin 35 "ADF_CH6N")
+    (pin 39 "ADF_CH7P")  (pin 41 "ADF_CH7N")
+    (pin 45 "ADF_CH8P")  (pin 47 "ADF_CH8N")
+    (pin 51 "ADF_CH9P")  (pin 53 "ADF_CH9N")
+    (pin 57 "ADF_CH10P") (pin 59 "ADF_CH10N")
     (pin MP1 MP2 MP3 MP4 "GND") (id a20281c8))
 
   ;; Even-pin header J2 — pin N on header maps to pin (62 - 2*N) on the (mirrored) mezzanine.
@@ -160,7 +164,13 @@
     (pin 29 "ADF_CH10P")    ;; mezz 3
     (pin 30 "ADF_CH10N") (id fe501f81))   ;; mezz 1
 
+  (section "Mounting" "PCB standoffs"
+    (instance "H1" a-wurth-wa-smsi-9774020633r
+      (pin 1 "GND") (id d4a10001))
+    (instance "H2" a-wurth-wa-smsi-9774020633r
+      (pin 1 "GND") (id d4a10002)))
+
   (note "J1" "Molex SlimStack 204927-0601 receptacle — mates with the 204928-0601 expansion header on the Cyclops Digital board.")
-  (note "J4" "Molex SlimStack 204928-0601 plug — mates with the 204927-0601 receptacle on the Cyclops Analog board. Wired straight through to J1 (same pin numbers, same nets) so the breakout can be inserted between the digital and analog boards while still exposing every signal on J2/J3 for probing.")
+  (note "J4" "Molex SlimStack 204928-0601 plug — mates with the 204927-0601 receptacle on the Cyclops Analog board pin-1-to-pin-1 (no mirror). Pinout is identical to the Cyclops Digital `expansion` connector in stm32n6.sexp, so the analog board sees the same pin-function map as if it plugged directly into the digital board. Pass-through to J1 happens by net name — J1 uses the mirrored pin numbers required for its receptacle orientation, J4 uses the digital board's straight numbering.")
   (note "J2" "Even-pin breakout: header pin N = mezzanine pin (62 - 2*N) after the J1/J4 Y-axis mirror. Carries power (VBATT/V1P8), EXP_SPI3, radar control bus, and GND shields.")
   (note "J3" "Odd-pin breakout: header pin N = mezzanine pin (61 - 2*N) after the J1/J4 Y-axis mirror. Carries 10 differential ADC pairs (CH1..CH10) with a GND shield between each pair."))

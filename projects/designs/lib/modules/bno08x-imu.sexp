@@ -3,8 +3,6 @@
 ;; SPI master + INT + NRST + 3.3V supply.
 
 (import bno08x)
-(import cap-0201)
-(import res-0201)
 
 (defmodule bno08x-imu ()
   "BNO08x 9-axis IMU module — SPI mode, internal-RC clock, normal boot.

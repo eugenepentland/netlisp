@@ -3,8 +3,6 @@
 ;; an AO3400A driven by an external PWM signal.
 
 (import fh12-10s-0-5sh-55-)
-(import cap-0603)
-(import res-0402)
 (import ao3400a)
 
 (defmodule st7735s-display ()

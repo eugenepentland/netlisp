@@ -1,7 +1,4 @@
 (import mcp73831-2aci-mc)
-(import cap-0402)
-(import res-0402)
-(import led-0402)
 
 (defmodule mcp73831-charger (rprog)
   "MCP73831 single-cell LiPo charger.

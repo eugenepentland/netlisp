@@ -6,8 +6,6 @@
 ;; to make the 10-channel expansion connector pinout fit.
 
 (import ad7380-4bcpz)
-(import res-0201)
-(import cap-0201)
 
 (defmodule ad7380-channel-2ch (idx)
   "AD7380-4 2-channel variant — A/B populated; AINC/AIND tied to GND; SDOC/SDOD unrouted."

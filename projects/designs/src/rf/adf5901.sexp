@@ -1,8 +1,4 @@
 (import adf5901acpz)
-(import res-0402)
-(import res-0805)
-(import cap-0402)
-(import cap-0805)
 
 (design-block "ADF5901 24GHz Tx MMIC"
 

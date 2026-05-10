@@ -4,7 +4,6 @@
 
 (import connector-motor)
 (import ao3400a)
-(import res-0402)
 (import diode-sod323)
 
 (defmodule vibration-motor ()

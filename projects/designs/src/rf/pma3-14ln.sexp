@@ -1,8 +1,4 @@
 (import pma3-14ln)
-(import cap-0402)
-(import ind-0402)
-(import res-0402)
-(import ferrite-0402)
 
 (design-block "PMA3-14LN+ Wideband LNA"
 

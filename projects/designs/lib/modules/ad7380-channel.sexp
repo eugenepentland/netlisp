@@ -4,8 +4,6 @@
 ;; Intended to be sub-blocked 3x for a 12-channel array.
 
 (import ad7380-4bcpz)
-(import res-0201)
-(import cap-0201)
 
 (defmodule ad7380-channel (idx)
   "AD7380-4 4-channel 16-bit 4MSPS simultaneous-sampling ADC with analog front-end.

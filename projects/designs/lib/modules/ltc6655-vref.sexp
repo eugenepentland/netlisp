@@ -5,8 +5,6 @@
 ;; VREF_2V5 net as a star fan-out to each downstream load.
 
 (import ltc6655bhms8-2-5#pbf)
-(import cap-0201)
-(import cap-0603)
 
 (defmodule ltc6655-vref ()
   "LTC6655B-2.5 precision 2.5V reference with input bypass and 10 µF

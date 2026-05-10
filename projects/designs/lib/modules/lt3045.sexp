@@ -1,7 +1,4 @@
 (import lt3045edd)
-(import res-0402)
-(import cap-0402)
-(import cap-0805)
 
 (defmodule lt3045 (rset rilim)
   "LT3045-1 Low Noise LDO Regulator.

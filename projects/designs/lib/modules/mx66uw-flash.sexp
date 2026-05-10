@@ -3,8 +3,6 @@
 ;; NRST via reverse diode so a system reset also pulses the flash.
 
 (import mx66uw1g45gxdi00)
-(import cap-0201)
-(import res-0201)
 (import diode-0402)
 
 (defmodule mx66uw-flash ()

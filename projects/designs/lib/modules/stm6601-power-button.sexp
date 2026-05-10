@@ -5,8 +5,6 @@
 
 (import stm6601aq2bdm6f)
 (import sw-ws-tasu-436331045822)
-(import cap-0402)
-(import res-0402)
 
 (defmodule stm6601-power-button ()
   "STM6601A power-button controller wrapping the IC, the side-push tact

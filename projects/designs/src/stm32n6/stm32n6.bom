@@ -574,6 +574,7 @@
 (part "imu/C155" "0898242e-54b4-57d2-ba74-a55d5d4d3163" "cap-0201"
   (id "cccc6396")
   (nets "GND" "IMU_CAP")
+  (mpn "0201X104K160CT")
 )
 (part "imu/R66" "15749d17-3421-505c-8a3e-b45ebebdbc63" "res-0201"
   (id "db7809c9")
@@ -592,14 +593,17 @@
 (part "charger/C156" "8e5bf82b-243e-5b3c-91bb-8fac565d07f8" "cap-0402"
   (id "d16f5829")
   (nets "VBUS.U16.VDD_1" "GND")
+  (mpn "CL05A475MP5NRNC")
 )
 (part "charger/C157" "31b21ea4-87dd-5805-bd5a-7c2f81001563" "cap-0402"
   (id "bb1a847d")
   (nets "VBATT.U16.VBAT_1" "GND")
+  (mpn "CL05A475MP5NRNC")
 )
 (part "charger/R67" "f9770203-b742-5e8d-acee-084a50f95fc5" "res-0402"
   (id "e96b2290")
   (nets "GND" "CHG_PROG")
+  (mpn "CRCW04022K00FKEDHP")
 )
 (part "charger/R68" "1e2df0b1-0928-4728-a73c-d10a99c4034a" "res-0402"
   (id "b85c061b")
@@ -623,10 +627,12 @@
 (part "buck/C159" "48e6cf66-aef0-5e03-9da6-6c1fa1f1feaf" "cap-0805"
   (id "cfc222f4")
   (nets "VOUT.U17.VOUT_1" "GND")
+  (mpn "885012107006")
 )
 (part "buck/C160" "535e8bc1-c3ec-543a-b6db-ead439d0812c" "cap-0805"
   (id "e727ee80")
   (nets "VOUT.U17.VOUT_1" "GND")
+  (mpn "885012107006")
 )
 (part "buck/L2" "f35c90c1-2a45-5143-b81a-75852c4ac511" "xfl4012"
   (id "ce32de8e")
@@ -637,6 +643,7 @@
 (part "buck/R69" "cafbae47-ed20-545e-ac11-eeb83a1b61c7" "res-0402"
   (id "a0586dd0")
   (nets "FB" "VOUT")
+  (mpn "RGC0402DTC511K")
 )
 (part "buck/R70" "608dac81-6027-5b02-8462-3de5c64e48c3" "res-0402"
   (id "c1f453b2")
@@ -709,10 +716,12 @@
 (part "adc1/R72" "da91a075-c873-55a2-abeb-dc9376078f8f" "res-0201"
   (id "c3d5797e")
   (nets "AINA_EXT_P" "AINA_P")
+  (mpn "CR0201-JW-330GLF")
 )
 (part "adc1/R73" "f4944cd5-911a-52d3-b081-5264d4e901f8" "res-0201"
   (id "e32da4f6")
   (nets "AINA_EXT_N" "AINA_N")
+  (mpn "CR0201-JW-330GLF")
 )
 (part "adc1/C169" "740de401-ec6f-5014-a080-2d89e08a8f53" "cap-0201"
   (id "c3d309ca")
@@ -781,7 +790,7 @@
 (part "adc1/R80" "21aa407c-7c3c-4d7a-9f5e-cd6ed39acefc" "res-0201"
   (id "f4d2d567")
   (nets "SDOA_RAW" "SDOA")
-  (mpn "CR0201-JW-330GLF")
+  (mpn "CRCW0201100RFKED")
 )
 (part "adc1/R81" "ba01ca6c-c957-491a-b862-aef3d496aeeb" "res-0201"
   (id "c94abb7a")
@@ -826,10 +835,12 @@
 (part "adc2/R84" "b2f0d91d-29ea-5b66-8904-71b840533024" "res-0201"
   (id "b8d50bc9")
   (nets "AINA_EXT_P" "AINA_P")
+  (mpn "CR0201-JW-330GLF")
 )
 (part "adc2/R85" "b786935d-409d-5218-a157-b5ef44c15461" "res-0201"
   (id "cff47e62")
   (nets "AINA_EXT_N" "AINA_N")
+  (mpn "CR0201-JW-330GLF")
 )
 (part "adc2/C181" "7ce61897-cfec-51ac-9cb3-b7c628df0fbe" "cap-0201"
   (id "d8740791")
@@ -898,7 +909,7 @@
 (part "adc2/R92" "ef633e0b-4744-435f-891f-bee72ef8c7e5" "res-0201"
   (id "aeea20fe")
   (nets "SDOA_RAW" "SDOA")
-  (mpn "CR0201-JW-330GLF")
+  (mpn "CRCW0201100RFKED")
 )
 (part "adc2/R93" "f5992e69-5c25-4eaf-aff1-b6c48f3dcd9c" "res-0201"
   (id "fbf7f9f9")
@@ -941,10 +952,12 @@
 (part "adc3/R96" "a5b108e7-22d5-5a6d-ba5f-f9f2790dcd22" "res-0201"
   (id "e66200f6")
   (nets "AINA_P" "AINA_EXT_P")
+  (mpn "CR0201-JW-330GLF")
 )
 (part "adc3/R97" "47f30fda-08b2-59fa-80f0-c63c23d38836" "res-0201"
   (id "f7ca74d1")
   (nets "AINA_N" "AINA_EXT_N")
+  (mpn "CR0201-JW-330GLF")
 )
 (part "adc3/C193" "ab667f82-dc61-5684-9492-bdef9432e734" "cap-0201"
   (id "d55b54d5")
@@ -975,7 +988,7 @@
 (part "adc3/R100" "a755447f-1c5c-406c-bc2a-9dcb244a348f" "res-0201"
   (id "d43f6b73")
   (nets "SDOA_RAW" "SDOA")
-  (mpn "CR0201-JW-330GLF")
+  (mpn "CRCW0201100RFKED")
 )
 (part "adc3/R101" "eaf348e7-9433-4e34-8723-36e3034db2b7" "res-0201"
   (id "f483af5d")
@@ -996,6 +1009,7 @@
 (part "disp/R102" "5e476d06-ae86-5d84-8ae5-8b18394641fe" "res-0402"
   (id "c1d84504")
   (nets "VDD" "LEDA")
+  (mpn "CRCW040215R8FKED")
 )
 (part "disp/Q3" "c514fdb7-08a4-5905-8abf-2626791462d0" "ao3400a"
   (id "bed69b31")
@@ -1024,6 +1038,7 @@
 (part "motor/R104" "e4f3466f-e40b-5e2e-95e8-c016402e9eeb" "res-0402"
   (id "b0b8621d")
   (nets "GATE" "PWM")
+  (mpn "CRCW0402100RFKEDC")
 )
 (part "motor/R105" "fb48a5ba-080b-5696-9e3e-5237316d0bf1" "res-0402"
   (id "a146ccf6")

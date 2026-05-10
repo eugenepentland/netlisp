@@ -3,9 +3,6 @@
 ;; periodic Halfsleep refreshes) handled by bulk cap on VDD.
 
 (import aps256xxn-ob9-bg)
-(import cap-0201)
-(import cap-0603)
-(import res-0201)
 
 (defmodule aps256-psram ()
   "APS256XXN PSRAM module on OctoSPI. Caller wires VDD (1.8 V), GND, CS,

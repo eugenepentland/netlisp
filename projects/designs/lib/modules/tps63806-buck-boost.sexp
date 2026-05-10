@@ -1,7 +1,4 @@
 (import tps63806)
-(import cap-0603)
-(import cap-0805)
-(import res-0402)
 (import xfl4012)
 
 (defmodule tps63806-buck-boost (rfbt rfbb)

@@ -1,6 +1,4 @@
 (import ad7380-4bcpz)
-(import cap-0402)
-(import cap-0805)
 
 (defmodule ad7380-4 (ch)
   "AD7380-4 Quad 16-bit SAR ADC channel.

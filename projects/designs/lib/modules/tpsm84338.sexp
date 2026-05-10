@@ -1,9 +1,6 @@
 (import tpsm84338rcjr)
 (import n2n7002)
 (import east1410rgbw01)
-(import res-0402)
-(import cap-0402)
-(import cap-0805)
 
 (defmodule tpsm84338 (rfbt rfbb rled)
   "3A Buck Converter with Power Good LED.

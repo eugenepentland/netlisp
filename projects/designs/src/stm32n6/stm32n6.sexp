@@ -1,7 +1,4 @@
 (import stm32n657l0h3q
-        cap-0201 cap-0402 cap-0603
-        res-0402 res-0201
-        ind-1616 ind-2016 ferrite-0402
         abm8 fc-135
         connector-swd-6
         a-wurth-wa-smsi-9774020633r

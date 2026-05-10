@@ -1,5 +1,4 @@
 (import lp5907mfx-1-8-nopb)
-(import cap-0402)
 
 (defmodule lp5907-ldo ()
   "LP5907 1.8V fixed-output LDO with enable pin.

@@ -5,9 +5,6 @@
 
 (import ecmf02-2amx6)
 (import usb4235-03-c)
-(import res-0402)
-(import res-0201)
-(import cap-0805)
 
 (defmodule usb-c-hs ()
   "USB-C UFP (device-only) front-end with USB 2.0 HS data path.
