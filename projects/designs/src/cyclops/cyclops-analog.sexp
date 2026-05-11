@@ -83,26 +83,65 @@
     "Molex SlimStack 204927-0601 — 60-pin 0.4 mm BTB receptacle that mates with the 204928-0601 expansion header on the Cyclops Digital host.  Brings VBATT, GND, RF_SPI bus, MAX7301 *CS, ADAR step/reset GPIOs, K-band TX direct-GPIO control (TXDATA, BPSK_GATE), TIM2 timing references (CNV_MASTER, CHIRP_START), and the 10 IF return diff pairs (CH1-CH8 EMVS, CH9-CH10 main RX) across the board boundary.  V1P8 (1.8 V from digital LP5912) and SPI3 pass through but are unused on this rev — analog board generates its own 1.8 V VCCA for level shifters."
     (port "VBATT" out power 3.7)
     (port "GND"   bidi)
+    ;; Every single-ended digital port crosses the connector at STM32 3.3 V CMOS
+    ;; levels. The (electrical ...) clauses declare that contract to the
+    ;; analog-side ERC so any locally-attached 1.8 V driver or 1.8 V-only
+    ;; receiver on a mezz net gets flagged as voltage_domain_incompatible —
+    ;; the analog board can't see the STM32 directly because cyclops-digital
+    ;; is a separate design.
+    ;;
     ;; RF_SPI bus from the host (3.3 V on this side; analog board level-shifts
     ;; to 1.8 V via TXS0108E for ADAR/LMX traffic only)
-    (port "RF_SPI_SCK"  out signal)
-    (port "RF_SPI_MOSI" out signal)
-    (port "RF_SPI_MISO" in  signal)
+    (port "RF_SPI_SCK"  out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    (port "RF_SPI_MOSI" out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    (port "RF_SPI_MISO" in  signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
     ;; MAX7301 chip-select — single CS line that fans out to all RF CS via the expander
-    (port "CS_IO_EXP"   out signal)
-    ;; Hardware step/reset lines from STM32 GPIO (3.3 V CMOS)
-    (port "MRST"  out signal role reset)  ;; pin 46 — 3-way to ADAR2001 + ADAR2004 ×2 (Rev E)
-    (port "MADV"  out signal)             ;; pin 58 — 3-way to ADAR2001 + ADAR2004 ×2 (Rev E)
-    (port "TxADV" out signal)             ;; pin 50 — Rev E: was RxRST.  ADAR2001 TXADV.
-    (port "RxADV" out signal)             ;; pin 54 — to both ADAR2004
+    (port "CS_IO_EXP"   out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    ;; Hardware step/reset lines from STM32 GPIO (3.3 V CMOS).
+    ;; MRST pin 46 — 3-way to ADAR2001 + ADAR2004 ×2 (Rev E).
+    (port "MRST"  out signal role reset
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    ;; MADV pin 58 — 3-way to ADAR2001 + ADAR2004 ×2 (Rev E).
+    (port "MADV"  out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    ;; TxADV pin 50 — Rev E: was RxRST. ADAR2001 TXADV.
+    (port "TxADV" out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    ;; RxADV pin 54 — to both ADAR2004.
+    (port "RxADV" out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
     ;; K-band TX path control (3.3 V CMOS direct — no level shifting)
-    (port "TXDATA_1"     out signal)
-    (port "TXDATA_2"     out signal)
-    (port "BPSK_GATE_1"  out signal)
-    (port "BPSK_GATE_2"  out signal)
+    (port "TXDATA_1"     out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    (port "TXDATA_2"     out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    (port "BPSK_GATE_1"  out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    (port "BPSK_GATE_2"  out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
     ;; Hardware-paced timing references (TIM2 on STM32) — pass-through
-    (port "CHIRP_START" out signal)
-    (port "CNV_MASTER"  out signal)
+    (port "CHIRP_START" out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
+    (port "CNV_MASTER"  out signal
+      (electrical (type io) (drive push-pull) (domain digital)
+                  (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
     ;; IF outputs returning from the mixers, exiting via odd-pin diff pairs
     (port "ADF_CH1P" in differential) (port "ADF_CH1N" in differential)
     (port "ADF_CH2P" in differential) (port "ADF_CH2N" in differential)
