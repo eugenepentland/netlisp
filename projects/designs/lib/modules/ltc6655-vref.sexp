@@ -24,7 +24,7 @@
 
     (port "VDD"  in (rated 3.0 3.6))
     (port "GND"  bidi)
-    (port "VREF" out)
+    (port "VREF" out (nominal 2.5))
 
     (note "vref" "LTC6655B-2.5: 2 ppm/°C, ±0.025%, 0.625 µVp-p (0.1–10 Hz) noise. Far lower noise than ADR4525 — worth the cost for full ENOB on multiple SAR ADCs.")
     (note "vref" "SHDN tied to VIN per datasheet — pin floats high via weak internal pull-up but explicit tie is required.")

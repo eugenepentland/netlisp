@@ -23,7 +23,7 @@
 
   (port "VBUS" in (rated 4.0 5.5))
   ;; Charge current set by RPROG=2k → 500mA. Datasheet allows up to 500mA.
-  (port "VBATT" out (current 0.5 0.5))
+  (port "VBATT" out (nominal 4.2) (current 0.5 0.5))
   (port "GND" bidi)
 
   (note "U1" "RPROG=2k -> IREG=500mA charge current")

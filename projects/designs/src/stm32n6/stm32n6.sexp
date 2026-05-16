@@ -147,11 +147,9 @@
       (pin 2 "OSC32_OUT") (id b2a39445))
     (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54))
 
-    (note "F1 (VBAT) tied to VDD — LiPo 4.2V exceeds VBAT max (3.6V), so backup domain only active when VDD is up")
     (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
     (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2" (id db0a04fb) (id c4ca02d6))
     (note "G4 (PWR_ON) is an STM32 output — drives enables for downstream regulators, not the internal SMPS. No external pull needed; TP8 gives bring-up visibility.")
-    (note "A1 (PDR_ON) must be tied to VDDA18AON per AN5967 Table 5")
     (note "FW: I/O compensation cells — RAPSRC=0x8, RANSRC=0x7 (AN5967 12.4)"))
 
   (section "Power Button Controller" "STM6601A power button — chip details sealed in stm6601-power-button module"
@@ -328,22 +326,12 @@
   (net "FLASH_NCS" "flash/CS")
   (net "FLASH_CLK" "flash/CLK")
   (net "FLASH_DQS" "flash/DQS")
-  (net "FLASH_IO0" "flash/FLASH_IO0") (net "FLASH_IO1" "flash/FLASH_IO1")
-  (net "FLASH_IO2" "flash/FLASH_IO2") (net "FLASH_IO3" "flash/FLASH_IO3")
-  (net "FLASH_IO4" "flash/FLASH_IO4") (net "FLASH_IO5" "flash/FLASH_IO5")
-  (net "FLASH_IO6" "flash/FLASH_IO6") (net "FLASH_IO7" "flash/FLASH_IO7")
+  (bus-net "FLASH_IO" 0 7 "flash")
   (net "PSRAM_NCS"  "psram/CS")
   (net "PSRAM_CLK"  "psram/CLK")
   (net "PSRAM_DQS0" "psram/DQS0")
   (net "PSRAM_DQS1" "psram/DQS1")
-  (net "PSRAM_IO0"  "psram/PSRAM_IO0")  (net "PSRAM_IO1"  "psram/PSRAM_IO1")
-  (net "PSRAM_IO2"  "psram/PSRAM_IO2")  (net "PSRAM_IO3"  "psram/PSRAM_IO3")
-  (net "PSRAM_IO4"  "psram/PSRAM_IO4")  (net "PSRAM_IO5"  "psram/PSRAM_IO5")
-  (net "PSRAM_IO6"  "psram/PSRAM_IO6")  (net "PSRAM_IO7"  "psram/PSRAM_IO7")
-  (net "PSRAM_IO8"  "psram/PSRAM_IO8")  (net "PSRAM_IO9"  "psram/PSRAM_IO9")
-  (net "PSRAM_IO10" "psram/PSRAM_IO10") (net "PSRAM_IO11" "psram/PSRAM_IO11")
-  (net "PSRAM_IO12" "psram/PSRAM_IO12") (net "PSRAM_IO13" "psram/PSRAM_IO13")
-  (net "PSRAM_IO14" "psram/PSRAM_IO14") (net "PSRAM_IO15" "psram/PSRAM_IO15")
+  (bus-net "PSRAM_IO" 0 15 "psram")
   (net "USB_DP"  "usb/USB_DP")
   (net "USB_DN"  "usb/USB_DN")
   (net "TXRTUNE" "usb/TXRTUNE")
@@ -383,16 +371,7 @@
     (protocol SPI)
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
-    (port "ADF_CH1P"  in differential) (port "ADF_CH1N"  in differential)
-    (port "ADF_CH2P"  in differential) (port "ADF_CH2N"  in differential)
-    (port "ADF_CH3P"  in differential) (port "ADF_CH3N"  in differential)
-    (port "ADF_CH4P"  in differential) (port "ADF_CH4N"  in differential)
-    (port "ADF_CH5P"  in differential) (port "ADF_CH5N"  in differential)
-    (port "ADF_CH6P"  in differential) (port "ADF_CH6N"  in differential)
-    (port "ADF_CH7P"  in differential) (port "ADF_CH7N"  in differential)
-    (port "ADF_CH8P"  in differential) (port "ADF_CH8N"  in differential)
-    (port "ADF_CH9P"  in differential) (port "ADF_CH9N"  in differential)
-    (port "ADF_CH10P" in differential) (port "ADF_CH10N" in differential)
+    (bus-port "ADF_CH" 1 10 (suffixes P N) in differential)
     (pins "stm32"
       ;; T9 is the sole ADC_SCK driver: bit-banged GPIO during Phase-1 config,
       ;; TIM1_CH1 PWM during Phase-2 4 MSPS streaming.
@@ -476,6 +455,7 @@
   ;; fit on the 60-pin BTB with the current GND-shielded odd-pin layout.
 
   (section "Test Points" "1mm SMD probe points for bring-up and debug"
+    (diagram hidden)
     (instance "TP1" testpoint (pin 1 "VBATT")   (id aabbcc01))
     (instance "TP2" testpoint (pin 1 "VDD")     (id aabbcc02))
     (instance "TP3" testpoint (pin 1 "V1P8")    (id aabbcc03))
@@ -516,12 +496,14 @@
   (sub-block "motor" (vibration-motor))
 
   (section "Mounting" "PCB standoffs"
+    (diagram hidden)
     (instance "H1" a-wurth-wa-smsi-9774020633r
       (pin 1 "GND") (id d3a10001))
     (instance "H2" a-wurth-wa-smsi-9774020633r
       (pin 1 "GND") (id d3a10002)))
 
   (section "Fiducials" "0.75mm copper / 2.25mm mask fiducials for pick-and-place vision alignment — 3 on top side as primary alignment triangle, 1 on bottom for back-side flip-and-fly"
+    (diagram hidden)
     (instance "FID1" fiducial-0p75-2p25 (id b6f1d101))
     (instance "FID2" fiducial-0p75-2p25 (id b6f1d102))
     (instance "FID3" fiducial-0p75-2p25 (id b6f1d103))

@@ -143,16 +143,7 @@
       (electrical (type io) (drive push-pull) (domain digital)
                   (v-oh-typ 3.1) (v-ol-typ 0.4) (v-ih-min 2.31) (v-il-max 0.99) (max-voltage 3.6)))
     ;; IF outputs returning from the mixers, exiting via odd-pin diff pairs
-    (port "ADF_CH1P" in differential) (port "ADF_CH1N" in differential)
-    (port "ADF_CH2P" in differential) (port "ADF_CH2N" in differential)
-    (port "ADF_CH3P" in differential) (port "ADF_CH3N" in differential)
-    (port "ADF_CH4P" in differential) (port "ADF_CH4N" in differential)
-    (port "ADF_CH5P" in differential) (port "ADF_CH5N" in differential)
-    (port "ADF_CH6P" in differential) (port "ADF_CH6N" in differential)
-    (port "ADF_CH7P" in differential) (port "ADF_CH7N" in differential)
-    (port "ADF_CH8P" in differential) (port "ADF_CH8N" in differential)
-    (port "ADF_CH9P" in differential) (port "ADF_CH9N" in differential)
-    (port "ADF_CH10P" in differential) (port "ADF_CH10N" in differential)
+    (bus-port "ADF_CH" 1 10 (suffixes P N) in differential)
 
     (instance "J1" 204927-0601
       ;; Power (even row)
@@ -1047,8 +1038,7 @@
     (port "BEAM1_LNAOUT" in  rf)                 ;; from PMA3 #1
     (port "BEAM2_LNAOUT" in  rf)                 ;; from PMA3 #2
     ;; Differential IF outputs → connector
-    (port "ADF_CH9P"     out differential) (port "ADF_CH9N" out differential)
-    (port "ADF_CH10P"    out differential) (port "ADF_CH10N" out differential)
+    (bus-port "ADF_CH" 9 10 (suffixes P N) out differential)
 
     (note "ADF5904 — chip absent until lib/components/adf5904 added. Rev E remap: IF_A → CH9 (Beam 1), IF_B → CH10 (Beam 2). IF_C/D unrouted. Ch C/D RF inputs terminated 50 Ω.")
     (note "ADF5904-to-AD7380-4 DC-bias matching: ADF5904 IF common-mode is ~VDD/2 (≈1.65 V). Verify AD7380-4 input common-mode range (1.25 V VREF/2) against this — likely needs AC coupling caps or resistive divider. Open item per HW-RDR-001 §12."))
@@ -1307,10 +1297,7 @@
     (port "RX1_RFIN2+"  in  differential) (port "RX1_RFIN2-" in differential)
     (port "RX1_RFIN3+"  in  differential) (port "RX1_RFIN3-" in differential)
     (port "RX1_RFIN4+"  in  differential) (port "RX1_RFIN4-" in differential)
-    (port "ADF_CH5P"    out differential) (port "ADF_CH5N"   out differential)
-    (port "ADF_CH6P"    out differential) (port "ADF_CH6N"   out differential)
-    (port "ADF_CH7P"    out differential) (port "ADF_CH7N"   out differential)
-    (port "ADF_CH8P"    out differential) (port "ADF_CH8N"   out differential)
+    (bus-port "ADF_CH" 5 8 (suffixes P N) out differential)
 
     (instance "U1" adar2004accz
       ;; All 18 GND pins + 4 EPADs to ground plane
@@ -1371,10 +1358,7 @@
     (port "RX2_RFIN2+"  in  differential) (port "RX2_RFIN2-" in differential)
     (port "RX2_RFIN3+"  in  differential) (port "RX2_RFIN3-" in differential)
     (port "RX2_RFIN4+"  in  differential) (port "RX2_RFIN4-" in differential)
-    (port "ADF_CH1P"    out differential) (port "ADF_CH1N"   out differential)
-    (port "ADF_CH2P"    out differential) (port "ADF_CH2N"   out differential)
-    (port "ADF_CH3P"    out differential) (port "ADF_CH3N"   out differential)
-    (port "ADF_CH4P"    out differential) (port "ADF_CH4N"   out differential)
+    (bus-port "ADF_CH" 1 4 (suffixes P N) out differential)
 
     (instance "U2" adar2004accz
       (pin 2 5 6 7 8 9 12 14 17 18 23 34 36 37 39 44 45 48 "GND")
