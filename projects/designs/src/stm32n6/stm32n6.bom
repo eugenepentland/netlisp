@@ -723,7 +723,7 @@
   (nets "AINA_EXT_N" "AINA_N")
   (mpn "CR0201-JW-330GLF")
 )
-(part "adc1/C169" "740de401-ec6f-5014-a080-2d89e08a8f53" "cap-0201"
+(part "adc1/C169" "ab667f82-dc61-5684-9492-bdef9432e734" "cap-0201"
   (id "c3d309ca")
   (nets "GND" "AINA_P")
   (mpn "02013A680JAT2A")
@@ -959,7 +959,7 @@
   (nets "AINA_N" "AINA_EXT_N")
   (mpn "CR0201-JW-330GLF")
 )
-(part "adc3/C193" "ab667f82-dc61-5684-9492-bdef9432e734" "cap-0201"
+(part "adc3/C193" "740de401-ec6f-5014-a080-2d89e08a8f53" "cap-0201"
   (id "d55b54d5")
   (nets "AINA_P" "GND")
 )
