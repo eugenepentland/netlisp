@@ -596,7 +596,7 @@
   (nets "GND" "IMU_CAP")
   (mpn "0201X104K160CT")
 )
-(part "imu/R71" "15749d17-3421-505c-8a3e-b45ebebdbc63" "res-0201"
+(part "imu/R71" "0f0608e8-1958-59de-a9e1-9bc1a511af6f" "res-0201"
   (id "db7809c9")
   (nets "NRST" "VDD")
 )
@@ -735,7 +735,7 @@
   (nets "GND" "VLOGIC")
   (mpn "02013A680JAT2A")
 )
-(part "adc1/C167" "740de401-ec6f-5014-a080-2d89e08a8f53" "cap-0201"
+(part "adc1/C167" "eba6e0d3-c24f-578f-b62c-252df4a42a7c" "cap-0201"
   (id "b65aa691")
   (nets "REGCAP" "GND")
   (mpn "02013A680JAT2A")
@@ -755,12 +755,12 @@
   (nets "AINA_EXT_N" "AINA_N")
   (mpn "CR0201-JW-330GLF")
 )
-(part "adc1/C169" "ab667f82-dc61-5684-9492-bdef9432e734" "cap-0201"
+(part "adc1/C169" "9259c2bd-9b35-5699-8b24-0039e8cc8479" "cap-0201"
   (id "c3d309ca")
   (nets "GND" "AINA_P")
   (mpn "02013A680JAT2A")
 )
-(part "adc1/C170" "7dd39e15-28e1-5e22-8268-ca769737ab7a" "cap-0201"
+(part "adc1/C170" "c773084e-4c7d-5ae0-9de2-2a116c9f5c08" "cap-0201"
   (id "ace9f5e2")
   (nets "GND" "AINA_N")
   (mpn "02013A680JAT2A")
@@ -779,7 +779,7 @@
   (id "bd4897cd")
   (nets "GND" "AINB_P")
 )
-(part "adc1/C172" "a5e6c951-4062-51f1-8192-602272a49f7a" "cap-0201"
+(part "adc1/C172" "6dc9dd1b-8599-567d-91f9-c39f27eb1c4d" "cap-0201"
   (id "a5875f16")
   (nets "GND" "AINB_N")
 )
@@ -841,7 +841,7 @@
   (nets "SDOD_RAW" "SDOB_RAW" "AINC_N" "VCC" "SDOC_RAW" "SDI" "REGCAP" "REFIN" "GND" "GND" "GND" "GND" "GND" "CS" "VLOGIC" "AINB_P" "AINA_P" "AINA_N" "AIND_N" "SCK" "SDOA_RAW" "AINC_P" "AINB_N" "AIND_P")
   (description "Differential Input, Quad, External Reference Simultaneous Sampling, 16-Bit, SAR ADC")
 )
-(part "adc2/C177" "6dc9dd1b-8599-567d-91f9-c39f27eb1c4d" "cap-0201"
+(part "adc2/C177" "7331217a-d151-5db0-b1db-d97153e3ccc9" "cap-0201"
   (id "cdc112d6")
   (nets "VCC" "GND")
   (mpn "02013A680JAT2A")
@@ -851,7 +851,7 @@
   (nets "GND" "VLOGIC")
   (mpn "02013A680JAT2A")
 )
-(part "adc2/C179" "03b97e9b-63e7-5145-bedb-b573fc59a9d2" "cap-0201"
+(part "adc2/C179" "8c02505a-ef27-5bf7-ab61-2da35095b7f1" "cap-0201"
   (id "b9ba6101")
   (nets "REGCAP" "GND")
   (mpn "02013A680JAT2A")
@@ -895,7 +895,7 @@
   (id "de26904d")
   (nets "GND" "AINB_P")
 )
-(part "adc2/C184" "2a92096f-bca5-5cf9-86a5-75ad3e51efa6" "cap-0201"
+(part "adc2/C184" "a5e6c951-4062-51f1-8192-602272a49f7a" "cap-0201"
   (id "c364ffba")
   (nets "GND" "AINB_N")
 )
@@ -957,12 +957,12 @@
   (nets "VLOGIC" "SDOB_RAW" "AINB_P" "AINA_P" "AINA_N" "VCC" "SDI" "REGCAP" "SCK" "REFIN" "SDOA_RAW" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "CS" "AINB_N")
   (description "Differential Input, Quad, External Reference Simultaneous Sampling, 16-Bit, SAR ADC")
 )
-(part "adc3/C189" "6dc9dd1b-8599-567d-91f9-c39f27eb1c4d" "cap-0201"
+(part "adc3/C189" "26ff2dc1-bb26-575b-9584-82afcf7e560f" "cap-0201"
   (id "c86fbd8c")
   (nets "VCC" "GND")
   (mpn "02013A680JAT2A")
 )
-(part "adc3/C190" "7dd39e15-28e1-5e22-8268-ca769737ab7a" "cap-0201"
+(part "adc3/C190" "c16c67c8-c0a2-5a76-8d63-30dd6ad0a6d0" "cap-0201"
   (id "d8f5cbad")
   (nets "VLOGIC" "GND")
   (mpn "02013A680JAT2A")
@@ -971,7 +971,7 @@
   (id "d9f10fcd")
   (nets "REGCAP" "GND")
 )
-(part "adc3/C192" "03b97e9b-63e7-5145-bedb-b573fc59a9d2" "cap-0201"
+(part "adc3/C192" "2a92096f-bca5-5cf9-86a5-75ad3e51efa6" "cap-0201"
   (id "eb43219e")
   (nets "REFIN" "GND")
 )
@@ -985,7 +985,7 @@
   (nets "AINA_N" "AINA_EXT_N")
   (mpn "CRCW0201100RFKED")
 )
-(part "adc3/C193" "740de401-ec6f-5014-a080-2d89e08a8f53" "cap-0201"
+(part "adc3/C193" "ab667f82-dc61-5684-9492-bdef9432e734" "cap-0201"
   (id "d55b54d5")
   (nets "AINA_P" "GND")
 )
