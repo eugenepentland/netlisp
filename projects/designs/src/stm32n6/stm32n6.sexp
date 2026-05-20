@@ -178,7 +178,7 @@
       (pin E2 "TXRTUNE")))
   (sub-block "usb" (usb-c-hs))
 
-  (section "XSPI2 NOR Flash" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
+  (section "Boot NOR Flash (XSPIM_P2 / Port N)" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
     (protocol OctoSPI)
     (pins "stm32"
       (group "XSPI2 NOR Flash")
@@ -210,7 +210,8 @@
       (pin U2 (as "SPI5_MISO") "IMU_MISO")
       (pin V1 (as "SPI5_NSS")  "IMU_NCS")
       (pin T4 (as "PG4")       "IMU_INT")
-      (pin R4 (as "PF8")       "IMU_NRST")))
+      (pin R4 (as "PF8")       "IMU_NRST")
+      (pin R2 (as "PF7")       "IMU_WAKE")))
   (sub-block "imu" (bno08x-imu))
 
   (section "Expansion Connector" "Molex SlimStack 204928-0601, 60-pin 0.4mm BTB — 10 analog channels + radar front-end control"
@@ -325,6 +326,7 @@
   (net "IMU_NCS"  "imu/CS")
   (net "IMU_INT"  "imu/INT")
   (net "IMU_NRST" "imu/NRST")
+  (net "IMU_WAKE" "imu/WAKE")
   (net "NRST"      "flash/NRST" "pwr_btn/NRST")
   (net "FLASH_NCS" "flash/CS")
   (net "FLASH_CLK" "flash/CLK")
@@ -349,6 +351,7 @@
   (net "PWR_INT" "pwr_btn/PWR_INT")
   (net "PWR_EN" "buck/EN" "pwr_btn/PWR_EN")
   (net "PG_3V3" "buck/PG" "ldo/EN")
+  (net "LDO_PG" "ldo/LDO_PG")
   (net "V1P8"   "ldo/VOUT" "VDDA18PMU" "VDDSMPS" "VDDIO2" "VDDIO3" "flash/VDDIO" "psram/VDD")
   (net "CHG_EN" "charger/EN")
 
@@ -466,7 +469,8 @@
     (instance "TP5" testpoint (pin 1 "NRST")    (id aabbcc05))
     (instance "TP6" testpoint (pin 1 "PG_3V3")  (id aabbcc06))
     (instance "TP7" testpoint (pin 1 "BOOT0")   (id aabbcc07))
-    (instance "TP8" testpoint (pin 1 "PWR_ON")  (id aabbcc08)))
+    (instance "TP8" testpoint (pin 1 "PWR_ON")  (id aabbcc08))
+    (instance "TP9" testpoint (pin 1 "VREF_2V5") (id aabbcc09)))
 
   (note "TP1" "Battery voltage — expect 3.0–4.2V when LiPo attached")
   (note "TP2" "3.3V main rail from buck — first probe point when bring-up fails")
@@ -476,6 +480,29 @@
   (note "TP6" "Buck power-good — high means VDD is in regulation and LDO is enabled")
   (note "TP7" "Boot mode select — pull high to force system bootloader on power-up")
   (note "TP8" "STM32 PWR_ON output — drives downstream regulator enables")
+  (note "TP9" "2.5V precision reference from LTC6655 star node — first check during ADC bring-up; expect a clean 2.500V before any per-ADC bypass distortion")
+
+  (section "Power Status LED" "LDO power-good indicator — lit when the 1.8V rail is in regulation"
+    (diagram hidden)
+    (series "R_PWR" (res-0402 "2.2k") "VDD" "LDO_PG" (id d1ed1801))
+    (instance "D_PWR" (led-0402 "red")
+      (pin 1 "LDO_PG")
+      (pin 2 "GND") (id d1ed1800))
+    (note "D_PWR" "Driven by the LP5912's open-drain PG (LDO_PG), not the 1.8V rail directly: PG releases high when the 1.8V output is in regulation, so D_PWR lights only when the full battery→buck→LDO chain is up and the LDO is actually regulating. On under-voltage PG sinks low, pulls the anode down, and the LED goes dark.")
+    (note "R_PWR" "Doubles as the PG open-drain pull-up. Tied to VDD (3.3V) — not V1P8 — so the LED has Vf headroom; pulling up to the 1.8V rail itself would leave nothing across R. 2.2k → ~0.7mA through the LED when good (intentionally dim, as accepted) and ~1.5mA sunk by PG when bad, well within the PG pin's drive. Larger R = dimmer + gentler on PG; smaller R = brighter but more PG sink current."))
+
+  (section "Boot-Fail LED" "Solid-on when the boot ROM gives up — PG10/BOOTFAILN open-drain indicator (UM3234 §3.3.2, §3.10)"
+    (diagram hidden)
+    (pins "stm32"
+      (group "Boot-Fail Indicator")
+      (pin T12 (as "PG10" "UART5_TX") "BOOTFAILN"))
+    (series "R_BF" (res-0402 "2.2k") "VDD" "BOOTFAIL_A" (id d1ed1802))
+    (instance "D_BF" (led-0402 "red")
+      (pin 1 "BOOTFAIL_A")
+      (pin 2 "BOOTFAILN") (id d1ed1803))
+    (note "D_BF" "Active-low indicator: anode pulled to VDD through R_BF, cathode on PG10/BOOTFAILN. On a blocking boot failure the boot ROM drives PG10 low open-drain and holds it, so current flows VDD→R_BF→D_BF→PG10 and the LED latches solid-on — an eyeball-level 'chip died at boot' flag with no UART receiver needed. When boot succeeds PG10 is released (or idles high as UART5_TX), the cathode sits near VDD, and the LED stays dark.")
+    (note "R_BF" "Current limit from VDD (3.3V). With a red Vf~1.8V and the GPIO sink Vol~0.3V, 2.2k → ~0.5mA — dim but clearly visible, and well within PG10's sink. Shares net BOOTFAILN with the future PG10 status-trace tap (note 34cc8fe1); the LED only loads the line resistively and won't disturb the 9600-baud dump.")
+    (note "PG10 doubles as UART5_TX — the boot ROM emits a 64-bit status word (UM3234 Table 20) at 9600 baud on the same pin. The LED gives the at-a-glance pass/fail; tap BOOTFAILN with a probe/header (note 34cc8fe1) to decode the actual failure code."))
 
   (section "Display" "ST7735S 80×160 TFT — chip details sealed in st7735s-display module"
     (role output)

@@ -3,7 +3,7 @@
 ;; NRST via reverse diode so a system reset also pulses the flash.
 
 (import mx66uw1g45gxdi00)
-(import diode-0402)
+(import diode-sod323)
 
 (defmodule mx66uw-flash ()
   "MX66UW1G45G 1 Gbit OctoSPI NOR. Caller wires VDDIO (1.8V), GND, CS,
@@ -24,7 +24,7 @@
     (decouple "VDDIO" (cap-0201 "100nF") 1 per-pin flash)
     (series "R10" (res-0201 "10k") "FLASH_RESET" "VDDIO")
     (series "R11" (res-0201 "10k") "CS"          "VDDIO")
-    (series "D2"  (diode-0402 "PMEG2005AEA") "NRST" "FLASH_RESET")
+    (series "D2"  (diode-sod323 "PMEG2005AEA") "NRST" "FLASH_RESET")
 
     (port "VDDIO" in (rated 1.7 1.95))
     (port "GND"   bidi)

@@ -14,8 +14,8 @@
   (design-block "ST7735S Display"
 
     (instance "disp" fh12-10s-0-5sh-55-
-      (pin 1 "LEDK")
-      (pin 2 "LEDA")
+      (pin 1 "LEDA")
+      (pin 2 "LEDK")
       (pin 3 "VDD")
       (pin 4 "VDD")
       (pin 5 "GND")
