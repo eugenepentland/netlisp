@@ -384,6 +384,7 @@
 (part "D5" "a6491863-4d9b-5443-a841-15716b676861" "led-0402"
   (id "d1ed1800")
   (nets "GND" "LDO_PG")
+  (mpn "5988A30107F")
 )
 (part "R60" "2038dcc4-e1f7-5219-ad7d-655a615aae0a" "res-0402"
   (id "d1ed1802")
@@ -392,6 +393,7 @@
 (part "D6" "202d7f40-e74c-5076-96c2-59b5b7359de6" "led-0402"
   (id "d1ed1803")
   (nets "BOOTFAILN" "BOOTFAIL_A")
+  (mpn "5988A30107F")
 )
 (part "H1" "5db8db52-b8c9-4930-9871-3aabc1ca4aba" "a-wurth-wa-smsi-9774020633r"
   (id "d3a10001")
@@ -542,6 +544,7 @@
   (id "e28c8da2")
   (nets "NRST" "FLASH_RESET")
   (description "Schottky diode, SOD-323 package")
+  (mpn "PMEG2005AEA")
 )
 (part "psram/U14" "619aa629-b959-5e8d-9a34-677a6220844a" "aps256xxn-ob9-bg"
   (id "c83aada6")
@@ -645,7 +648,7 @@
 (part "charger/D8" "b325b3c1-370b-46c7-8a58-c2c857defab2" "led-0402"
   (id "d16db019")
   (nets "CHG_LED" "CHG_STAT")
-  (mpn "599-1A30-147F")
+  (mpn "5988A30107F")
 )
 (part "buck/U17" "28f5c311-e625-504d-bdda-36c906b616dd" "tps63806"
   (id "a6b99bfa")
@@ -1071,5 +1074,5 @@
   (id "b39b9965")
   (nets "VDD" "DRAIN")
   (description "Schottky diode, SOD-323 package")
-  (mpn "NSR1020MW2T1G")
+  (mpn "PMEG2005AEA")
 )
