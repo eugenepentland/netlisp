@@ -17,6 +17,9 @@
 
 (design-block "Cyclops Digital"
 
+  ;; Target board for the file-based KiCad sync ("Push to KiCad PCB").
+  (kicad-pcb "/mnt/nas/Cyclops/Cyclops Digital/Cyclops Digital.kicad_pcb")
+
   (instance "stm32" stm32n657l0h3q (id b22d91d5))
 
   (section "STM32N657L0H3Q Core System" "ARM Cortex-M55 MCU - Minimum Hardware Requirements"
