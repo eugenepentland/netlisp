@@ -98,25 +98,25 @@
       (pin D1 (as "RCC_OSC32_OUT") "OSC32_OUT"))
 
     ;; Decoupling and filters
-    (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
-    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418 (id b422d7a1) (id a60c6e44) (id abe074be) (id ac98150c)))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21))
-    (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
-    (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
-    (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16))
+    (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531) (ids ("100nF@J14#0" e29a642c) ("100nF@K14#0" bb6b6715) ("100nF@L14#0" a3c4a694) ("100nF@F1#0" c68186fc) ("100nF@H6#0" a14e97ec) ("100nF@A1#0" a7367d72)))
+    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418 (id b422d7a1) (id a60c6e44) (id abe074be) (id ac98150c)) (ids ("15uF@P7#0" f6a710d7) ("15uF@P7#1" e825ebb6) ("15uF@P7#2" ad304bfc) ("15uF@P7#3" dd67996f)))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21) (ids ("1uF@G2#0" a4aa7aa0) ("1uF@P7#0" a74e6a00) ("1uF@P9#0" f7b864e3) ("1uF@P10#0" d2fc0ae5) ("1uF@P11#0" e9e40a8e) ("1uF@P13#0" aacf74e0) ("1uF@W6#0" be64c5db)))
+    (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa) (ids ("10uF@L1#0" defc5141) ("10uF@L1#1" da32e0f5)))
+    (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6) (ids ("1uF@L1#0" f0ee9c9b) ("1uF@L1#1" aef2661a)))
+    (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16) (ids ("100nF@L1#0" dc4d422d) ("100nF@L1#1" ee3a9dda)))
     (series "L1" (ind-2016 "1uH") "VLXSMPS" "VDDCORE" (id f130c61b))
     (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
     (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
-    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0))
+    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0) (ids ("100nF@H1#0" ea12f3b4)))
     (decouple (cap-0201 "100nF") 1 per-pin stm32
-      "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845))
+      "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845) (ids ("100nF@H16#0" c4d4fefc) ("100nF@J16#0" cde28092) ("100nF@K16#0" b2e14087) ("100nF@L16#0" e7509aa2) ("100nF@M14#0" a657d9e0) ("100nF@M16#0" c4a20d86) ("100nF@F7#0" a5dd8802) ("100nF@F8#0" b25a7b15)))
     ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
-    (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
+    (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846) (ids ("100nF#0" db6de52d) ("100nF#1" fc1bd2f7) ("100nF#2" c3a4ef28) ("100nF#3" d52ea5b9)))
     (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 (id c6c9160e))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
-    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 (id b897a15f))
-    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 (id e4c292f6))
-    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 (id cf78bc5e))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2) (ids ("1uF@W6#0" a988e002)))
+    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 (id b897a15f) (ids ("4.7uF@G1#0" de37694d)))
+    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 (id e4c292f6) (ids ("1uF@W2#0" e3b4e17c)))
+    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 (id cf78bc5e) (ids ("100nF@W2#0" d79fbbb9)))
 
     ;; Boot & Reset passives and switch
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
@@ -139,13 +139,13 @@
       (pin X1 "OSC_IN")
       (pin GND_1 GND_2 "GND")
       (pin X2 "OSC_OUT") (id a4b23ed4))
-    (series (cap-0402 "10pF" np0) "OSC_IN" "GND" "OSC_OUT" "GND" (id b5986a13))
+    (series (cap-0402 "10pF" np0) "OSC_IN" "GND" "OSC_OUT" "GND" (id b5986a13) (ids ("10pF#0" cd40e264) ("10pF#1" bac5af43)))
 
     ;; LSE — 32.768 kHz crystal
     (instance "lse" fc-135
       (pin 1 "OSC32_IN")
       (pin 2 "OSC32_OUT") (id b2a39445))
-    (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54))
+    (series (cap-0402 "6.8pF" np0) "OSC32_IN" "GND" "OSC32_OUT" "GND" (id e6ab5b54) (ids ("6.8pF#0" bc397063) ("6.8pF#1" e65e2d70)))
 
     (note "G2 (VFBSMPS) tied to VDDCORE — SMPS feedback sense (AN5967 Fig 4)")
     (note "W6 (VDDCSI) tied to VDDCORE per AN5967 section 3.2" (id db0a04fb) (id c4ca02d6))
