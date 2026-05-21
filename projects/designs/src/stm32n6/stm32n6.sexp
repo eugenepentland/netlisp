@@ -5,6 +5,7 @@
         204928-0601
         fiducial-0p75-2p25
         testpoint
+        b3u-1000pm
         ;; peripheral modules — implementation details sealed inside
         usb-c-hs
         mx66uw-flash aps256-psram
@@ -80,7 +81,10 @@
       (pin F2 "NRST")
       (pin A1 "VDDA18AON")
       (pin F4 "BOOT0")
+      (pin T10 (as "BOOT1") "BOOT1")
       (pin H4 (as "PC13" "PWR_WKUP3") "PWR_BTN"))
+      (series "R136" (res-0201 "10K") "BOOT1" "GND" (id fbbc2d8b))
+      (series "R137" (res-0201 "10K") "BOOT1" "VDD" (id fbbc2d5b))
 
     ;; SWD Debug
     (pins "stm32"
@@ -125,6 +129,12 @@
     ;; Boot & Reset passives and switch
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
     (series "R_BOOT0" (res-0201 "10k") "BOOT0" "GND" (id d44c84c9))
+    ;; b4056072: momentary boot button — press pulls BOOT0 high to VDD for
+    ;; USB DFU / serial-boot entry; R_BOOT0 (10k) holds it low by default.
+    ;; B3U-1000PM: pin 1 COM, pin 2 NO — closes COM↔NO while pressed.
+    (instance "SW1" b3u-1000pm
+      (pin 1 "VDD")
+      (pin 2 "BOOT0") (id b007b3c0))
 
     ;; SWD series dampers and header
     (series "R4" (res-0402 "33R") "SWDIO_MCU" "SWDIO" (id f66085ff))
@@ -174,9 +184,9 @@
       (group "USB 2.0 HS PHY")
       (pin D4 "VDDA18USB" (i-typ 0.025) (i-max 0.04))
       (pin C3 "VDD33USB" (i-typ 0.025) (i-max 0.04))
-      (pin C1 (as "USB2_OTG_HS_DP") "USB_DP")
-      (pin C2 (as "USB2_OTG_HS_DM") "USB_DN")
-      (pin E2 "TXRTUNE")))
+      (pin A3 (as "USB1_OTG_HS_DP") "USB_DP")
+      (pin B3 (as "USB1_OTG_HS_DM") "USB_DN")
+      (pin A2 "TXRTUNE")))
   (sub-block "usb" (usb-c-hs) (id ac5f3582))
 
   (section "Boot NOR Flash (XSPIM_P2 / Port N)" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
@@ -240,8 +250,8 @@
       ;; Note: VDDIO4 also powers the SPI3 lines (PC10/PC11/PC12) and three
       ;; PSSI data pins (PC1/PC6/PH9), so any future bank-voltage change
       ;; affects those signals too — see review notes.
-      (pin F6 (as "PC8") "TXDATA_1")
-      (pin D5 (as "PC9") "TXDATA_2")
+      (pin U17 (as "PA3") "TXDATA_1")
+      (pin W17 (as "PA4") "TXDATA_2")
       ;; BPSK loop-filter gate drives — plain GPIO
       (pin W16 (as "PG11") "BPSK_GATE_1")
       (pin W14 (as "PG2")  "BPSK_GATE_2")
@@ -387,7 +397,7 @@
       ;; Shared config path: V15 bit-banged as GPIO fans out to all three ADC SDI pins.
       (pin V15 (as "PA7") "ADC_SDI")
       ;; PSSI clock input — externally looped back from ADC_SCK.
-      (pin T10 (as "PSSI_PDCK") "ADC_PDCK")
+      (pin T11 (as "PSSI_PDCK") "ADC_PDCK")
       ;; Per-ADC CS lines: Phase-1 GPIO output, Phase-2 TIM1_CHx hardware pulse.
       (pin D8  (as "PE11" "TIM1_CH2")  "ADC1_CS")
       (pin A9  (as "PE13" "TIM1_CH3")  "ADC2_CS")
@@ -413,7 +423,7 @@
     (note "3x AD7380-4: adc1/adc2 use all 4 channels, adc3 uses 2 — 10 simultaneous 16-bit channels at 4MSPS total. Instances are sub-blocks at the top level.")
     (note "Phase 1 (boot/config): T9 (clock) and V15 (data) bit-banged as GPIO to shift config bytes into each ADC's SDI; firmware pulses ADC1_CS/ADC2_CS/ADC3_CS one at a time via GPIO. Register readback via GPIO-input read of ADC1_SDOA/ADC2_SDOA/ADC3_SDOA (PSSI_D1/D6/D8).")
     (note "Phase 2 (4 MSPS streaming): T9 switched to TIM1_CH1 AF to PWM the shared ADC_SCK net; TIM1_CH2/CH3/CH4 simultaneously pulse all three CS lines. PSSI latches all 10 active SDO lanes in parallel on PDCK edges into DMA'd RAM (adc3 SDOC/SDOD unused).")
-    (note "Clock topology: T9 is the sole driver of ADC_SCK — bit-banged GPIO during config, TIM1_CH1 PWM during streaming. PSSI_PDCK on T10 loops back to sample the same net.")
+    (note "Clock topology: T9 is the sole driver of ADC_SCK — bit-banged GPIO during config, TIM1_CH1 PWM during streaming. PSSI_PDCK on T11 loops back to sample the same net.")
     (note "SCK damping: single 22Ω series on T9 at the STM32 side. PDCK uses 0R (input only).")
     (note "Each ADC: VCC (pin 4) = 3.3V, VLOGIC (pin 2) = 3.3V (tied to VDD; AD7380 VLOGIC operating range is 1.7V..VCC, so the digital interface is 3.3V end-to-end and matches the STM32's VDD-bank GPIOs without level shifting), REGCAP (pin 3) = 1µF to GND only, REFIN (pin 17) tied to VDD via 0R (upgrade to ADR4533 in future rev for full ENOB).")
     (note "Per-channel anti-alias: 33Ω series + 68pF to GND on each differential leg at the ADC pin. Keep pair-matched within 2 mm over solid GND.")
@@ -471,7 +481,9 @@
     (instance "TP6" testpoint (pin 1 "PG_3V3")  (id aabbcc06))
     (instance "TP7" testpoint (pin 1 "BOOT0")   (id aabbcc07))
     (instance "TP8" testpoint (pin 1 "PWR_ON")  (id aabbcc08))
-    (instance "TP9" testpoint (pin 1 "VREF_2V5") (id aabbcc09)))
+    (instance "TP9" testpoint (pin 1 "VREF_2V5") (id aabbcc09))
+    (instance "TP10" testpoint (pin 1 "BOOT1") (id aabbcc10))
+    )
 
   (note "TP1" "Battery voltage — expect 3.0–4.2V when LiPo attached")
   (note "TP2" "3.3V main rail from buck — first probe point when bring-up fails")
@@ -479,9 +491,10 @@
   (note "TP4" "0.8V core from STM32 internal SMPS — comes up only after VDD is stable")
   (note "TP5" "MCU reset line — low during reset, high when MCU is running")
   (note "TP6" "Buck power-good — high means VDD is in regulation and LDO is enabled")
-  (note "TP7" "Boot mode select — pull high to force system bootloader on power-up")
+  (note "TP7" "Boot0 mode select — pull high to force system bootloader on power-up")
   (note "TP8" "STM32 PWR_ON output — drives downstream regulator enables")
   (note "TP9" "2.5V precision reference from LTC6655 star node — first check during ADC bring-up; expect a clean 2.500V before any per-ADC bypass distortion")
+  (note "TP10" "Boot1 mode select — pull down default")
 
   (section "Power Status LED" "LDO power-good indicator — lit when the 1.8V rail is in regulation"
     (diagram hidden)
