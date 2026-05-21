@@ -164,7 +164,7 @@
     (note "PWR_BTN (PC13/PWR_WKUP3): debounced button events wake MCU from Standby. PC13 is in the backup domain — firmware must disable RTC tamper functions before using as a GPIO input.")
     (note "Off-state battery draw ≈ STM6601 (2.5 µA) + MCP73831 charger quiescent (≈3 µA) ≈ 5 µA total — system buck is fully disabled, only the always-on VBATT rail leaks.")
     (note "Firmware contract: (1) IWDG enabled early in main(), refreshed only from main loop (never from ISR), 4-8 s timeout. (2) PSHOLD driven HIGH within 1.4 s of NRST release. (3) PBOUT timer distinguishes short (app event) vs long (>2s, drop PSHOLD) press. (4) PC13 RTC tamper disabled before use as GPIO. (5) On clean shutdown, drive PSHOLD low and stop driving — let it stay low while STM6601 deasserts EN."))
-  (sub-block "pwr_btn" (stm6601-power-button))
+  (sub-block "pwr_btn" (stm6601-power-button) (ids ("U1" ac6dbeb8) ("SW2" e498d8ba) ("C80" e24e4a98) ("C81" ee5aefbe) ("C82" f3c7152f) ("R7" d4c046ff) ("C83" b3d2d719) ("R8" fac40439) ("R9" a2abac62) ("R10" c12f4cdc)))
 
   (section "USB" "USB 2.0 HS via USB-C — chip details sealed in usb-c-hs module"
     (role input)
@@ -176,7 +176,7 @@
       (pin C1 (as "USB2_OTG_HS_DP") "USB_DP")
       (pin C2 (as "USB2_OTG_HS_DM") "USB_DN")
       (pin E2 "TXRTUNE")))
-  (sub-block "usb" (usb-c-hs))
+  (sub-block "usb" (usb-c-hs) (ids ("U2" d875fb81) ("J1" a7666be6) ("R11" a0d3ff0c) ("R12" f2ca045b) ("R8" a8d000bc) ("C84" e15c70f8)))
 
   (section "Boot NOR Flash (XSPIM_P2 / Port N)" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
     (protocol OctoSPI)
@@ -186,7 +186,7 @@
       (pin PN6 (as "XSPIM_P2_CLK")  "FLASH_CLK")
       (pin PN0 (as "XSPIM_P2_DQS0") "FLASH_DQS")
       (bus "FLASH_IO" (as-prefix "XSPIM_P2_IO") PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11)))
-  (sub-block "flash" (mx66uw-flash))
+  (sub-block "flash" (mx66uw-flash) (ids ("U3" ee0c116a) ("C85" d4d1219f) ("C86" ca0bb482) ("C87" fe080efd) ("R10" f591499f) ("R11" ae117d54) ("D2" e28c8da2)))
 
   (section "XSPI1 PSRAM" "APS256XXN 256Mbit OctoSPI PSRAM — chip details sealed in aps256-psram module"
     (protocol OctoSPI)
@@ -199,7 +199,7 @@
       (bus "PSRAM_IO" (as-prefix "XSPIM_P1_IO")
                       PP0 PP1 PP2 PP3 PP4 PP5 PP6 PP7
                       PP8 PP9 PP10 PP11 PP12 PP13 PP14 PP15)))
-  (sub-block "psram" (aps256-psram))
+  (sub-block "psram" (aps256-psram) (ids ("U4" c83aada6) ("C88" f061e99d) ("C89" e0a46834) ("C90" a3208b6c) ("R12" f4449a07)))
 
   (section "IMU" "BNO08x 9-axis IMU on SPI5 — chip details sealed in bno08x-imu module"
     (protocol SPI)
@@ -212,7 +212,7 @@
       (pin T4 (as "PG4")       "IMU_INT")
       (pin R4 (as "PF8")       "IMU_NRST")
       (pin R2 (as "PF7")       "IMU_WAKE")))
-  (sub-block "imu" (bno08x-imu))
+  (sub-block "imu" (bno08x-imu) (ids ("U5" ed5d74ee) ("C91" e55d9276) ("C92" ad5387c8) ("C93" e8a4846c) ("C94" b8476aef) ("C95" fd067b6d) ("C96" cccc6396) ("R13" db7809c9) ("R14" f536e2bb) ("R15" f2153bc9) ("R16" e15a986a)))
 
   (section "Expansion Connector" "Molex SlimStack 204928-0601, 60-pin 0.4mm BTB — 10 analog channels + radar front-end control"
     (role output)
@@ -297,10 +297,10 @@
   ;; === Power Chain (design blocks) ===
   ;; battery -> VBATT -> buck -> VDD (3.3V) -> ldo -> V1P8 (1.8V)
   ;; charger trickle-charges VBATT from VBUS when USB is plugged in.
-  (sub-block "battery" "blocks/battery-1s-lipo.sexp")
-  (sub-block "charger" "blocks/charger.sexp")
-  (sub-block "buck" "blocks/buck-boost.sexp")
-  (sub-block "ldo" "blocks/ldo.sexp")
+  (sub-block "battery" "blocks/battery-1s-lipo.sexp" (ids ("J2" fb47e6d5)))
+  (sub-block "charger" "blocks/charger.sexp" (ids ("U1" e3bccbf8) ("C97" d16f5829) ("C98" bb1a847d) ("R17" c642d31a) ("R18" b8a061db) ("D3" d16db019)))
+  (sub-block "buck" "blocks/buck-boost.sexp" (ids ("U1" a6b99bfa) ("C99" c4911ca6) ("C100" cfc222f4) ("C101" e727ee80) ("L1" ce32de8e) ("R19" a21fc0ae) ("R20" b175a69f) ("R21" a1c3ffa8)))
+  (sub-block "ldo" "blocks/ldo.sexp" (ids ("U1" c86a0ba8) ("C102" f094933f) ("C103" a247a34c)))
 
   ;; Connect power module ports to design nets. Each rail is declared in
   ;; one consolidated (net ...) form so the validator doesn't flag them as
@@ -371,7 +371,7 @@
   ;; Star-node placement: bulk cap belongs at the star pour under adc2, not at pin 7 of vref.
   ;; Three branches from the star fan out to adc1/adc2/adc3 REFIN — do not daisy-chain.
   ;; Per-ADC REFIN bypass: each ad7380-channel module has a 100nF ceramic close to pin 17.
-  (sub-block "vref" (ltc6655-vref))
+  (sub-block "vref" (ltc6655-vref) (ids ("U6" ae239434) ("C104" d837a4a1) ("C105" bb0ae6d3)))
 
   (section "ADC Array" "3x AD7380-4 quad 16-bit 4MSPS ADCs — 12 channels total via bit-banged config + PSSI parallel readout"
     (protocol SPI)
@@ -423,11 +423,11 @@
   ;; via pcb_update.py (see projects/designs/lib/modules/ad7380-channel.sexp).
   ;; Declared at design-block top level because sub-block forms aren't
   ;; evaluated inside sections.
-  (sub-block "adc1" (ad7380-channel 1))
-  (sub-block "adc2" (ad7380-channel 2))
+  (sub-block "adc1" (ad7380-channel 1) (ids ("U1" a28bc502) ("C106" bc3cf8eb) ("C107" f612958d) ("C108" b65aa691) ("C109" a2e1de9c) ("R22" e26bb842) ("R23" cb516bac) ("C110" c3d309ca) ("C111" ace9f5e2) ("R24" d4f653ff) ("R25" b984e7af) ("C112" bd4897cd) ("C113" a5875f16) ("R26" cb9178e8) ("R27" f4d2d567) ("C114" a1c51a84) ("C115" ef569d80) ("R28" c94abb7a) ("R29" a25d2c88) ("C116" b6177e33) ("C117" b38028f7) ("R30" b8a6cad1) ("R31" f4afce2b) ("R32" f659c98f) ("R33" c7e7c7e6)))
+  (sub-block "adc2" (ad7380-channel 2) (ids ("U1" baa5e02d) ("C118" cdc112d6) ("C119" b2706841) ("C120" b9ba6101) ("C121" a4a87774) ("R34" bf3f9ef3) ("R35" b522646d) ("C122" d8740791) ("C123" f7731f03) ("R36" d7b8100d) ("R37" ab7fd8ba) ("C124" de26904d) ("C125" c364ffba) ("R38" f27fff6d) ("R39" aeea20fe) ("C126" ab69b5e2) ("C127" ffe0d057) ("R40" fbf7f9f9) ("R41" b8d5d7f7) ("C128" ff4b3ba7) ("C129" b0008957) ("R42" cb7490d2) ("R43" e4e4e92a) ("R44" d0f5e48f) ("R45" d864cf61)))
   ;; adc3 uses the 2-channel variant — saves 10 passives (8 anti-alias R/C on C/D
   ;; + R_SDC/R_SDD dampers). Only SDOA/SDOB land on PSSI; SDOC/SDOD unrouted.
-  (sub-block "adc3" (ad7380-channel-2ch 3))
+  (sub-block "adc3" (ad7380-channel-2ch 3) (ids ("U1" c80e2bf8) ("C130" c86fbd8c) ("C131" d8f5cbad) ("C132" d9f10fcd) ("C133" eb43219e) ("R46" fece8b73) ("R47" d43f6b73) ("C134" d55b54d5) ("C135" a9e3b302) ("R48" f483af5d) ("R49" fad9397b) ("C136" da134691) ("C137" ac5f859a) ("R50" fa7d96cb) ("R51" c5d1fd38)))
 
   ;; Bridge the module's internal ports to the parent board nets.
   ;; Shared power (VDD/V1P8/GND) is tied in the consolidated rail forms above.
@@ -516,14 +516,14 @@
       (pin D14 (as "PE10")      "DISP_DC")
       (pin D16 (as "TIM4_CH2")  "DISP_BL_EN"))
     (note "DISP_BL_EN is on TIM4_CH2 (D16). Drive high for full brightness or configure TIM4 for PWM to dim — 1–20 kHz is fine."))
-  (sub-block "disp" (st7735s-display))
+  (sub-block "disp" (st7735s-display) (ids ("U7" c309ffc0) ("C138" ba2ff741) ("R52" b130064b) ("Q1" bed69b31) ("R53" b0f13e47)))
 
   (section "Vibration Motor" "Coin/pager vibration motor — low-side AO3400A driver sealed in vibration-motor module"
     (pins "stm32"
       (pin B16 (as "PB2" "TIM1_CH1") "VIB_PWM"))
     (note "VIB_PWM on TIM1_CH1 (PB2) — firmware can PWM at 1–20 kHz to modulate intensity. Hard on/off also works fine."))
   ;; sub-block placed at design-block top level — sub-block forms aren't evaluated inside sections.
-  (sub-block "motor" (vibration-motor))
+  (sub-block "motor" (vibration-motor) (ids ("J3" c7e94838) ("Q2" b0e42805) ("R54" b50be3f9) ("R55" a95f2490) ("D4" b39b9965)))
 
   (section "Mounting" "PCB standoffs"
     (diagram hidden)
