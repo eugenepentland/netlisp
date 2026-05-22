@@ -122,11 +122,6 @@
     (decouple "VDDIO4" (cap-0201 "100nF") 1 per-pin stm32 F7 F8 (id b3f76b91))
     ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
     (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
-    ;; VDD33USB decoupling deferred: C3 (the only VDD33USB pin) is declared in
-    ;; the USB section below, so the original auto-discover form ran before C3
-    ;; existed and silently added no cap. Re-enable with explicit C3 (a one-time
-    ;; board add) when you next re-stamp:
-    ;;   (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 C3 (id c6c9160e))
     (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
     (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 G1 (id b897a15f))
     (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 W2 (id e4c292f6))
@@ -192,7 +187,8 @@
       (pin C3 "VDD33USB" (i-typ 0.025) (i-max 0.04))
       (pin A3 (as "USB1_OTG_HS_DP") "USB_DP")
       (pin B3 (as "USB1_OTG_HS_DM") "USB_DN")
-      (pin A2 "TXRTUNE")))
+      (pin A2 "TXRTUNE"))
+    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 C3 (id c6c9160e)))
   (sub-block "usb" (usb-c-hs) (id ac5f3582))
 
   (section "Boot NOR Flash (XSPIM_P2 / Port N)" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
