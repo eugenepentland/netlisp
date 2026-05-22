@@ -24,6 +24,10 @@
 
   (instance "stm32" stm32n657l0h3q (id b22d91d5))
 
+  ;; House decouple defaults: a (decouple …) may omit its component (a leading
+  ;; count → the bypass cap) and its host ref (a pin token != "stm32" → stm32).
+  (decouple-defaults (ic "stm32") (bypass (cap-0201 "100nF")))
+
   (section "STM32N657L0H3Q Core System" "ARM Cortex-M55 MCU - Minimum Hardware Requirements"
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
@@ -105,27 +109,29 @@
       (pin E1 (as "RCC_OSC32_IN") "OSC32_IN")
       (pin D1 (as "RCC_OSC32_OUT") "OSC32_OUT"))
 
-    ;; Decoupling and filters
-    (decouple "VDD"       (cap-0201 "100nF") 1 per-pin stm32 J14 K14 L14 F1 (id f619c531))
-    (decouple "VDDA18AON" (cap-0201 "100nF") 1 per-pin stm32 H6 A1 (id a08364cc))
-    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 G2 P7 P9 P10 P11 P13 W6 (id f1113d21))
-    (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
-    (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
-    (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16))
+    ;; Decoupling and filters. The house 0201 100nF and host ref (stm32) come
+    ;; from (decouple-defaults …) above, so 100nF caps omit both; other values
+    ;; spell out the component.
+    (decouple "VDD"       1 per-pin J14 K14 L14 F1 (id f619c531))
+    (decouple "VDDA18AON" 1 per-pin H6 A1 (id a08364cc))
+    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin P7 (id cfc02418))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin G2 P7 P9 P10 P11 P13 W6 (id f1113d21))
+    (decouple "VDDSMPS" (cap-0603 "10uF") 2 per-pin L1 (id e05df5aa))
+    (decouple "VDDSMPS" (cap-0201 "1uF")  2 per-pin L1 (id a741dad6))
+    (decouple "VDDSMPS" 2 per-pin L1 (id c4293f16))
     (series "L1" (ind-2016 "1uH") "VLXSMPS" "VDDCORE" (id f130c61b))
     (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
     (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
-    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 H1 (id ee3d56f0))
-    (decouple "VDDIO2" (cap-0201 "100nF") 1 per-pin stm32 H16 J16 K16 L16 (id bf344845))
-    (decouple "VDDIO3" (cap-0201 "100nF") 1 per-pin stm32 M14 M16 (id b9c0a90f))
-    (decouple "VDDIO4" (cap-0201 "100nF") 1 per-pin stm32 F7 F8 (id b3f76b91))
+    (decouple "VDDA18PMU" 1 per-pin H1 (id ee3d56f0))
+    (decouple "VDDIO2" 1 per-pin H16 J16 K16 L16 (id bf344845))
+    (decouple "VDDIO3" 1 per-pin M14 M16 (id b9c0a90f))
+    (decouple "VDDIO4" 1 per-pin F7 F8 (id b3f76b91))
     ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
     (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
-    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 G1 (id b897a15f))
-    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 W2 (id e4c292f6))
-    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 W2 (id cf78bc5e))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin W6 (id e50059e2))
+    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin G1 (id b897a15f))
+    (decouple "VREF+" (cap-0201 "1uF") 1 per-pin W2 (id e4c292f6))
+    (decouple "VREF+" 1 per-pin W2 (id cf78bc5e))
 
     ;; Boot & Reset passives and switch
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
@@ -189,7 +195,7 @@
       (pin A3 (as "USB1_OTG_HS_DP") "USB_DP")
       (pin B3 (as "USB1_OTG_HS_DM") "USB_DN")
       (pin A2 "TXRTUNE"))
-    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 C3 (id c6c9160e)))
+    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin C3 (id c6c9160e)))
   (sub-block "usb" (usb-c-hs)
     (bridge "" USB_DP USB_DN TXRTUNE) (id ac5f3582))
 
@@ -353,12 +359,9 @@
   ;; STM32 GPIO for charger enable control
   (pins "stm32"
     (pin T11 (as "PG1") "CHG_EN"))
-  ;; 1.8V analog supplies — ferrite bead filtered
-  (series "FB1" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18AON" (id a1fb0001))
-  (series "FB2" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18PLL" (id a1fb0002))
-  (series "FB3" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18USB" (id a1fb0003))
-  (series "FB4" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18ADC" (id a1fb0004))
-  (series "FB5" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18CSI" (id a1fb0005))
+  ;; 1.8V analog supplies — one ferrite bead from V1P8 out to each analog rail.
+  (fanout "V1P8" (ferrite-0402 "600R@100MHz")
+    "VDDA18AON" "VDDA18PLL" "VDDA18USB" "VDDA18ADC" "VDDA18CSI" (id a1fb0001))
   ;; VREF+ (W2) tied to filtered VDDA18ADC — STM32N6 VREF+ max is VDDA18ADC (1.8V), not VDD (AN5967 §3.3).
   (net "VDDA18ADC" "VREF+")
 
