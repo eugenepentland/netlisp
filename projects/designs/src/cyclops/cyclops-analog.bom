@@ -275,12 +275,10 @@
   (id "babbe827")
   (nets "ADAR2001_FAULT" "AVDD_5901_1")
 )
-(part "U7" "30b6d791-1f23-5e51-9540-a882c5936bc7" "adf5901acpz"
+(part "U7" "30b6d791-1f23-5e51-9540-a882c5936bc7" "adf5901acpz-rl7"
   (id "e42a572a")
   (nets "TX_EN" "RF_SPI_MOSI" "AUX_5901_1" "ADF5901_1_LO_OUT" "DVDD_5901_1" "CS_ADF5901_1" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "TX1_RFOUT" "VREG_5901_1" "MUXOUT_5901_1" "VTUNE_1" "RADAR_REF_AC" "AUXB_5901_1" "RSET_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "TX2_TERM_5901_1" "ATEST_5901_1")
   (description "ADF5901 24GHz Tx MMIC")
-  (manufacturer "Analog Devices")
-  (mpn "ADF5901ACPZ")
 )
 (part "C19" "c01d50d9-6c5f-5fcc-b87e-3e60c9c8fd47" "cap-0402"
   (id "a5865adc")
@@ -380,12 +378,10 @@
   (id "dcb5921d")
   (nets "GND" "LF2_5901_1")
 )
-(part "U8" "17f157e6-a583-5ca7-81dd-1360f187522a" "adf5901acpz"
+(part "U8" "17f157e6-a583-5ca7-81dd-1360f187522a" "adf5901acpz-rl7"
   (id "c58bc114")
   (nets "TX_EN" "DVDD_5901_2" "RSET_5901_2" "RF_SPI_MOSI" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "AUX_5901_2" "TX2_TERM_5901_2" "TX2_RFOUT" "ADF5901_2_LO_OUT" "VTUNE_2" "RADAR_REF_AC" "AUXB_5901_2" "ATEST_5901_2" "CS_ADF5901_2" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "VREG_5901_2" "AVDD_5901_2" "MUXOUT_5901_2")
   (description "ADF5901 24GHz Tx MMIC")
-  (manufacturer "Analog Devices")
-  (mpn "ADF5901ACPZ")
 )
 (part "C34" "b3cd88b5-0b40-58b2-9389-2f5e74eba90d" "cap-0402"
   (id "d2f3f28f")
