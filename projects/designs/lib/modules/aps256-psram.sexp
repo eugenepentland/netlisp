@@ -19,7 +19,7 @@
       (pin "DQS/_DM0" "DQS0")
       (pin "DQS/_DM1" "DQS1")
       (bus "PSRAM_IO" "IO"))
-    (decouple "VDD" (cap-0201 "100nF") 1 per-pin psram)
+    (decouple "VDD" (cap-0201 "100nF") 1 per-pin psram VDD_1 VDD_2)
     (decouple "VDD" (cap-0603 "4.7uF") 1 per-pin psram VDD_1)
     (series "R12" (res-0201 "10k") "CS" "VDD")
 

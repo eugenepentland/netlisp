@@ -30,7 +30,7 @@
       (pin 19 "SCK")
       (pin 20 "MISO")
       (pin 26 "GND"))
-    (decouple "VDD" (cap-0201 "100nF") 1 per-pin imu)
+    (decouple "VDD" (cap-0201 "100nF") 1 per-pin imu 3 28 4 5 10)
     (series (cap-0201 "100nF" x7r) "IMU_CAP" "GND")
     (series "R_NRST" (res-0201 "10k") "NRST" "VDD")
     (series "R_WAKE" (res-0201 "10k") "WAKE" "VDD")

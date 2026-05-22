@@ -30,12 +30,12 @@
   (id "ecf38a9a")
   (nets "VDD.U8.F1" "GND")
 )
-(part "C40" "588576d3-8efa-5f62-aa0b-c0e674cb39bb" "cap-0201"
-  (id "e5a5d840")
+(part "C40" "2e68bdf1-ec60-51e1-aae3-9fe7c7606cf7" "cap-0201"
+  (id "e90ebb2a")
   (nets "VDDA18AON.U8.H6" "GND")
 )
-(part "C41" "30e4b79d-61c1-59a1-9fe2-594737db93a3" "cap-0201"
-  (id "f2dc6b57")
+(part "C41" "26b07728-3ed5-590d-8b96-0df30ad6a23d" "cap-0201"
+  (id "b76870e3")
   (nets "VDDA18AON.U8.A1" "GND")
 )
 (part "C42" "80e8274d-38da-5897-a57a-146fb0afa034" "cap-0603"
@@ -144,20 +144,20 @@
   (id "ed6603f6")
   (nets "GND" "V1P8.U8.L16")
 )
-(part "C64" "17ce3bf5-6263-52e4-a0e8-adc62b66826a" "cap-0201"
-  (id "c5c7fc52")
+(part "C64" "54a4da22-c36e-568e-bb12-a1744780a851" "cap-0201"
+  (id "d3f9937d")
   (nets "V1P8.U8.M14" "GND")
 )
-(part "C65" "0643f15e-efa2-582d-8912-8806b81b3422" "cap-0201"
-  (id "ae7fb192")
+(part "C65" "f671942f-ea14-56a6-9647-b52ea9f1e503" "cap-0201"
+  (id "a6b01b92")
   (nets "V1P8.U8.M16" "GND")
 )
-(part "C66" "262fa30a-6269-519d-afb1-fcb1a736f8d2" "cap-0201"
-  (id "a8f2eee2")
+(part "C66" "2532e77b-c356-54b0-b1c5-15be10a2d186" "cap-0201"
+  (id "b2b18f4f")
   (nets "VDD.U8.F7" "GND")
 )
-(part "C67" "c02844c2-dfa4-5bf8-acad-3323f7305190" "cap-0201"
-  (id "e6895e6c")
+(part "C67" "46509ee4-5445-56be-a029-669909ca920d" "cap-0201"
+  (id "a6194bca")
   (nets "GND" "VDD.U8.F8")
 )
 (part "C68" "1c57f21c-6194-5dec-99e8-31d64b870f07" "cap-0201"
@@ -542,9 +542,9 @@
   (id "db1d0c27")
   (nets "VDD.U14.E4" "GND")
 )
-(part "psram/C149" "148d7730-46a7-5919-af6e-ac80f583f85a" "cap-0603"
-  (id "a1050a06")
-  (nets "VDD.U14.VDD_1" "GND")
+(part "psram/C149" "a3f6eb76-f44e-53a6-a232-1cdac050f846" "cap-0603"
+  (id "beba1327")
+  (nets "VDD.U14.D1" "GND")
 )
 (part "psram/R201" "3086f12f-6c37-5249-bafc-41c58d43f750" "res-0201"
   (id "cdb707e8")
@@ -604,18 +604,18 @@
 )
 (part "charger/U16" "5a8b0e67-0c4f-51d8-a766-298fe165db25" "mcp73831-2aci-mc"
   (id "b404eb51")
-  (nets "VBATT" "VBATT" "VBUS" "VBUS" "GND" "GND" "CHG_STAT" "CHG_PROG")
+  (nets "VBATT" "VBUS" "VBATT.U16.3" "GND" "GND" "CHG_STAT" "CHG_PROG" "VBUS.U16.1")
   (description "Microchip MCP73831 500mA Li-Ion/Li-Poly charge controller, DFN-8")
   (manufacturer "Microchip")
   (mpn "MCP73831-2ACI/MC")
 )
-(part "charger/C156" "0bebc506-0886-5d7d-8577-8c5eb873baf7" "cap-0402"
-  (id "e547281a")
-  (nets "VBUS.U16.VDD_1" "GND")
+(part "charger/C156" "78fdfa31-474d-5ae1-bab9-3d5133b8a9f1" "cap-0402"
+  (id "e31d908a")
+  (nets "GND" "VBUS.U16.1")
 )
-(part "charger/C157" "136d15d3-6495-5986-8951-4a35db27076b" "cap-0402"
-  (id "a3189576")
-  (nets "VBATT.U16.VBAT_1" "GND")
+(part "charger/C157" "7ad0e992-5dcd-5abc-89c9-707b3e66991b" "cap-0402"
+  (id "a13d2898")
+  (nets "VBATT.U16.3" "GND")
 )
 (part "charger/R206" "eaa3abf6-9e1a-5fc9-92d3-68c940ffef6c" "res-0402"
   (id "e6088110")
@@ -631,22 +631,22 @@
 )
 (part "buck/U17" "d6656d75-6213-562b-aea0-eff2110bfbf9" "tps63806"
   (id "ad0d7602")
-  (nets "SW_L2" "SW_L2" "FB" "PG" "GND" "GND" "GND" "GND" "SW_L1" "SW_L1" "VOUT" "VOUT" "EN" "VIN" "VIN")
+  (nets "SW_L2" "SW_L2" "FB" "VIN.U17.A2" "PG" "VOUT.U17.E2" "GND" "GND" "GND" "GND" "SW_L1" "SW_L1" "VOUT" "EN" "VIN")
   (description "TI TPS63806 buck-boost converter, 1.3-5.5V in, 2A out, DSBGA-15")
   (manufacturer "Texas Instruments")
   (mpn "TPS63806YFFR")
 )
-(part "buck/C158" "7e2840db-a5a2-5815-802c-ce10046d4f74" "cap-0603"
-  (id "bbfcb1d9")
-  (nets "VIN.U17.VIN_1" "GND")
+(part "buck/C158" "5a4fb98e-2bad-52af-a965-3a882361e68a" "cap-0603"
+  (id "d63be6e1")
+  (nets "VIN.U17.A2" "GND")
 )
-(part "buck/C159" "a4d8fd24-76ea-5820-892b-a9c4cae9b0b2" "cap-0805"
-  (id "c7788410")
-  (nets "VOUT.U17.VOUT_1" "GND")
+(part "buck/C159" "b2de8573-9050-5988-b328-76b5aa0934bf" "cap-0805"
+  (id "f201aa8d")
+  (nets "VOUT.U17.E2" "GND")
 )
-(part "buck/C160" "a1d5bfec-8eeb-5276-86d5-ac722ef5965c" "cap-0805"
-  (id "bb24aea7")
-  (nets "VOUT.U17.VOUT_1" "GND")
+(part "buck/C160" "7ec7bcb9-470b-5800-9c9b-6ddf05e77589" "cap-0805"
+  (id "ef0cf2ae")
+  (nets "VOUT.U17.E2" "GND")
 )
 (part "buck/L2" "dd2eeaae-885b-522b-bcc8-e31507746b74" "xfl4012"
   (id "dc154eed")
@@ -666,20 +666,20 @@
 )
 (part "ldo/U18" "97a88843-b7dd-5917-a90e-6ef0f203d0d0" "lp5912-1-8drvr"
   (id "dd12bedb")
-  (nets "LDO_PG" "GND" "GND" "GND" "VOUT" "VIN" "EN")
+  (nets "VIN.U18.6" "GND" "GND" "GND" "VOUT.U18.1" "LDO_PG" "EN")
   (description "500-mA low-noise low-IQ low-dropout (LDO) linear regulator")
   (manufacturer "Texas Instruments")
   (mpn "LP5912-1.8DRVR")
 )
-(part "ldo/C161" "544c5067-c6fb-5496-b503-d65e06312e80" "cap-0402"
-  (id "c0a3a44c")
-  (nets "GND" "VIN.U18.IN")
+(part "ldo/C161" "7460abc6-2248-5d0e-9af8-295c65f15cab" "cap-0402"
+  (id "b8b94e75")
+  (nets "VIN.U18.6" "GND")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "ldo/C162" "81bdb165-11ec-5fc0-822d-d643b12dedde" "cap-0402"
-  (id "af7629d0")
-  (nets "VOUT.U18.OUT" "GND")
+(part "ldo/C162" "edb0d476-791a-55f2-8b5c-9f6ca33f78f6" "cap-0402"
+  (id "c0470ee2")
+  (nets "GND" "VOUT.U18.1")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )

@@ -106,25 +106,31 @@
       (pin D1 (as "RCC_OSC32_OUT") "OSC32_OUT"))
 
     ;; Decoupling and filters
-    (decouple (cap-0201 "100nF") 1 per-pin stm32 "VDD" "VDDA18AON" (id f619c531))
+    (decouple "VDD"       (cap-0201 "100nF") 1 per-pin stm32 J14 K14 L14 F1 (id f619c531))
+    (decouple "VDDA18AON" (cap-0201 "100nF") 1 per-pin stm32 H6 A1 (id a08364cc))
     (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 (id f1113d21))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 G2 P7 P9 P10 P11 P13 W6 (id f1113d21))
     (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
     (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
     (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16))
     (series "L1" (ind-2016 "1uH") "VLXSMPS" "VDDCORE" (id f130c61b))
     (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
     (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
-    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 (id ee3d56f0))
-    (decouple (cap-0201 "100nF") 1 per-pin stm32
-      "VDDIO2" "VDDIO3" "VDDIO4" (id bf344845))
+    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 H1 (id ee3d56f0))
+    (decouple "VDDIO2" (cap-0201 "100nF") 1 per-pin stm32 H16 J16 K16 L16 (id bf344845))
+    (decouple "VDDIO3" (cap-0201 "100nF") 1 per-pin stm32 M14 M16 (id b9c0a90f))
+    (decouple "VDDIO4" (cap-0201 "100nF") 1 per-pin stm32 F7 F8 (id b3f76b91))
     ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
     (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
-    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 (id c6c9160e))
+    ;; VDD33USB decoupling deferred: C3 (the only VDD33USB pin) is declared in
+    ;; the USB section below, so the original auto-discover form ran before C3
+    ;; existed and silently added no cap. Re-enable with explicit C3 (a one-time
+    ;; board add) when you next re-stamp:
+    ;;   (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 C3 (id c6c9160e))
     (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
-    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 (id b897a15f))
-    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 (id e4c292f6))
-    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 (id cf78bc5e))
+    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 G1 (id b897a15f))
+    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 W2 (id e4c292f6))
+    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 W2 (id cf78bc5e))
 
     ;; Boot & Reset passives and switch
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))

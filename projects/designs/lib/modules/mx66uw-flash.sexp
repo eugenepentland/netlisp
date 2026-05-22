@@ -21,7 +21,7 @@
       (pin DQS "DQS")
       (bus "FLASH_IO" "SIO")
       (pin "~{RESET}" "FLASH_RESET"))
-    (decouple "VDDIO" (cap-0201 "100nF") 1 per-pin flash)
+    (decouple "VDDIO" (cap-0201 "100nF") 1 per-pin flash VCC VCCQ__1 VCCQ)
     (series "R10" (res-0201 "10k") "FLASH_RESET" "VDDIO")
     (series "R11" (res-0201 "10k") "CS"          "VDDIO")
     (series "D2"  (diode-sod323 "PMEG2005AEA") "NRST" "FLASH_RESET")
