@@ -200,7 +200,7 @@
   ;; POWER — 3.3 V buck-boost from VBATT
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "VBATT 3.3V Buck-Boost"
+  (section "TPS63806 Buck-Boost"
     "TPS63806 buck-boost — VBATT (3.0–4.2 V) → V_RF_3P3 (3.3 V).  Per Rev E finding #5: VBATT can sag to 3.0 V at end-of-discharge, below the dropout of standard 3.3 V LDOs.  TPS63806 buck-boost holds 3.3 V down to 1.8 V VIN, eliminating the dropout corner.  Powers ADF4159 ×2, ADF5901 ×2, ADF5904, PMA3 ×2, MAX7301, LMX2594 (3.3 V rails), TXS0108E VCCB, and feeds the LP5907 1.8 V LDO."
     (port "VBATT"   in  power 3.7)
     (port "V_RF_3P3" out power 3.3)
@@ -255,7 +255,7 @@
   ;; POWER — 1.8 V LDO for level-shifter VCCA
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "1.8V LDO (Level-Shifter VCCA)"
+  (section "LP5907 1.8V LDO"
     "LP5907-1.8 fixed-output LDO — V_RF_3P3 (3.3 V) → V1P8_RF (1.8 V).  Sole load is the TXS0108E level-shifter VCCA pins (~30 mA total across N shifters).  Each ADAR2001/ADAR2004/LMX2594 has its own internal VREG that supplies the chip's 1.8 V digital domain — only the level-shifter VCCA needs an external 1.8 V source.  Rev E §13.2 specifies sourcing VCCA from 'the analog board EMVS 1.8 V LDO'."
     (port "V_RF_3P3" in  power 3.3)
     (port "V1P8_RF"  out power 1.8)
@@ -284,7 +284,7 @@
   ;; POWER — 2.5 V analog LDO (existing — feeds ADAR2001 + ADAR2004 ×2)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "2.5V Analog LDO"
+  (section "LT3045 2.5V LDO"
     "LT3045-1 ultra-low-noise LDO — generates V_RX_2P5 from VBATT for the VPOS supplies on ADAR2001 + ADAR2004 ×2.  Rev E note: ADAR2001 adds ~180 mA to this rail.  Total Rev E EMVS 2.5 V load: ~910 mA (ADAR2001 180 mA + ADAR2004 ×2 ~370 mA each per HW-RDR-001 §10).  The current LT3045-1 is ILIM=300Ω → ~500 mA — UNDERSIZED for Rev E.  TODO: parallel a second LT3045 or upgrade to a higher-current part (e.g. LT3045-1 ×2, or TPS7A52 5 A LDO with EMVS_EN gating)."
     (port "VBATT"    in  power 3.7)
     (port "V_RX_2P5" out power 2.5)
@@ -333,7 +333,7 @@
   ;; CLOCK — 100 MHz TCXO reference (SiT5157AI-FA-33E0-100.000000)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "100 MHz TCXO Reference"
+  (section "SiT5157 TCXO"
     "100 MHz TCXO — coherent reference for ADF4159 ×2, ADF5901 ×2, ADF5904 #1, LMX2594.  Populated with SiTime SiT5157AI-FA-33E0-100.000000: ±1.0 ppm Industrial (-40 to +85 °C), 3.3 V LVCMOS into 50 Ω, 100 MHz, 5.0×3.2 mm 10-pad CQFN MEMS Super-TCXO (Elite Platform), Output Enable on pin 1.  TCXO_EN net from MAX7301 P15 drives pin 1: HIGH = clock active, LOW = clock Hi-Z.  Boot-default is DISABLED — the existing R21 (10 kΩ pull-down on TCXO_EN) overrides the part's ≥75 kΩ internal pull-up at boot, holding pin 1 LOW until firmware writes MAX7301 P15."
     (port "V_RF_3P3"        in  power 3.3)
     (port "TCXO_EN"         in  signal)
@@ -384,7 +384,7 @@
   ;; CONTROL — MAX7301 RF I/O Expander
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "MAX7301 RF I/O Expander"
+  (section "MAX7301 I/O Expander"
     "MAX7301ATL+ — 28-port SPI I/O expander.  Generates ALL RF chip selects (ADF4159 ×2, ADF5901 ×2, ADF5904, ADAR2001, ADAR2004 ×2, LMX2594), master enable signals (TX_EN, RX_EN, EMVS_EN, PLL_EN, TCXO_EN), Rev E-new ADAR2001 control (RxRST, TxRST, TXEN, FAULT input), and lock-detect inputs (ADF4159 ×2, LMX2594).  Driven by SPI6 (RF_SPI) with single CS_IO_EXP from STM32 PA11.  Powered from V_RF_3P3 (3.3 V).  Per Rev E §13.7 port assignment table.
 
   Pull-up / pull-down strategy for safe boot state (per §13.7 table):
@@ -538,7 +538,7 @@
   ;; LEVEL SHIFTERS — TXS0108E (TBD library entry)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "TXS0108E Level Shifters (TBD)"
+  (section "TXS0108E Level Shifters"
     "Bidirectional 8-bit voltage-level translators between the 3.3 V host side (RF_SPI bus + Rev E per-chirp control GPIOs from connector / MAX7301) and the 1.8 V ADAR2001 / ADAR2004 / LMX2594 digital domain.  ADF4159, ADF5901, ADF5904, BSS138 are 3.3 V-native — no level shifting on those nets.
 
   Per Rev E §13.2 (RF_SPI bus) and §13.4 (per-chirp GPIOs), the following nets cross TXS0108E translation:
@@ -612,7 +612,7 @@
   ;; K-BAND TX — ADF4159 chirp PLL ×2 (TBD library entry)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "ADF4159 #1 Chirp PLL (TBD)"
+  (section "ADF4159 #1 PLL"
     "ADF4159 #1 — 13 GHz fractional-N PLL with ramp generator, drives ADF5901 #1 VTUNE for the 24 GHz TX1 chirp.  Per HW-RDR-001 §8.1 / §3.1.
 
   Pin map (LFCSP-24, 4×4 mm):
@@ -682,7 +682,7 @@
     (note "ADF4159 #1 V_P (pin 20, 5.0 V): TODO — this design does not yet have a 5 V rail. Per HW-RDR-001 §10, VCC_5V_CP is sourced from PLL_EN-gated LDO at ~10 mA. Add a small 3.3 V → 5 V boost (e.g. TPS61022 or charge pump TPS60150) before populating ADF4159 instances.")
     (note "Loop filter component values must come from ADIsimPLL for the specific FMCW chirp profile: 24.0–24.25 GHz, 35 µs ramp, ICP = 2.55 mA. Use 2nd-order active LF (R3+C17 + C18 + R4+C19) from src/adf5901.sexp as a starting topology — values to be confirmed."))
 
-  (section "ADF4159 #2 Chirp PLL (TBD)"
+  (section "ADF4159 #2 PLL"
     "ADF4159 #2 — identical pinout / programming to #1.  Drives ADF5901 #2 VTUNE for the 24 GHz TX2 chirp.  Must be programmed AFTER #1 for phase coherence (§4.4 BUS 1 timing).  Section structure mirrors #1 with all nets suffixed _2.
 
   Same TBD status as #1 — instance is not placed until adf4159 lib entry exists."
@@ -707,7 +707,7 @@
   ;; K-BAND TX — ADF5901 24 GHz TX VCO+PA ×2
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "ADF5901 #1 24 GHz TX VCO+PA"
+  (section "ADF5901 #1 TX VCO"
     "ADF5901 #1 — 24 GHz K-band TX VCO with internal ÷2 doubler and +8 dBm output amplifier.  Drives HMC1131 #1 RFIN; LO_OUT (13 GHz) feeds back to ADF4159 #1 RFIN A for closed-loop chirp control AND drives ADF5904 LO_IN (-1 dBm) for main RX downconversion.  TX_OUT2 unused (50 Ω term).  Per HW-RDR-001 §8.2.
 
   Power-up sequence: VCO calibration triggered after first SPI write at boot
@@ -788,7 +788,7 @@
     (note "U_ADF5901_1" "ADF5901 #1: 24 GHz TX VCO+PA. CE = TX_EN (MAX7301 P12) — entire TX1 chain off when TX_EN=LOW. LO_OUT (-1 dBm @ 13 GHz) drives BOTH ADF4159 #1 RFIN A AND ADF5904 LO_IN. SPI 3.3 V-native — no level shifting.")
     (note "Loop filter: values are template — must regenerate from ADIsimPLL for the specific 24 GHz / 35 µs / 2.55 mA ICP design point. The BSS138 BPSK gate (in §BSS138 #1) shorts C_LF_5901_1A when BPSK_GATE_1 = HIGH, widening the loop bandwidth for comms-mode data."))
 
-  (section "ADF5901 #2 24 GHz TX VCO+PA"
+  (section "ADF5901 #2 TX VCO"
     "ADF5901 #2 — identical to #1, drives HMC1131 #2 RFIN.  LO_OUT terminated 50 Ω (TX2 path does not use ADF5904 LO_IN — only ADF5901 #1 feeds the receiver).  Per HW-RDR-001 §8.2.
 
   Section structure mirrors #1 with _2 nets.  TX_AMP_EN2 still unused (TX1
@@ -856,7 +856,7 @@
   ;; K-BAND TX — HMC1131 24-35 GHz MPA ×2 (TBD library entry)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "HMC1131 #1 24-35 GHz MPA (TBD)"
+  (section "HMC1131 #1 MPA"
     "HMC1131LC4TR — GaAs pHEMT medium-power amplifier, +22 dB / P1dB +24 dBm, 24-35 GHz.  Drives TX1 K-band patch antenna at +30 dBm.  Requires biased gate voltages (VG1/VG2/VG3 negative -0.5 to -1.5 V) and three drain rails (VD1/VD2/VD3 = +5.0 V).  Total dissipation ~1.125 W — thermal via array CRITICAL under EPAD.
 
   Pin map (LCC-24, per HW-RDR-001 §8.3):
@@ -890,7 +890,7 @@
     (note "HMC1131 #1: TBD section. Datasheet: ADIsimRF entry HMC1131LC4. Design points: ID=225 mA total at VD=5 V, gate bias must precede drain (sequencing). Add bias + sequencer + 5 V LDO (TX_EN-gated) and negative-rail generator before population.")
     (note "Thermal: 1.125 W on a 4×4 mm LCC-24. Specific via array — minimum 16 vias @ 0.3 mm under EPAD, blind-via or filled-and-capped to bottom layer copper pour. Junction temp budget: 135 °C max, ambient 85 °C → θJA ≤ 44 °C/W."))
 
-  (section "HMC1131 #2 24-35 GHz MPA (TBD)"
+  (section "HMC1131 #2 MPA"
     "HMC1131 #2 — identical to #1, drives TX2 K-band patch antenna.  Same TBD status."
     (port "V_RF_5V"      in  power 5.0)
     (port "V_NEG_GATE"   in  power -1.0)
@@ -905,7 +905,7 @@
   ;; K-BAND TX — BSS138 BPSK gate ×2 (using n2n7002 substitute)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "BSS138 #1 BPSK Loop-Filter Gate"
+  (section "BSS138 #1 BPSK Gate"
     "NMOS SOT-23 — when BPSK_GATE_1 = HIGH, the FET shorts a portion of the ADF4159 #1 loop-filter capacitance to widen PLL bandwidth for BPSK comms-mode data on TXDATA_1.  In radar mode, BPSK_GATE_1 = LOW (FET off, full loop filter for low chirp jitter).
 
   Substitute: lib/components/n2n7002 — functionally identical to BSS138 (NMOS
@@ -928,7 +928,7 @@
     (note "Q_BPSK_1" "BSS138 functionally — using n2n7002 (same NMOS SOT-23). Drain across C_LF_5901_1A in §ADF5901 #1. When BPSK_GATE_1 = HIGH, drain-source shorts the cap, widening loop BW for BPSK comms data rate; in radar mode BPSK_GATE_1 = LOW for narrow loop / low chirp jitter.")
     (note "R_GPD_BPSK_1" "100 kΩ pull-down — keeps FET off during STM32 boot / GPIO Hi-Z, so radar mode is the fail-safe default."))
 
-  (section "BSS138 #2 BPSK Loop-Filter Gate"
+  (section "BSS138 #2 BPSK Gate"
     "Identical to BSS138 #1 — gates ADF4159 #2 loop filter on TX2 path."
     (port "V_RF_3P3"     in  power 3.3)
     (port "GND"          bidi)
@@ -948,7 +948,7 @@
   ;; K-BAND RX — PMA3-24323LN+ LNA ×2
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "PMA3-24323LN+ #1 K-band LNA (Beam 1)"
+  (section "PMA3 #1 LNA"
     "Mini-Circuits PMA3-24323LN+ — 24-32 GHz wideband LNA, +16 dB gain, NF 3.1 dB.  RX antenna SA2 (Beam 1) → LNA → ADF5904 RFIN_A+/-.  Sets the cumulative noise figure of the main RX chain (3.1 dB).
 
   Power: VDD1-VDD4 (4 supply pins per pinout) all tied to V_RF_3P3 via bias
@@ -984,7 +984,7 @@
     (note "U_LNA1" "PMA3-24323LN+: 24-32 GHz LNA, single-ended 50 Ω in / 50 Ω out. Bias-tee inductor (39 nH ind-0402) on each VDD pin; output AC-coupled to the ADF5904 RFIN_A+ via single-ended-to-diff conversion (typically a balun or single-ended drive of one diff input with the other terminated 50 Ω). Confirm matching network on 24.125 GHz design point.")
     (note "BEAM1_LNAOUT → ADF5904 RFIN_A+ (and 50 Ω term on RFIN_A-) per HW-RDR-001 §8.5. The LNA is single-ended; ADF5904 has differential RF inputs but accepts SE drive with the unused leg terminated."))
 
-  (section "PMA3-24323LN+ #2 K-band LNA (Beam 2)"
+  (section "PMA3 #2 LNA"
     "Identical to #1 — RX antenna SA3 (Beam 2) → LNA → ADF5904 RFIN_B+/-."
     (port "V_RF_3P3"   in  power 3.3)
     (port "GND"        bidi)
@@ -1014,7 +1014,7 @@
   ;; K-BAND RX — ADF5904 4-channel receiver (TBD library entry)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "ADF5904 4-Channel Receiver (TBD)"
+  (section "ADF5904 RX"
     "ADF5904 — 24 GHz quad-channel receiver (4× LNA + mixer).  Rev D usage:
   Ch A/B = main beams (PMA3 #1/#2 outputs); Ch C/D = unused (50 Ω term).
   IF outputs Ch A/B → connector CH9/CH10 → AD7380-4 #3 on digital board.
@@ -1068,7 +1068,7 @@
   ;; EMVS TX — ADAR2001 wideband 4-ch TX (Rev E new)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "ADAR2001 EMVS Wideband TX (10-40 GHz)"
+  (section "ADAR2001 TX"
     "ADAR2001 — 10-40 GHz, 4-channel TX with on-die ×4 frequency multiplier.  Drives TX-EMVS 1 cell (Ex/Ey/Hx/Hy).  Rev E new addition — replaces both bow-tie antennas, eliminates the X-band TX gap present in Rev B/C/D.
 
   RF: LMX2594 RFoutB direct → RFIN (pin 4, single-ended 50 Ω, +7 dBm @ 6 GHz).
@@ -1167,7 +1167,7 @@
   ;; EMVS LO — LMX2594 6 GHz PLL+VCO
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "LMX2594 EMVS LO Synthesizer"
+  (section "LMX2594 LO"
     "LMX2594 — 15 GHz wideband PLL+VCO, configured for 6 GHz output.  RFoutA
   (differential) → 2-way Wilkinson splitter → ADAR2004 #1 + #2 LOIN at +3.5
   dBm/port (single-ended); RFoutB direct → ADAR2001 RFIN at +7 dBm.  On-die
@@ -1301,7 +1301,7 @@
   ;; EMVS RX — ADAR2004 #1 (existing — unchanged)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "ADAR2004 Rx Mixer 1" "ADAR2004 4-channel Rx mixer — RX1 RFIN1..4 down-convert to IFOUT1..4 → mezz ADF_CH5..CH8 (RX-EMVS Cell 1, top-right). Per-chip CS = CS_RX1 from MAX7301 P9; LO from LMX2594 RFoutA via Wilkinson splitter (LO_RX1). VPOS1/2/4 from V_RX_2P5; VPOS3 tied to on-die VREG. Note: Rev E SPI/control nets transit TXS0108E (1.8 V side suffix _1V8); existing instance below uses the original (unsuffixed) names — until the TXS0108E section is populated, those nets are direct ties to the host-side 3.3 V signals (out of spec for the ADAR2004's 1.8 V digital I/O)."
+  (section "ADAR2004 #1 Rx Mixer" "ADAR2004 4-channel Rx mixer — RX1 RFIN1..4 down-convert to IFOUT1..4 → mezz ADF_CH5..CH8 (RX-EMVS Cell 1, top-right). Per-chip CS = CS_RX1 from MAX7301 P9; LO from LMX2594 RFoutA via Wilkinson splitter (LO_RX1). VPOS1/2/4 from V_RX_2P5; VPOS3 tied to on-die VREG. Note: Rev E SPI/control nets transit TXS0108E (1.8 V side suffix _1V8); existing instance below uses the original (unsuffixed) names — until the TXS0108E section is populated, those nets are direct ties to the host-side 3.3 V signals (out of spec for the ADAR2004's 1.8 V digital I/O)."
     (protocol SPI)
     (port "V_RX_2P5"    in  power 2.5)
     (port "GND"         bidi)
@@ -1362,7 +1362,7 @@
   ;; EMVS RX — ADAR2004 #2 (existing — unchanged)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "ADAR2004 Rx Mixer 2" "ADAR2004 4-channel Rx mixer — RX2 RFIN1..4 down-convert to IFOUT1..4 → mezz ADF_CH1..CH4 (RX-EMVS Cell 2, bottom-left). Per-chip CS = CS_RX2 from MAX7301 P10; LO from LMX2594 RFoutA via Wilkinson splitter (LO_RX2). VPOS1/2/4 from V_RX_2P5; VPOS3 tied to on-die VREG. Rev E remap: Cell 2 IF outputs land on connector CH1-CH4 (ADC1)."
+  (section "ADAR2004 #2 Rx Mixer" "ADAR2004 4-channel Rx mixer — RX2 RFIN1..4 down-convert to IFOUT1..4 → mezz ADF_CH1..CH4 (RX-EMVS Cell 2, bottom-left). Per-chip CS = CS_RX2 from MAX7301 P10; LO from LMX2594 RFoutA via Wilkinson splitter (LO_RX2). VPOS1/2/4 from V_RX_2P5; VPOS3 tied to on-die VREG. Rev E remap: Cell 2 IF outputs land on connector CH1-CH4 (ADC1)."
     (protocol SPI)
     (port "V_RX_2P5"    in  power 2.5)
     (port "GND"         bidi)
