@@ -1,7 +1,7 @@
 (import 204927-0601
         adar2001accz
         adar2004accz
-        adf5901acpz
+        adf5901acpz-rl7
         lmx2594rhat
         max7301atl+
         pma3-24323ln+
@@ -74,6 +74,9 @@
 ;; BSS138 is substituted with n2n7002 (functionally identical NMOS SOT-23).
 
 (design-block "Cyclops Analog"
+
+  ;; Target board for the file-based KiCad sync ("Push to KiCad PCB").
+  (kicad-pcb "/mnt/nas/Cyclops/Cyclopse Radar/Cyclopse Radar.kicad_pcb")
 
   ;; ─────────────────────────────────────────────────────────────────────
   ;; MEZZANINE CONNECTOR
@@ -708,7 +711,7 @@
     (port "TX1_RFOUT" out rf)                   ;; HMC1131 TBD — driven directly by ADF5901 for now
     (port "ADF5901_1_LO_OUT" out rf)            ;; → ADF4159 #1 RFIN A AND ADF5904 LO_IN
 
-    (instance "U_ADF5901_1" adf5901acpz
+    (instance "U_ADF5901_1" adf5901acpz-rl7
       (pin 1 3 6 8 10 12 13 19 33 "GND")
       (pin 4 5 14 16 17 30 "V_RF_3P3")          ;; AVDD_TX rails (datasheet "AVDD_TX" group)
       (pin 2 "TX1_RFOUT")                       ;; TX_OUT1 → top-level (HMC1131 to be inserted later)
@@ -786,7 +789,7 @@
     (port "TX2_RFOUT" out rf)                    ;; HMC1131 TBD — driven directly by ADF5901 for now
     (port "ADF5901_2_LO_OUT" out rf)             ;; → ADF4159 #2 RFIN A only
 
-    (instance "U_ADF5901_2" adf5901acpz
+    (instance "U_ADF5901_2" adf5901acpz-rl7
       (pin 1 3 6 8 10 12 13 19 33 "GND")
       (pin 4 5 14 16 17 30 "V_RF_3P3")
       (pin 2 "TX2_RFOUT")
