@@ -24,6 +24,10 @@
 
   (instance "stm32" stm32n657l0h3q (id b22d91d5))
 
+  ;; House decouple defaults: a (decouple …) may omit its component (a leading
+  ;; count → the bypass cap) and its host ref (a pin token != "stm32" → stm32).
+  (decouple-defaults (ic "stm32") (bypass (cap-0201 "100nF")))
+
   (section "STM32N657L0H3Q Core System" "ARM Cortex-M55 MCU - Minimum Hardware Requirements"
     (port "VDD" in power 3.3)
     (port "V1P8" in power 1.8)
@@ -105,27 +109,29 @@
       (pin E1 (as "RCC_OSC32_IN") "OSC32_IN")
       (pin D1 (as "RCC_OSC32_OUT") "OSC32_OUT"))
 
-    ;; Decoupling and filters
-    (decouple "VDD"       (cap-0201 "100nF") 1 per-pin stm32 J14 K14 L14 F1 (id f619c531))
-    (decouple "VDDA18AON" (cap-0201 "100nF") 1 per-pin stm32 H6 A1 (id a08364cc))
-    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin stm32 P7 (id cfc02418))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 G2 P7 P9 P10 P11 P13 W6 (id f1113d21))
-    (decouple "VDDSMPS" (cap-0603 "10uF")  2 per-pin stm32 L1 (id e05df5aa))
-    (decouple "VDDSMPS" (cap-0201 "1uF")   2 per-pin stm32 L1 (id a741dad6))
-    (decouple "VDDSMPS" (cap-0201 "100nF")  2 per-pin stm32 L1 (id c4293f16))
+    ;; Decoupling and filters. The house 0201 100nF and host ref (stm32) come
+    ;; from (decouple-defaults …) above, so 100nF caps omit both; other values
+    ;; spell out the component.
+    (decouple "VDD"       1 per-pin J14 K14 L14 F1 (id f619c531))
+    (decouple "VDDA18AON" 1 per-pin H6 A1 (id a08364cc))
+    (decouple "VDDCORE" (cap-0603 "15uF") 4 per-pin P7 (id cfc02418))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin G2 P7 P9 P10 P11 P13 W6 (id f1113d21))
+    (decouple "VDDSMPS" (cap-0603 "10uF") 2 per-pin L1 (id e05df5aa))
+    (decouple "VDDSMPS" (cap-0201 "1uF")  2 per-pin L1 (id a741dad6))
+    (decouple "VDDSMPS" 2 per-pin L1 (id c4293f16))
     (series "L1" (ind-2016 "1uH") "VLXSMPS" "VDDCORE" (id f130c61b))
     (series "C18" (cap-0402 "2.2nF" x7r) "VLXSMPS" "SNUB1" (id aa2c3eda))
     (series "R1" (res-0402 "2R") "SNUB1" "GND" (id fbbc4c8b))
-    (decouple "VDDA18PMU" (cap-0201 "100nF") 1 per-pin stm32 H1 (id ee3d56f0))
-    (decouple "VDDIO2" (cap-0201 "100nF") 1 per-pin stm32 H16 J16 K16 L16 (id bf344845))
-    (decouple "VDDIO3" (cap-0201 "100nF") 1 per-pin stm32 M14 M16 (id b9c0a90f))
-    (decouple "VDDIO4" (cap-0201 "100nF") 1 per-pin stm32 F7 F8 (id b3f76b91))
+    (decouple "VDDA18PMU" 1 per-pin H1 (id ee3d56f0))
+    (decouple "VDDIO2" 1 per-pin H16 J16 K16 L16 (id bf344845))
+    (decouple "VDDIO3" 1 per-pin M14 M16 (id b9c0a90f))
+    (decouple "VDDIO4" 1 per-pin F7 F8 (id b3f76b91))
     ;; Analog 1.8V: caps on filtered side of ferrite beads (no per-pin split)
     (series (cap-0201 "100nF") "VDDA18PLL" "GND" "VDDA18USB" "GND" "VDDA18ADC" "GND" "VDDA18CSI" "GND" (id bf344846))
-    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin stm32 W6 (id e50059e2))
-    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin stm32 G1 (id b897a15f))
-    (decouple "VREF+" (cap-0201 "1uF")   1 per-pin stm32 W2 (id e4c292f6))
-    (decouple "VREF+" (cap-0201 "100nF") 1 per-pin stm32 W2 (id cf78bc5e))
+    (decouple "VDDCORE" (cap-0201 "1uF") 1 per-pin W6 (id e50059e2))
+    (decouple "V08CAP" (cap-0603 "4.7uF") 1 per-pin G1 (id b897a15f))
+    (decouple "VREF+" (cap-0201 "1uF") 1 per-pin W2 (id e4c292f6))
+    (decouple "VREF+" 1 per-pin W2 (id cf78bc5e))
 
     ;; Boot & Reset passives and switch
     (series "C35" (cap-0201 "100nF") "NRST" "GND" (id e0668c9a))
@@ -176,7 +182,8 @@
     (note "PWR_BTN (PC13/PWR_WKUP3): debounced button events wake MCU from Standby. PC13 is in the backup domain — firmware must disable RTC tamper functions before using as a GPIO input.")
     (note "Off-state battery draw ≈ STM6601 (2.5 µA) + MCP73831 charger quiescent (≈3 µA) ≈ 5 µA total — system buck is fully disabled, only the always-on VBATT rail leaks.")
     (note "Firmware contract: (1) IWDG enabled early in main(), refreshed only from main loop (never from ISR), 4-8 s timeout. (2) PSHOLD driven HIGH within 1.4 s of NRST release. (3) PBOUT timer distinguishes short (app event) vs long (>2s, drop PSHOLD) press. (4) PC13 RTC tamper disabled before use as GPIO. (5) On clean shutdown, drive PSHOLD low and stop driving — let it stay low while STM6601 deasserts EN."))
-  (sub-block "pwr_btn" (stm6601-power-button) (id adc1ffce))
+  (sub-block "pwr_btn" (stm6601-power-button)
+    (bridge "" PSHOLD PWR_BTN PWR_INT) (id adc1ffce))
 
   (section "USB" "USB 2.0 HS via USB-C — chip details sealed in usb-c-hs module"
     (role input)
@@ -188,8 +195,9 @@
       (pin A3 (as "USB1_OTG_HS_DP") "USB_DP")
       (pin B3 (as "USB1_OTG_HS_DM") "USB_DN")
       (pin A2 "TXRTUNE"))
-    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin stm32 C3 (id c6c9160e)))
-  (sub-block "usb" (usb-c-hs) (id ac5f3582))
+    (decouple "VDD33USB" (cap-0201 "1uF") 1 per-pin C3 (id c6c9160e)))
+  (sub-block "usb" (usb-c-hs)
+    (bridge "" USB_DP USB_DN TXRTUNE) (id ac5f3582))
 
   (section "Boot NOR Flash (XSPIM_P2 / Port N)" "MX66UW1G45G 1Gbit OctoSPI NOR — chip details sealed in mx66uw-flash module"
     (protocol OctoSPI)
@@ -199,7 +207,8 @@
       (pin PN6 (as "XSPIM_P2_CLK")  "FLASH_CLK")
       (pin PN0 (as "XSPIM_P2_DQS0") "FLASH_DQS")
       (bus "FLASH_IO" (as-prefix "XSPIM_P2_IO") PN2 PN3 PN4 PN5 PN8 PN9 PN10 PN11)))
-  (sub-block "flash" (mx66uw-flash) (id c398c9d8))
+  (sub-block "flash" (mx66uw-flash)
+    (bridge "FLASH_" CLK DQS (rename CS NCS)) (id c398c9d8))
 
   (section "XSPI1 PSRAM" "APS256XXN 256Mbit OctoSPI PSRAM — chip details sealed in aps256-psram module"
     (protocol OctoSPI)
@@ -212,7 +221,8 @@
       (bus "PSRAM_IO" (as-prefix "XSPIM_P1_IO")
                       PP0 PP1 PP2 PP3 PP4 PP5 PP6 PP7
                       PP8 PP9 PP10 PP11 PP12 PP13 PP14 PP15)))
-  (sub-block "psram" (aps256-psram) (id c427b8a6))
+  (sub-block "psram" (aps256-psram)
+    (bridge "PSRAM_" CLK DQS0 DQS1 (rename CS NCS)) (id c427b8a6))
 
   (section "IMU" "BNO08x 9-axis IMU on SPI5 — chip details sealed in bno08x-imu module"
     (protocol SPI)
@@ -225,7 +235,8 @@
       (pin T4 (as "PG4")       "IMU_INT")
       (pin R4 (as "PF8")       "IMU_NRST")
       (pin R2 (as "PF7")       "IMU_WAKE")))
-  (sub-block "imu" (bno08x-imu) (id d444ddf5))
+  (sub-block "imu" (bno08x-imu)
+    (bridge "IMU_" SCK MOSI MISO INT NRST WAKE (rename CS NCS)) (id d444ddf5))
 
   (section "Expansion Connector" "Molex SlimStack 204928-0601, 60-pin 0.4mm BTB — 10 analog channels + radar front-end control"
     (role output)
@@ -332,36 +343,13 @@
                 "adc1/VLOGIC" "adc2/VLOGIC" "adc3/VLOGIC"
                 "motor/VDD"   "imu/VDD"     "vref/VDD"
                 "disp/VDD"    "pwr_btn/VDD")
-  (net "VIB_PWM"  "motor/PWM")
-  (net "IMU_SCK"  "imu/SCK")
-  (net "IMU_MOSI" "imu/MOSI")
-  (net "IMU_MISO" "imu/MISO")
-  (net "IMU_NCS"  "imu/CS")
-  (net "IMU_INT"  "imu/INT")
-  (net "IMU_NRST" "imu/NRST")
-  (net "IMU_WAKE" "imu/WAKE")
-  (net "NRST"      "flash/NRST" "pwr_btn/NRST")
-  (net "FLASH_NCS" "flash/CS")
-  (net "FLASH_CLK" "flash/CLK")
-  (net "FLASH_DQS" "flash/DQS")
+  ;; Peripheral signal nets are bridged on each (sub-block …) below via
+  ;; (bridge "PREFIX" port… [(rename port suffix)]) — one annotation per
+  ;; peripheral replaces its per-port (net …) lines. Only nets that are
+  ;; shared across blocks or multi-target stay spelled out here.
+  (net "NRST" "flash/NRST" "pwr_btn/NRST")
   (bus-net "FLASH_IO" 0 7 "flash")
-  (net "PSRAM_NCS"  "psram/CS")
-  (net "PSRAM_CLK"  "psram/CLK")
-  (net "PSRAM_DQS0" "psram/DQS0")
-  (net "PSRAM_DQS1" "psram/DQS1")
   (bus-net "PSRAM_IO" 0 15 "psram")
-  (net "USB_DP"  "usb/USB_DP")
-  (net "USB_DN"  "usb/USB_DN")
-  (net "TXRTUNE" "usb/TXRTUNE")
-  (net "DISP_SCK"   "disp/SCK")
-  (net "DISP_MOSI"  "disp/MOSI")
-  (net "DISP_NCS"   "disp/CS")
-  (net "DISP_DC"    "disp/DC")
-  (net "DISP_NRST"  "disp/NRST")
-  (net "DISP_BL_EN" "disp/BL_EN")
-  (net "PSHOLD"  "pwr_btn/PSHOLD")
-  (net "PWR_BTN" "pwr_btn/PWR_BTN")
-  (net "PWR_INT" "pwr_btn/PWR_INT")
   (net "PWR_EN" "buck/EN" "pwr_btn/PWR_EN")
   (net "PG_3V3" "buck/PG" "ldo/EN")
   (net "LDO_PG" "ldo/LDO_PG")
@@ -371,12 +359,9 @@
   ;; STM32 GPIO for charger enable control
   (pins "stm32"
     (pin T11 (as "PG1") "CHG_EN"))
-  ;; 1.8V analog supplies — ferrite bead filtered
-  (series "FB1" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18AON" (id a1fb0001))
-  (series "FB2" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18PLL" (id a1fb0002))
-  (series "FB3" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18USB" (id a1fb0003))
-  (series "FB4" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18ADC" (id a1fb0004))
-  (series "FB5" (ferrite-0402 "600R@100MHz") "V1P8" "VDDA18CSI" (id a1fb0005))
+  ;; 1.8V analog supplies — one ferrite bead from V1P8 out to each analog rail.
+  (fanout "V1P8" (ferrite-0402 "600R@100MHz")
+    "VDDA18AON" "VDDA18PLL" "VDDA18USB" "VDDA18ADC" "VDDA18CSI" (id a1fb0001))
   ;; VREF+ (W2) tied to filtered VDDA18ADC — STM32N6 VREF+ max is VDDA18ADC (1.8V), not VDD (AN5967 §3.3).
   (net "VDDA18ADC" "VREF+")
 
@@ -436,11 +421,14 @@
   ;; via pcb_update.py (see projects/designs/lib/modules/ad7380-channel.sexp).
   ;; Declared at design-block top level because sub-block forms aren't
   ;; evaluated inside sections.
-  (sub-block "adc1" (ad7380-channel 1) (id bca4cbeb))
-  (sub-block "adc2" (ad7380-channel 2) (id ef884140))
+  (sub-block "adc1" (ad7380-channel 1)
+    (bridge "ADC1_" CS SDOA SDOB SDOC SDOD) (id bca4cbeb))
+  (sub-block "adc2" (ad7380-channel 2)
+    (bridge "ADC2_" CS SDOA SDOB SDOC SDOD) (id ef884140))
   ;; adc3 uses the 2-channel variant — saves 10 passives (8 anti-alias R/C on C/D
   ;; + R_SDC/R_SDD dampers). Only SDOA/SDOB land on PSSI; SDOC/SDOD unrouted.
-  (sub-block "adc3" (ad7380-channel-2ch 3) (id e20ec37e))
+  (sub-block "adc3" (ad7380-channel-2ch 3)
+    (bridge "ADC3_" CS SDOA SDOB) (id e20ec37e))
 
   ;; Bridge the module's internal ports to the parent board nets.
   ;; Shared power (VDD/V1P8/GND) is tied in the consolidated rail forms above.
@@ -448,55 +436,36 @@
   ;; Shared SPI buses (MCU side → all 3 ADCs).
   (net "ADC_SCK" "adc1/SCK" "adc2/SCK" "adc3/SCK")
   (net "ADC_SDI" "adc1/SDI" "adc2/SDI" "adc3/SDI")
-  ;; Per-channel CS lines (from STM32 TIM1_CH2/3/4).
-  (net "ADC1_CS" "adc1/CS")
-  (net "ADC2_CS" "adc2/CS")
-  (net "ADC3_CS" "adc3/CS")
-  ;; Per-channel SDO lanes (to STM32 PSSI_D0..D11).
-  (net "ADC1_SDOA" "adc1/SDOA") (net "ADC1_SDOB" "adc1/SDOB")
-  (net "ADC1_SDOC" "adc1/SDOC") (net "ADC1_SDOD" "adc1/SDOD")
-  (net "ADC2_SDOA" "adc2/SDOA") (net "ADC2_SDOB" "adc2/SDOB")
-  (net "ADC2_SDOC" "adc2/SDOC") (net "ADC2_SDOD" "adc2/SDOD")
-  (net "ADC3_SDOA" "adc3/SDOA") (net "ADC3_SDOB" "adc3/SDOB")
-  ;; adc3 SDOC/SDOD intentionally unrouted — only 2 of 4 channels used on adc3.
-  ;; Analog inputs from the expansion connector (12 differential pairs).
-  (net "ADF_CH1P"  "adc1/AINA_EXT_P") (net "ADF_CH1N"  "adc1/AINA_EXT_N")
-  (net "ADF_CH2P"  "adc1/AINB_EXT_P") (net "ADF_CH2N"  "adc1/AINB_EXT_N")
-  (net "ADF_CH3P"  "adc1/AINC_EXT_P") (net "ADF_CH3N"  "adc1/AINC_EXT_N")
-  (net "ADF_CH4P"  "adc1/AIND_EXT_P") (net "ADF_CH4N"  "adc1/AIND_EXT_N")
-  (net "ADF_CH5P"  "adc2/AINA_EXT_P") (net "ADF_CH5N"  "adc2/AINA_EXT_N")
-  (net "ADF_CH6P"  "adc2/AINB_EXT_P") (net "ADF_CH6N"  "adc2/AINB_EXT_N")
-  (net "ADF_CH7P"  "adc2/AINC_EXT_P") (net "ADF_CH7N"  "adc2/AINC_EXT_N")
-  (net "ADF_CH8P"  "adc2/AIND_EXT_P") (net "ADF_CH8N"  "adc2/AIND_EXT_N")
-  (net "ADF_CH9P"  "adc3/AINA_EXT_P") (net "ADF_CH9N"  "adc3/AINA_EXT_N")
-  (net "ADF_CH10P" "adc3/AINB_EXT_P") (net "ADF_CH10N" "adc3/AINB_EXT_N")
-  ;; adc3 AINC/AIND are unrouted to the expansion connector — only 10 of 12 channels
-  ;; fit on the 60-pin BTB with the current GND-shielded odd-pin layout.
+  ;; Per-channel CS + SDO lanes are bridged on each adc sub-block above.
+  ;; Analog inputs from the expansion connector: 10 differential channels
+  ;; distributed across the 3 ADCs' AINx ports, sub-major, with P/N legs —
+  ;; ch1-4 → adc1 AINA-D, ch5-8 → adc2 AINA-D, ch9-10 → adc3 AINA-B.
+  ;; adc3 AINC/AIND stay unrouted: only 10 of 12 channels fit on the 60-pin BTB.
+  (bus-net "ADF_CH" 1 10 (suffixes P N) (over "adc1" "adc2" "adc3")
+           (ports AINA_EXT_ AINB_EXT_ AINC_EXT_ AIND_EXT_))
 
   (section "Test Points" "1mm SMD probe points for bring-up and debug"
     (diagram hidden)
-    (instance "TP1" testpoint (pin 1 "VBATT")   (id aabbcc01))
-    (instance "TP2" testpoint (pin 1 "VDD")     (id aabbcc02))
-    (instance "TP3" testpoint (pin 1 "V1P8")    (id aabbcc03))
-    (instance "TP4" testpoint (pin 1 "VDDCORE") (id aabbcc04))
-    (instance "TP5" testpoint (pin 1 "NRST")    (id aabbcc05))
-    (instance "TP6" testpoint (pin 1 "PG_3V3")  (id aabbcc06))
-    (instance "TP7" testpoint (pin 1 "BOOT0")   (id aabbcc07))
-    (instance "TP8" testpoint (pin 1 "PWR_ON")  (id aabbcc08))
-    (instance "TP9" testpoint (pin 1 "VREF_2V5") (id aabbcc09))
-    (instance "TP10" testpoint (pin 1 "BOOT1") (id aabbcc10))
-    )
-
-  (note "TP1" "Battery voltage — expect 3.0–4.2V when LiPo attached")
-  (note "TP2" "3.3V main rail from buck — first probe point when bring-up fails")
-  (note "TP3" "1.8V analog/PLL rail from LDO — only live once PG_3V3 asserts")
-  (note "TP4" "0.8V core from STM32 internal SMPS — comes up only after VDD is stable")
-  (note "TP5" "MCU reset line — low during reset, high when MCU is running")
-  (note "TP6" "Buck power-good — high means VDD is in regulation and LDO is enabled")
-  (note "TP7" "Boot0 mode select — pull high to force system bootloader on power-up")
-  (note "TP8" "STM32 PWR_ON output — drives downstream regulator enables")
-  (note "TP9" "2.5V precision reference from LTC6655 star node — first check during ADC bring-up; expect a clean 2.500V before any per-ADC bypass distortion")
-  (note "TP10" "Boot1 mode select — pull down default")
+    (instance "TP1" testpoint (pin 1 "VBATT")
+      (note "Battery voltage — expect 3.0–4.2V when LiPo attached") (id aabbcc01))
+    (instance "TP2" testpoint (pin 1 "VDD")
+      (note "3.3V main rail from buck — first probe point when bring-up fails") (id aabbcc02))
+    (instance "TP3" testpoint (pin 1 "V1P8")
+      (note "1.8V analog/PLL rail from LDO — only live once PG_3V3 asserts") (id aabbcc03))
+    (instance "TP4" testpoint (pin 1 "VDDCORE")
+      (note "0.8V core from STM32 internal SMPS — comes up only after VDD is stable") (id aabbcc04))
+    (instance "TP5" testpoint (pin 1 "NRST")
+      (note "MCU reset line — low during reset, high when MCU is running") (id aabbcc05))
+    (instance "TP6" testpoint (pin 1 "PG_3V3")
+      (note "Buck power-good — high means VDD is in regulation and LDO is enabled") (id aabbcc06))
+    (instance "TP7" testpoint (pin 1 "BOOT0")
+      (note "Boot0 mode select — pull high to force system bootloader on power-up") (id aabbcc07))
+    (instance "TP8" testpoint (pin 1 "PWR_ON")
+      (note "STM32 PWR_ON output — drives downstream regulator enables") (id aabbcc08))
+    (instance "TP9" testpoint (pin 1 "VREF_2V5")
+      (note "2.5V precision reference from LTC6655 star node — first check during ADC bring-up; expect a clean 2.500V before any per-ADC bypass distortion") (id aabbcc09))
+    (instance "TP10" testpoint (pin 1 "BOOT1")
+      (note "Boot1 mode select — pull down default") (id aabbcc10)))
 
   (section "Power Status LED" "LDO power-good indicator — lit when the 1.8V rail is in regulation"
     (diagram hidden)
@@ -532,14 +501,16 @@
       (pin D14 (as "PE10")      "DISP_DC")
       (pin D16 (as "TIM4_CH2")  "DISP_BL_EN"))
     (note "DISP_BL_EN is on TIM4_CH2 (D16). Drive high for full brightness or configure TIM4 for PWM to dim — 1–20 kHz is fine."))
-  (sub-block "disp" (st7735s-display) (id a4b69800))
+  (sub-block "disp" (st7735s-display)
+    (bridge "DISP_" SCK MOSI DC NRST BL_EN (rename CS NCS)) (id a4b69800))
 
   (section "Vibration Motor" "Coin/pager vibration motor — low-side AO3400A driver sealed in vibration-motor module"
     (pins "stm32"
       (pin B16 (as "PB2" "TIM1_CH1") "VIB_PWM"))
     (note "VIB_PWM on TIM1_CH1 (PB2) — firmware can PWM at 1–20 kHz to modulate intensity. Hard on/off also works fine."))
   ;; sub-block placed at design-block top level — sub-block forms aren't evaluated inside sections.
-  (sub-block "motor" (vibration-motor) (id caf040c2))
+  (sub-block "motor" (vibration-motor)
+    (bridge "VIB_" PWM) (id caf040c2))
 
   (section "Mounting" "PCB standoffs"
     (diagram hidden)
