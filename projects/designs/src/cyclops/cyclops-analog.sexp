@@ -5,11 +5,11 @@
         lmx2594rhat
         max7301atl+
         pma3-24323ln+
-        n2n7002
+        2n7002
         lt3045edd
         lp5907mfx-1-8-nopb
         tps63806
-        crystal
+        sit5157ai-fa-33e0-100-000000
         xfl4012)
 
 ;; ============================================================================
@@ -330,37 +330,55 @@
     (note "C_BULK_2P5" "Shared bulk cap on 2.5 V analog rail (datasheet: '1 µF for the rail')."))
 
   ;; ─────────────────────────────────────────────────────────────────────
-  ;; CLOCK — 100 MHz TCXO reference (TBD library entry)
+  ;; CLOCK — 100 MHz TCXO reference (SiT5157AI-FA-33E0-100.000000)
   ;; ─────────────────────────────────────────────────────────────────────
 
-  (section "100 MHz TCXO Reference (TBD)"
-    "100 MHz TCXO — coherent reference for ADF4159 ×2, ADF5901 ×2, ADF5904 #1, LMX2594.  Required spec: 100 MHz ±2 ppm / ≤1 ppm/°C, ≥0 dBm output into 50 Ω, 4-pad SMT, EN pin gated by MAX7301 P15 (TCXO_EN).  Suggested parts: SiTime SiT5021, Abracon ASTX-H11, Connor-Winfield D75F.  Library entry not yet created — instantiated below as a placeholder using the generic 'crystal' component (2-pin XTAL); replace with real 4-pad TCXO once added to lib/components/."
+  (section "100 MHz TCXO Reference"
+    "100 MHz TCXO — coherent reference for ADF4159 ×2, ADF5901 ×2, ADF5904 #1, LMX2594.  Populated with SiTime SiT5157AI-FA-33E0-100.000000: ±1.0 ppm Industrial (-40 to +85 °C), 3.3 V LVCMOS into 50 Ω, 100 MHz, 5.0×3.2 mm 10-pad CQFN MEMS Super-TCXO (Elite Platform), Output Enable on pin 1.  TCXO_EN net from MAX7301 P15 drives pin 1: HIGH = clock active, LOW = clock Hi-Z.  Boot-default is DISABLED — the existing R21 (10 kΩ pull-down on TCXO_EN) overrides the part's ≥75 kΩ internal pull-up at boot, holding pin 1 LOW until firmware writes MAX7301 P15."
     (port "V_RF_3P3"        in  power 3.3)
     (port "TCXO_EN"         in  signal)
     (port "RADAR_REF_100MHZ" out signal)
     (port "GND"             bidi)
 
-    ;; Placeholder: 'crystal' is 2-pin and lacks EN/VCC.  When the real TCXO
-    ;; library entry is added (4-pad EN/GND/OUT/VCC), replace this instance.
-    ;; The net names are correct so the rest of the design hooks up unchanged.
-    (instance "Y1" crystal
-      (pin 1 "RADAR_REF_100MHZ")
-      (pin 2 "GND") (id c4af41dc))
-    ;; Decoupling that the real TCXO will need on its VCC pin
+    ;; SiT5157AI-FA-33E0-100.000000 pin map (per lib/pinouts/sit5157ai-fa-33e0-100-000000.sexp):
+    ;;   1 (oe/vc/nc): 'E' suffix → Output Enable input (3.3 V CMOS, VIH ≥ 70% Vdd)
+    ;;   2 (scl/nc), 5 (a0/nc), 10 (sda/nc): '0' suffix (no I²C) → NC, tied to GND
+    ;;   3, 7, 8: NC always → GND
+    ;;   4 = GND, 6 = CLK (LVCMOS out, 50 Ω drive after R_TCXO_SER), 9 = VDD
+    (instance "U_TCXO" sit5157ai-fa-33e0-100-000000
+      (pin 1 "TCXO_EN")                      ;; OE input from MAX7301 P15
+      (pin 2 3 5 7 8 10 "GND")               ;; NC pins → GND (thermal)
+      (pin 4 "GND")                          ;; GND
+      (pin 6 "RADAR_REF_TCXO")               ;; CLK → series source-term R_TCXO_SER
+      (pin 9 "V_RF_3P3")                     ;; VDD
+      (id c4af41dc))
+
+    ;; Vdd decoupling — datasheet recipe (p.8, p.31): 0.1 µF placed within
+    ;; 1–2 mm of pin 9 in parallel with 10 µF bulk within 2 inches of VDD/GND.
+    ;; Required to filter into the part's internal LDOs and meet supply-pushing
+    ;; and phase-jitter specs.
     (instance "C_TCXO_VCC" (cap-0402 "100nF")
       (pin 1 "V_RF_3P3") (pin 2 "GND") (id a16233e2))
-    (instance "C_TCXO_VCC_BULK" (cap-0402 "1uF")
+    (instance "C_TCXO_VCC_BULK" (cap-0805 "10uF")
       (pin 1 "V_RF_3P3") (pin 2 "GND") (id bf496b95))
-    ;; AC-coupling cap to fanout buffer / direct chip references (per chip
-    ;; datasheets — REFIN inputs are AC-coupled).  The TCXO output is single-
-    ;; ended 50 Ω so a small series resistor + DC-block cap per branch is the
-    ;; canonical fanout topology.  Real network is a 1:6 fanout — TBD.
+
+    ;; Series source-termination per datasheet schematic example (p.29):
+    ;; ~25 Ω in series with the ~17 Ω output buffer impedance gives ~50 Ω
+    ;; drive into the 50 Ω fanout trace.  E96 24R9 used (≈25 Ω).  Place
+    ;; close to U_TCXO pin 6.
+    (instance "R_TCXO_SER" (res-0402 "24R9")
+      (pin 1 "RADAR_REF_TCXO") (pin 2 "RADAR_REF_100MHZ") (id 17e0c2f5))
+
+    ;; AC-coupling cap to fanout buffer / direct chip references (REFIN inputs
+    ;; on ADF4159 / ADF5901 / ADF5904 / LMX2594 are AC-coupled per their
+    ;; datasheets).  Real network is a 1:6 LVCMOS fanout buffer — TBD section.
     (instance "C_TCXO_AC" (cap-0402 "100pF")
       (pin 1 "RADAR_REF_100MHZ") (pin 2 "RADAR_REF_AC") (id f66c3595))
 
-    (note "Y1" "PLACEHOLDER — using 2-pin generic crystal as a stand-in. Replace with a 4-pad 100 MHz TCXO once a library entry exists. Required pinout: 1=EN, 2=GND, 3=OUT, 4=VCC. Suggested parts: SiTime SiT5021AI, Abracon ASTX-H11.")
-    (note "TCXO fanout: a single TCXO drives 6 chips (ADF4159 ×2, ADF5901 ×2, ADF5904 #1, LMX2594). Required topology: TCXO OUT → 1:6 LVCMOS fanout buffer (e.g. SY89832U) → AC-coupled to each chip's REFIN. A bare resistor-divider tree will not drive 6 high-Z inputs at 100 MHz with adequate skew. TODO: add fanout buffer section, or use multi-output TCXO.")
-    (note "TCXO_EN drives the TCXO EN pin from MAX7301 P15. Per Rev E power-up sequence, TCXO_EN goes HIGH first (10 ms settle) before any PLL is enabled."))
+    (note "U_TCXO" "SiT5157AI-FA-33E0-100.000000 — 100 MHz ±1.0 ppm MEMS Super-TCXO with OE. Ordering-code decode: A=silicon rev, I=Industrial -40..+85°C, F=5.0×3.2 mm pkg, A=±1.0 ppm stability, 33=3.3 V ±10%, E=pin 1 OE (active high, internal ≥75 kΩ pull-up), 0=TCXO (non-pullable, no I²C), 100.000000=100 MHz output. Timing: T_start = 3.5 ms to first pulse, T_stability = 45 ms to within ±1 ppm, T_oe = 285 ns max for OE-edge to clock state transition.")
+    (note "TCXO_EN sequencing: MAX7301 P15 drives U_TCXO pin 1. At boot, R21 (10 kΩ PD on TCXO_EN) wins over the part's ≥75 kΩ internal PU, so the TCXO output is muted (Hi-Z) until firmware writes P15 = HIGH. Sequence: (1) V_RF_3P3 power-good → (2) wait 3.5 ms (T_start) for the part's analog to come up internally — clock still gated by OE = LOW; (3) firmware writes P15 = HIGH → wait 285 ns (T_oe) for first valid pulse, then wait 45 ms (T_stability) for ±1 ppm — then assert PLL CE/EN signals.")
+    (note "TCXO fanout: a single TCXO drives 6 chips (ADF4159 ×2, ADF5901 ×2, ADF5904 #1, LMX2594). Topology: U_TCXO pin 6 → R_TCXO_SER (24R9 series term) → RADAR_REF_100MHZ (50 Ω trace) → 1:6 LVCMOS fanout buffer (e.g. SY89832U) → AC-coupled to each chip's REFIN. A bare resistor-divider tree will NOT drive 6 high-Z inputs at 100 MHz with adequate skew. TODO: add fanout buffer section, or upgrade to a multi-output TCXO variant.")
+    (note "OE is a clock-mute, NOT a sleep mode: with OE LOW the part still draws ~45 mA (vs 48 mA enabled). For real power savings during long idle periods, gate V_RF_3P3 with a load switch instead of toggling TCXO_EN. The OE pin is the right tool for clock-sequencing the downstream PLLs, not for power management."))
 
   ;; ─────────────────────────────────────────────────────────────────────
   ;; CONTROL — MAX7301 RF I/O Expander
@@ -898,7 +916,7 @@
     (port "BPSK_GATE_1"  in  signal)
     (port "LF1_5901_1"   in  signal)             ;; loop filter node (drain — bypass cap node)
 
-    (instance "Q_BPSK_1" n2n7002
+    (instance "Q_BPSK_1" 2n7002
       (pin 1 "BPSK_GATE_1")        ;; G — direct from STM32 / connector pin 42 (3.3 V CMOS)
       (pin 2 "GND")                ;; S
       (pin 3 "LF1_5901_1") (id d2dd1663))        ;; D — across loop-filter bypass cap
@@ -917,7 +935,7 @@
     (port "BPSK_GATE_2"  in  signal)
     (port "LF1_5901_2"   in  signal)
 
-    (instance "Q_BPSK_2" n2n7002
+    (instance "Q_BPSK_2" 2n7002
       (pin 1 "BPSK_GATE_2")
       (pin 2 "GND")
       (pin 3 "LF1_5901_2") (id d8aac451))
