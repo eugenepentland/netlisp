@@ -5,7 +5,7 @@
 ;; use an electrically identical LNA; only the antenna-side (RFIN) and
 ;; ADF5904-side (LNAOUT) nets differ, which the parent supplies via the bridge.
 ;;
-;; Per-pin VDD bias — each of the four VDD pins is fed from V_RF_3P3 through its
+;; Per-pin VDD bias — each of the four VDD pins is fed from V5P0 through its
 ;; own series resistor with a 100pF decoupling cap to GND:
 ;;   pins 6 & 10 → 24R 0402 + 100pF 0201
 ;;   pins 4 & 12 → 39R 0201 + 100pF 0402
@@ -24,19 +24,19 @@
       (pin 5 "NC1")                  ;; NC
       (pin 11 "NC2"))                ;; NC
 
-    ;; Per-pin VDD bias: series R from V_RF_3P3 + HF decoupling cap to GND.
-    (series "R_VDD_6"  (res-0402 "24R")   "V_RF_3P3" "VDD_6")
+    ;; Per-pin VDD bias: series R from V5P0 + HF decoupling cap to GND.
+    (series "R_VDD_6"  (res-0402 "24R")   "V5P0" "VDD_6")
     (series "C_VDD_6"  (cap-0201 "100pF") "VDD_6"    "GND")
-    (series "R_VDD_10" (res-0402 "24R")   "V_RF_3P3" "VDD_10")
+    (series "R_VDD_10" (res-0402 "24R")   "V5P0" "VDD_10")
     (series "C_VDD_10" (cap-0201 "100pF") "VDD_10"   "GND")
-    (series "R_VDD_4"  (res-0201 "39R")   "V_RF_3P3" "VDD_4")
+    (series "R_VDD_4"  (res-0201 "39R")   "V5P0" "VDD_4")
     (series "C_VDD_4"  (cap-0402 "100pF") "VDD_4"    "GND")
-    (series "R_VDD_12" (res-0201 "39R")   "V_RF_3P3" "VDD_12")
+    (series "R_VDD_12" (res-0201 "39R")   "V5P0" "VDD_12")
     (series "C_VDD_12" (cap-0402 "100pF") "VDD_12"   "GND")
 
-    (port "V_RF_3P3" in  power 3.3)
+    (port "V5P0" in  power 5.0)
     (port "GND"      bidi)
     (port "RFIN"     in  rf)
     (port "LNAOUT"   out rf)
 
-    (note "U1" "PMA3-24323LN+: 24-32 GHz LNA, single-ended 50 Ω in / 50 Ω out. Per-pin VDD bias: series resistor from V_RF_3P3 to each VDD pin (24R on pins 6/10, 39R on pins 4/12) with a 100pF decoupling cap per pin (0201 on 6/10, 0402 on 4/12). Output AC-coupled to the ADF5904 RFIN via single-ended-to-diff conversion (a balun, or single-ended drive of one diff input with the other terminated 50 Ω). Confirm matching network on the 24.125 GHz design point.")))
+    (note "U1" "PMA3-24323LN+: 24-32 GHz LNA, single-ended 50 Ω in / 50 Ω out. Per-pin VDD bias: series resistor from V5P0 to each VDD pin (24R on pins 6/10, 39R on pins 4/12) with a 100pF decoupling cap per pin (0201 on 6/10, 0402 on 4/12). Output AC-coupled to the ADF5904 RFIN via single-ended-to-diff conversion (a balun, or single-ended drive of one diff input with the other terminated 50 Ω). Confirm matching network on the 24.125 GHz design point.")))

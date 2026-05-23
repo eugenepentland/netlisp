@@ -205,7 +205,7 @@
   ;; ─────────────────────────────────────────────────────────────────────
 
   (section "TPS63806 Buck-Boost"
-    "TPS63806 buck-boost — VBATT (3.0–4.2 V) → V_RF_3P3 (3.3 V).  Per Rev E finding #5: VBATT can sag to 3.0 V at end-of-discharge, below the dropout of standard 3.3 V LDOs.  TPS63806 buck-boost holds 3.3 V down to 1.8 V VIN, eliminating the dropout corner.  Powers ADF4159 ×2, ADF5901 ×2, ADF5904, PMA3 ×2, MAX7301, LMX2594 (3.3 V rails), TXS0108E VCCB, and feeds the LP5907 1.8 V LDO."
+    "TPS63806 buck-boost — VBATT (3.0–4.2 V) → V_RF_3P3 (3.3 V).  Per Rev E finding #5: VBATT can sag to 3.0 V at end-of-discharge, below the dropout of standard 3.3 V LDOs.  TPS63806 buck-boost holds 3.3 V down to 1.8 V VIN, eliminating the dropout corner.  Powers ADF4159 ×2, ADF5901 ×2, ADF5904, MAX7301, LMX2594 (3.3 V rails), TXS0108E VCCB, and feeds the LP5907 1.8 V LDO.  PMA3 ×2 now run from a dedicated +5 V rail (V5P0 — regulator TBD), per the LNA datasheet bias spec."
     (port "VBATT"   in  power 3.7)
     (port "V_RF_3P3" out power 3.3)
     (port "GND"     bidi)
@@ -968,10 +968,13 @@
   (sub-block "lna2" (pma3-lna)
     (bridge "BEAM2_" RFIN LNAOUT) (id a0d43d4c))
 
-  ;; Shared rails into both LNA sub-blocks — merge by name with the board's
-  ;; V_RF_3P3 (3.3 V analog) and GND planes.
-  (net "V_RF_3P3" "lna1/V_RF_3P3" "lna2/V_RF_3P3")
-  (net "GND"      "lna1/GND"      "lna2/GND")
+  ;; Shared rails into both LNA sub-blocks. V5P0 is the dedicated +5 V LNA bias
+  ;; rail the PMA3-24323LN+ datasheet specifies (24R/39R series feed from +5 V);
+  ;; GND merges with the board ground plane.
+  ;; TODO: V5P0 has no source yet — add a +5 V regulator (from VBATT) feeding
+  ;; this net. Until then V5P0 is an unsourced (dead-end) bias rail.
+  (net "V5P0" "lna1/V5P0" "lna2/V5P0")
+  (net "GND"  "lna1/GND"  "lna2/GND")
 
   ;; ─────────────────────────────────────────────────────────────────────
   ;; K-BAND RX — ADF5904 4-channel receiver (TBD library entry)
