@@ -276,30 +276,25 @@
   (nets "TXDATA_1" "MRST" "ADF_CH4N" "EXP_SPI_SCK" "EXP_SPI_MISO" "ADF_CH1P" "RF_SPI_MOSI" "ADF_CH5P" "CNV_MASTER" "ADF_CH6P" "MADV" "ADF_CH10P" "ADF_CH2N" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "ADF_CH9N" "ADF_CH10N" "RxADV" "ADF_CH3P" "ADF_CH6N" "ADF_CH9P" "ADF_CH5N" "TXDATA_2" "CS_IO_EXP" "CHIRP_START" "ADF_CH1N" "BPSK_GATE_2" "EXP_SPI_NCS" "ADF_CH8P" "EXP_SPI_MOSI" "ADF_CH2P" "ADF_CH4P" "ADF_CH7P" "VBATT" "VBATT" "VBATT" "VBATT" "ADF_CH8N" "ADF_CH3N" "RxRST" "ADF_CH7N" "BPSK_GATE_1" "V1P8" "V1P8")
   (description "Board to Board & Mezzanine Connectors .40mm SlimStack Floating Plug 60Ckt")
 )
-(part "FB1" "762a492d-3930-54c3-a2c5-c8ea35e48e2f" "ferrite-0402"
-  (id "a1fb0001")
+(part "L2" "4f63fe32-3a9e-5505-a14e-f112950dce9c" "ferrite-0402"
+  (id "c463e746")
   (nets "VDDA18AON" "V1P8")
-  (mpn "BLM15AX601SN1D")
 )
-(part "FB2" "6c721866-151d-50e2-8b2d-7ee8341b755a" "ferrite-0402"
-  (id "a1fb0002")
+(part "L3" "163f2ae4-a9d6-5063-8e4b-776b1df40336" "ferrite-0402"
+  (id "d20796a3")
   (nets "VDDA18PLL" "V1P8")
-  (mpn "BLM15AX601SN1D")
 )
-(part "FB3" "f22af48e-27c1-58d7-8ed9-879cee0bb7b2" "ferrite-0402"
-  (id "a1fb0003")
+(part "L4" "57b47b28-036b-5717-b823-8b4b36e48c01" "ferrite-0402"
+  (id "a99f31fa")
   (nets "VDDA18USB" "V1P8")
-  (mpn "BLM15AX601SN1D")
 )
-(part "FB4" "57f684a7-1181-56e2-807e-e25bce1ee704" "ferrite-0402"
-  (id "a1fb0004")
+(part "L5" "83b6b3f2-c547-5207-a307-ae46ac45761f" "ferrite-0402"
+  (id "feef3b7b")
   (nets "V1P8" "VDDA18ADC")
-  (mpn "BLM15AX601SN1D")
 )
-(part "FB5" "f573cb94-8046-51d0-a6d7-e783e0f3d9e5" "ferrite-0402"
-  (id "a1fb0005")
+(part "L6" "036f0cc3-8c9b-57a9-b873-247f1f0f424f" "ferrite-0402"
+  (id "af44da5e")
   (nets "VDDA18CSI" "V1P8")
-  (mpn "BLM15AX601SN1D")
 )
 (part "R188" "fd5526f6-9e08-5439-8cac-aba170f741d9" "res-0201"
   (id "b7c00002")
@@ -652,7 +647,7 @@
   (id "ef0cf2ae")
   (nets "VOUT.U17.E2" "GND")
 )
-(part "buck/L2" "dd2eeaae-885b-522b-bcc8-e31507746b74" "xfl4012"
+(part "buck/L7" "dd2eeaae-885b-522b-bcc8-e31507746b74" "xfl4012"
   (id "dc154eed")
   (nets "SW_L2" "SW_L1")
 )
