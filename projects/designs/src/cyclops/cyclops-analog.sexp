@@ -4,7 +4,7 @@
         adf5901acpz-rl7
         lmx2594rhat
         max7301atl+
-        pma3-24323ln+
+        pma3-lna
         2n7002
         lt3045edd
         lp5907mfx-1-8-nopb
@@ -77,6 +77,10 @@
 
   ;; Target board for the file-based KiCad sync ("Push to KiCad PCB").
   (kicad-pcb "/mnt/nas/Cyclops/Cyclopse Radar/Cyclopse Radar.kicad_pcb")
+
+  ;; Sub-block child ids are derived from each sub-block's uuid + a stable
+  ;; module-local key (Option 4). Used by the two PMA3 LNA sub-blocks below.
+  (hierarchical-ids)
 
   ;; ─────────────────────────────────────────────────────────────────────
   ;; MEZZANINE CONNECTOR
@@ -949,66 +953,25 @@
   ;; ─────────────────────────────────────────────────────────────────────
 
   (section "PMA3 #1 LNA"
-    "Mini-Circuits PMA3-24323LN+ — 24-32 GHz wideband LNA, +16 dB gain, NF 3.1 dB.  RX antenna SA2 (Beam 1) → LNA → ADF5904 RFIN_A+/-.  Sets the cumulative noise figure of the main RX chain (3.1 dB).
-
-  Power: VDD1-VDD4 (4 supply pins per pinout) all tied to V_RF_3P3 via bias
-  tee (RF choke + decoupling).  Total ~30 mA.  Per HW-RDR-001 §8.4."
-    (port "V_RF_3P3"   in  power 3.3)
-    (port "GND"        bidi)
-    (port "BEAM1_RFIN" in  rf)                   ;; from RX SA2 patch antenna
-    (port "BEAM1_LNAOUT" out rf)                  ;; to ADF5904 RFIN_A+/- via 100 Ω diff matching
-
-    (instance "U_LNA1" pma3-24323ln+
-      (pin 1 3 7 9 13 "GND")
-      (pin 2 "BEAM1_RFIN")           ;; RF-IN — 50 Ω
-      (pin 8 "BEAM1_LNAOUT")         ;; RF-OUT — 50 Ω matched
-      (pin 4 "VDD_LNA1")             ;; VDD3
-      (pin 6 "VDD_LNA1")             ;; VDD4
-      (pin 10 "VDD_LNA1")            ;; VDD2
-      (pin 12 "VDD_LNA1")            ;; VDD1
-      (pin 5 "LNA1_NC1")             ;; NC
-      (pin 11 "LNA1_NC2") (id ed60c466))           ;; NC
-
-    ;; Bias tee — RF choke from rail to VDD pin, with HF + bulk decoupling
-    (instance "L_BIAS_LNA1" (ind-0402 "39nH")
-      (pin 1 "V_RF_3P3") (pin 2 "VDD_LNA1") (id dd63836d))
-    (instance "C_VDD_LNA1A" (cap-0402 "100nF")
-      (pin 1 "VDD_LNA1") (pin 2 "GND") (id baf95d85))
-    (instance "C_VDD_LNA1B" (cap-0402 "1nF")
-      (pin 1 "VDD_LNA1") (pin 2 "GND") (id c1ca2acc))
-    (instance "C_VDD_LNA1C" (cap-0201 "10pF")
-      (pin 1 "VDD_LNA1") (pin 2 "GND") (id af77115c))
-    (instance "C_VDD_LNA1D" (cap-0805 "10uF")
-      (pin 1 "V_RF_3P3") (pin 2 "GND") (id f1a99655))
-
-    (note "U_LNA1" "PMA3-24323LN+: 24-32 GHz LNA, single-ended 50 Ω in / 50 Ω out. Bias-tee inductor (39 nH ind-0402) on each VDD pin; output AC-coupled to the ADF5904 RFIN_A+ via single-ended-to-diff conversion (typically a balun or single-ended drive of one diff input with the other terminated 50 Ω). Confirm matching network on 24.125 GHz design point.")
+    "Mini-Circuits PMA3-24323LN+ — 24-32 GHz wideband LNA, +16 dB gain, NF 3.1 dB.  RX antenna SA2 (Beam 1) → LNA → ADF5904 RFIN_A+/-.  Sets the cumulative noise figure of the main RX chain (3.1 dB).  Chip + per-pin VDD bias sealed in the pma3-lna module (24R/100pF on pins 6,10; 39R/100pF on pins 4,12).  Total ~30 mA.  Per HW-RDR-001 §8.4."
+    (port "BEAM1_RFIN"   in  rf)                 ;; from RX SA2 patch antenna
+    (port "BEAM1_LNAOUT" out rf)                 ;; to ADF5904 RFIN_A+/- via 100 Ω diff matching
     (note "BEAM1_LNAOUT → ADF5904 RFIN_A+ (and 50 Ω term on RFIN_A-) per HW-RDR-001 §8.5. The LNA is single-ended; ADF5904 has differential RF inputs but accepts SE drive with the unused leg terminated."))
+  (sub-block "lna1" (pma3-lna)
+    (bridge "BEAM1_" RFIN LNAOUT) (id edfadd14))
 
   (section "PMA3 #2 LNA"
-    "Identical to #1 — RX antenna SA3 (Beam 2) → LNA → ADF5904 RFIN_B+/-."
-    (port "V_RF_3P3"   in  power 3.3)
-    (port "GND"        bidi)
-    (port "BEAM2_RFIN" in  rf)
+    "Identical to #1 — RX antenna SA3 (Beam 2) → LNA → ADF5904 RFIN_B+/-.  Chip + bias sealed in the pma3-lna module."
+    (port "BEAM2_RFIN"   in  rf)
     (port "BEAM2_LNAOUT" out rf)
+    (note "lna2 output drives ADF5904 RFIN_B+ (Beam 2); identical to #1 — see the pma3-lna module for the per-pin bias detail."))
+  (sub-block "lna2" (pma3-lna)
+    (bridge "BEAM2_" RFIN LNAOUT) (id a0d43d4c))
 
-    (instance "U_LNA2" pma3-24323ln+
-      (pin 1 3 7 9 13 "GND")
-      (pin 2 "BEAM2_RFIN")
-      (pin 8 "BEAM2_LNAOUT")
-      (pin 4 "VDD_LNA2")
-      (pin 6 "VDD_LNA2")
-      (pin 10 "VDD_LNA2")
-      (pin 12 "VDD_LNA2")
-      (pin 5 "LNA2_NC1")
-      (pin 11 "LNA2_NC2") (id bf507e47))
-    (instance "L_BIAS_LNA2" (ind-0402 "39nH")
-      (pin 1 "V_RF_3P3") (pin 2 "VDD_LNA2") (id b7f5aa39))
-    (instance "C_VDD_LNA2A" (cap-0402 "100nF") (pin 1 "VDD_LNA2") (pin 2 "GND") (id ad951158))
-    (instance "C_VDD_LNA2B" (cap-0402 "1nF")   (pin 1 "VDD_LNA2") (pin 2 "GND") (id c8487d7c))
-    (instance "C_VDD_LNA2C" (cap-0201 "10pF")  (pin 1 "VDD_LNA2") (pin 2 "GND") (id e3fc5c92))
-    (instance "C_VDD_LNA2D" (cap-0805 "10uF")  (pin 1 "V_RF_3P3") (pin 2 "GND") (id fc4dd373))
-
-    (note "U_LNA2" "PMA3-24323LN+ #2: identical to LNA1. Output drives ADF5904 RFIN_B+ (Beam 2)."))
+  ;; Shared rails into both LNA sub-blocks — merge by name with the board's
+  ;; V_RF_3P3 (3.3 V analog) and GND planes.
+  (net "V_RF_3P3" "lna1/V_RF_3P3" "lna2/V_RF_3P3")
+  (net "GND"      "lna1/GND"      "lna2/GND")
 
   ;; ─────────────────────────────────────────────────────────────────────
   ;; K-BAND RX — ADF5904 4-channel receiver (TBD library entry)

@@ -19,37 +19,37 @@
   (id "a8b5eb0c")
   (nets "SW_L1_BUCK33" "SW_L2_BUCK33")
 )
-(part "R1" "4574eb0b-ee9e-57a1-8c02-a1c44ca939e6" "res-0402"
+(part "R9" "4574eb0b-ee9e-57a1-8c02-a1c44ca939e6" "res-0402"
   (id "e1b72458")
   (nets "FB_BUCK33" "AVDD_5901_1")
 )
-(part "R2" "25b0f126-eb66-5032-9c95-d337793f38cd" "res-0402"
+(part "R10" "25b0f126-eb66-5032-9c95-d337793f38cd" "res-0402"
   (id "ad954ffa")
   (nets "GND" "FB_BUCK33")
 )
-(part "R3" "ac1c188c-1893-5ad1-8505-17af6808ed93" "res-0402"
+(part "R11" "ac1c188c-1893-5ad1-8505-17af6808ed93" "res-0402"
   (id "c88cdb3a")
   (nets "PG_BUCK33" "AVDD_5901_1")
 )
-(part "C1" "77ee4e9d-4ae5-5b72-9d64-e96f2ab36d4a" "cap-0603"
+(part "C9" "77ee4e9d-4ae5-5b72-9d64-e96f2ab36d4a" "cap-0603"
   (id "b3237851")
   (nets "GND" "VBATT")
 )
-(part "C2" "bc847428-5cff-5f39-851b-1a7158537455" "cap-0402"
+(part "C10" "bc847428-5cff-5f39-851b-1a7158537455" "cap-0402"
   (id "fb5d8619")
   (nets "GND" "VBATT")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C3" "4226806e-e8bd-5d65-9a39-145ed32507d1" "cap-0805"
+(part "C11" "4226806e-e8bd-5d65-9a39-145ed32507d1" "cap-0805"
   (id "d13c06bd")
   (nets "GND" "AVDD_5901_1")
 )
-(part "C4" "315d5e67-d9ca-5ab8-b65b-2198728e98fb" "cap-0805"
+(part "C12" "315d5e67-d9ca-5ab8-b65b-2198728e98fb" "cap-0805"
   (id "dbe8638f")
   (nets "GND" "AVDD_5901_1")
 )
-(part "C5" "6787d68a-ad4b-57d7-a8ba-3213872ad66c" "cap-0402"
+(part "C13" "6787d68a-ad4b-57d7-a8ba-3213872ad66c" "cap-0402"
   (id "cb1e821a")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
@@ -62,19 +62,19 @@
   (manufacturer "Texas Instruments")
   (mpn "LP5907MFX-1.8/NOPB")
 )
-(part "C6" "3e1bc33a-3a3e-51b5-941e-873be29a692f" "cap-0402"
+(part "C14" "3e1bc33a-3a3e-51b5-941e-873be29a692f" "cap-0402"
   (id "a0f100fc")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "C7" "902fa5e0-348e-581e-9b4d-ad29a2ff250a" "cap-0402"
+(part "C15" "902fa5e0-348e-581e-9b4d-ad29a2ff250a" "cap-0402"
   (id "a93b7ec0")
   (nets "DVDD_5901_1" "GND")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "C8" "12ed0597-16ff-5ee5-912a-068e51b0327d" "cap-0402"
+(part "C16" "12ed0597-16ff-5ee5-912a-068e51b0327d" "cap-0402"
   (id "b0e685c5")
   (nets "DVDD_5901_1" "GND")
   (manufacturer "Samsung")
@@ -87,41 +87,41 @@
   (manufacturer "Analog Devices")
   (mpn "LT3045EDD-1#TRPBF")
 )
-(part "R4" "a204fa0a-5ccc-5b24-88e1-4925626e8579" "res-0402"
+(part "R12" "a204fa0a-5ccc-5b24-88e1-4925626e8579" "res-0402"
   (id "c198b71c")
   (nets "GND" "SET_2P5")
 )
-(part "R5" "ea1ae147-6d55-5ee4-90f1-01089e895888" "res-0402"
+(part "R13" "ea1ae147-6d55-5ee4-90f1-01089e895888" "res-0402"
   (id "b4e28e7f")
   (nets "ILIM_2P5" "GND")
 )
-(part "R6" "891f8523-024e-5b5c-aa9d-e8d3d60aae6e" "res-0402"
+(part "R14" "891f8523-024e-5b5c-aa9d-e8d3d60aae6e" "res-0402"
   (id "fd16a2d5")
   (nets "PGFB_2P5" "V_RX_2P5")
 )
-(part "C9" "c43e9cb0-5613-5693-936a-b96e794c63bd" "cap-0805"
+(part "C17" "c43e9cb0-5613-5693-936a-b96e794c63bd" "cap-0805"
   (id "ba87349d")
   (nets "GND" "VBATT")
   (manufacturer "Samsung")
   (mpn "CL21A475KAQNNNE")
 )
-(part "C10" "71a06d0b-bcad-5bb2-a982-3fc6ce0a4beb" "cap-0805"
+(part "C18" "71a06d0b-bcad-5bb2-a982-3fc6ce0a4beb" "cap-0805"
   (id "d85f2ead")
   (nets "GND" "V_RX_2P5")
   (manufacturer "Samsung")
   (mpn "CL21A106KAYNNNE")
 )
-(part "C11" "d72ac356-56c0-51c3-809a-ad8eed4aa7df" "cap-0402"
+(part "C19" "d72ac356-56c0-51c3-809a-ad8eed4aa7df" "cap-0402"
   (id "a1cb8e60")
   (nets "GND" "SET_2P5")
 )
-(part "C12" "dff0e878-3732-506f-9cb7-cb49ec0e6345" "cap-0402"
+(part "C20" "dff0e878-3732-506f-9cb7-cb49ec0e6345" "cap-0402"
   (id "f2b232f7")
   (nets "GND" "VIOC")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "C13" "38705949-3986-5bec-9bc2-ea4de24b8849" "cap-0402"
+(part "C21" "38705949-3986-5bec-9bc2-ea4de24b8849" "cap-0402"
   (id "e50734ec")
   (nets "GND" "V_RX_2P5")
   (manufacturer "Samsung")
@@ -132,23 +132,23 @@
   (nets "GND" "GND" "GND" "GND" "GND" "GND" "GND" "TCXO_EN" "AVDD_5901_1" "RADAR_REF_TCXO")
   (description "2-pin crystal oscillator")
 )
-(part "C14" "682e8633-d6c1-5c54-a578-025ea4424465" "cap-0402"
+(part "C22" "682e8633-d6c1-5c54-a578-025ea4424465" "cap-0402"
   (id "a16233e2")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C15" "a3914264-6797-5fc8-b5ee-57c1aacb0ab6" "cap-0805"
+(part "C23" "a3914264-6797-5fc8-b5ee-57c1aacb0ab6" "cap-0805"
   (id "bf496b95")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL21A106KAYNNNE")
 )
-(part "R7" "fe3d9412-318c-5ebc-a3ef-7b31012905e7" "res-0402"
+(part "R15" "fe3d9412-318c-5ebc-a3ef-7b31012905e7" "res-0402"
   (id "17e0c2f5")
   (nets "RADAR_REF_100MHZ" "RADAR_REF_TCXO")
 )
-(part "C16" "084e6bc3-0fdb-5853-af21-f10e3eb50579" "cap-0402"
+(part "C24" "084e6bc3-0fdb-5853-af21-f10e3eb50579" "cap-0402"
   (id "f66c3595")
   (nets "RADAR_REF_100MHZ" "RADAR_REF_AC")
 )
@@ -159,123 +159,123 @@
   (manufacturer "Analog Devices")
   (mpn "MAX7301ATL+")
 )
-(part "R8" "ab751770-2901-578b-9f3a-45b593269dc8" "res-0402"
+(part "R16" "ab751770-2901-578b-9f3a-45b593269dc8" "res-0402"
   (id "e959cf38")
   (nets "ISET_IOEXP" "GND")
 )
-(part "C17" "aa34f248-7699-5573-9059-36a87daee1e1" "cap-0402"
+(part "C25" "aa34f248-7699-5573-9059-36a87daee1e1" "cap-0402"
   (id "fdd366cf")
   (nets "GND" "AVDD_5901_1")
 )
-(part "C18" "788d0be0-c063-53b3-8f4b-9c1f4ca68069" "cap-0402"
+(part "C26" "788d0be0-c063-53b3-8f4b-9c1f4ca68069" "cap-0402"
   (id "a7ffa15e")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "R9" "bc947a86-0776-5595-aecc-8bad2ab6b290" "res-0402"
+(part "R17" "bc947a86-0776-5595-aecc-8bad2ab6b290" "res-0402"
   (id "a2096600")
   (nets "CS_ADF4159_1" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R10" "214e463f-5b3f-540d-8a02-10400fda1099" "res-0402"
+(part "R18" "214e463f-5b3f-540d-8a02-10400fda1099" "res-0402"
   (id "baa2488d")
   (nets "CS_ADF4159_2" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R11" "5328e690-1d72-5ad7-93d5-ad8df94f3432" "res-0402"
+(part "R19" "5328e690-1d72-5ad7-93d5-ad8df94f3432" "res-0402"
   (id "fc8e57e1")
   (nets "CS_ADF5901_1" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R12" "d04c8230-5e62-5429-b8ea-d72208fc2982" "res-0402"
+(part "R20" "d04c8230-5e62-5429-b8ea-d72208fc2982" "res-0402"
   (id "f128b2c7")
   (nets "CS_ADF5901_2" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R13" "ab7a659c-6460-58c7-a0c7-ed89f071f7fe" "res-0402"
+(part "R21" "ab7a659c-6460-58c7-a0c7-ed89f071f7fe" "res-0402"
   (id "b94e2f19")
   (nets "CS_ADF5904_1" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R14" "25de27c9-c472-5bfe-81d5-b6b55dd303bd" "res-0402"
+(part "R22" "25de27c9-c472-5bfe-81d5-b6b55dd303bd" "res-0402"
   (id "bc82b833")
   (nets "CS_RX1" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R15" "e1ad690e-8b7b-5dc5-8dea-c55e4eba471a" "res-0402"
+(part "R23" "e1ad690e-8b7b-5dc5-8dea-c55e4eba471a" "res-0402"
   (id "a22331fc")
   (nets "CS_RX2" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R16" "0f9ae059-f183-5651-af6d-5a56d85adca7" "res-0402"
+(part "R24" "0f9ae059-f183-5651-af6d-5a56d85adca7" "res-0402"
   (id "bbe0eb83")
   (nets "CS_LMX2594" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R17" "e2cecb4e-f564-5a0b-aac4-3de2c609db1e" "res-0402"
+(part "R25" "e2cecb4e-f564-5a0b-aac4-3de2c609db1e" "res-0402"
   (id "a8174a64")
   (nets "CS_ADAR2001" "AVDD_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R18" "64f47ae0-2d2b-5423-a52e-8fef68a06b88" "res-0402"
+(part "R26" "64f47ae0-2d2b-5423-a52e-8fef68a06b88" "res-0402"
   (id "f7ac8b1b")
   (nets "TX_EN" "GND")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R19" "7879d77c-df76-5cdc-8cc8-a685e8dd9146" "res-0402"
+(part "R27" "7879d77c-df76-5cdc-8cc8-a685e8dd9146" "res-0402"
   (id "bf7632ff")
   (nets "RX_EN" "GND")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R20" "c1c269b8-8668-57b2-b18f-1a15be303a1b" "res-0402"
+(part "R28" "c1c269b8-8668-57b2-b18f-1a15be303a1b" "res-0402"
   (id "e084b5da")
   (nets "EMVS_EN" "GND")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R21" "c63f99ad-b7ec-5835-a03f-ebb329e9b0e6" "res-0402"
+(part "R29" "c63f99ad-b7ec-5835-a03f-ebb329e9b0e6" "res-0402"
   (id "a2b3cadc")
   (nets "GND" "TCXO_EN")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R22" "8ec1043f-6e4d-55d1-939a-8c27c77be8e9" "res-0402"
+(part "R30" "8ec1043f-6e4d-55d1-939a-8c27c77be8e9" "res-0402"
   (id "ab851062")
   (nets "GND" "PLL_EN")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R23" "e20174ef-c572-5ef7-b9e7-67a5f94e88c7" "res-0402"
+(part "R31" "e20174ef-c572-5ef7-b9e7-67a5f94e88c7" "res-0402"
   (id "ff52b097")
   (nets "GND" "ADAR2001_TXEN")
   (manufacturer "Yageo")
   (mpn "RC0402FR-0710KL")
 )
-(part "R24" "ce32ea75-6c56-50cb-8e75-ee272408db03" "res-0402"
+(part "R32" "ce32ea75-6c56-50cb-8e75-ee272408db03" "res-0402"
   (id "a1f3b1b0")
   (nets "LD_ADF4159_1" "AVDD_5901_1")
 )
-(part "R25" "7d126b87-59b8-5ea0-adfb-4fc20717be8c" "res-0402"
+(part "R33" "7d126b87-59b8-5ea0-adfb-4fc20717be8c" "res-0402"
   (id "b87e53bd")
   (nets "LD_ADF4159_2" "AVDD_5901_1")
 )
-(part "R26" "686a427b-f59b-5fdd-8746-fc0b8dc1c3ba" "res-0402"
+(part "R34" "686a427b-f59b-5fdd-8746-fc0b8dc1c3ba" "res-0402"
   (id "b870df03")
   (nets "LD_LMX2594" "AVDD_5901_1")
 )
-(part "R27" "9f51b379-540d-5bf5-a8f3-d4f3c8d52ee9" "res-0402"
+(part "R35" "9f51b379-540d-5bf5-a8f3-d4f3c8d52ee9" "res-0402"
   (id "babbe827")
   (nets "ADAR2001_FAULT" "AVDD_5901_1")
 )
@@ -284,101 +284,101 @@
   (nets "TX_EN" "RF_SPI_MOSI" "AUX_5901_1" "ADF5901_1_LO_OUT" "DVDD_5901_1" "CS_ADF5901_1" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "TX1_RFOUT" "VREG_5901_1" "MUXOUT_5901_1" "VTUNE_1" "RADAR_REF_AC" "AUXB_5901_1" "RSET_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "TX2_TERM_5901_1" "ATEST_5901_1")
   (description "ADF5901 24GHz Tx MMIC")
 )
-(part "C19" "c01d50d9-6c5f-5fcc-b87e-3e60c9c8fd47" "cap-0402"
+(part "C27" "c01d50d9-6c5f-5fcc-b87e-3e60c9c8fd47" "cap-0402"
   (id "a5865adc")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "C20" "2fe929de-1591-5474-b9cb-bd3f91424cc1" "cap-0402"
+(part "C28" "2fe929de-1591-5474-b9cb-bd3f91424cc1" "cap-0402"
   (id "fada42c9")
   (nets "GND" "AVDD_5901_1")
 )
-(part "C21" "080adf93-bce6-5753-94c6-dfaaa1b261a4" "cap-0402"
+(part "C29" "080adf93-bce6-5753-94c6-dfaaa1b261a4" "cap-0402"
   (id "ba5547e9")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Murata")
   (mpn "GRM1555C1H100GA01D")
 )
-(part "C22" "6d301cf2-b5fa-5842-8f34-e293ae3b7469" "cap-0805"
+(part "C30" "6d301cf2-b5fa-5842-8f34-e293ae3b7469" "cap-0805"
   (id "e63c4dc8")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL21A106KAYNNNE")
 )
-(part "C23" "786a34ac-8ce6-5aa2-a82b-226c9089ec9c" "cap-0402"
+(part "C31" "786a34ac-8ce6-5aa2-a82b-226c9089ec9c" "cap-0402"
   (id "f625daa1")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C24" "7ec7215f-85db-5a13-af60-505275cc9a00" "cap-0402"
+(part "C32" "7ec7215f-85db-5a13-af60-505275cc9a00" "cap-0402"
   (id "fb2b9345")
   (nets "GND" "AVDD_5901_1")
 )
-(part "C25" "07db7cf8-1973-59bb-9b73-164e5088ba8c" "cap-0402"
+(part "C33" "07db7cf8-1973-59bb-9b73-164e5088ba8c" "cap-0402"
   (id "f9782205")
   (nets "DVDD_5901_1" "GND")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C26" "641b26a8-ed60-51af-a141-1ca1c309ee65" "cap-0402"
+(part "C34" "641b26a8-ed60-51af-a141-1ca1c309ee65" "cap-0402"
   (id "a8097746")
   (nets "DVDD_5901_1" "GND")
 )
-(part "C27" "80968c18-8cb8-5a0c-8e7c-bc14110aeb7c" "cap-0402"
+(part "C35" "80968c18-8cb8-5a0c-8e7c-bc14110aeb7c" "cap-0402"
   (id "a6ee0f96")
   (nets "GND" "VREG_5901_1")
 )
-(part "C28" "53ecaa2d-4e89-5cda-95bb-f75ca7973a6a" "cap-0402"
+(part "C36" "53ecaa2d-4e89-5cda-95bb-f75ca7973a6a" "cap-0402"
   (id "d41f1d77")
   (nets "GND" "VREG_5901_1")
 )
-(part "C29" "93f47d39-c028-57ca-95dd-f5db782bfaa8" "cap-0402"
+(part "C37" "93f47d39-c028-57ca-95dd-f5db782bfaa8" "cap-0402"
   (id "e2870980")
   (nets "RADAR_REF_AC" "REFIN_AC_5901_1")
 )
-(part "C30" "2cb9b42c-30f3-5ead-824a-d200756eb577" "cap-0402"
+(part "C38" "2cb9b42c-30f3-5ead-824a-d200756eb577" "cap-0402"
   (id "aa11d63c")
   (nets "RADAR_REF_AC" "REFIN_AC_5901_1")
 )
-(part "R28" "6cfa979f-8e3d-50d7-b9a0-b50b6a2ffd4b" "res-0402"
+(part "R36" "6cfa979f-8e3d-50d7-b9a0-b50b6a2ffd4b" "res-0402"
   (id "e0a9a408")
   (nets "GND" "RADAR_REF_AC")
   (manufacturer "Yageo")
   (mpn "RC0402FR-075K1L")
 )
-(part "R29" "c3370046-5ab6-54c0-964d-ffe3f3147df4" "res-0402"
+(part "R37" "c3370046-5ab6-54c0-964d-ffe3f3147df4" "res-0402"
   (id "c409b9ee")
   (nets "GND" "RSET_5901_1")
   (manufacturer "Yageo")
   (mpn "RC0402FR-075K1L")
 )
-(part "R30" "a04449cd-de63-5352-b2b6-fb6fb1efb317" "res-0201"
+(part "R38" "a04449cd-de63-5352-b2b6-fb6fb1efb317" "res-0201"
   (id "bf55bf7d")
   (nets "GND" "TX2_TERM_5901_1")
 )
-(part "R31" "81881cbd-ff9d-5ecf-a06d-edcb0a010b74" "res-0805"
+(part "R39" "81881cbd-ff9d-5ecf-a06d-edcb0a010b74" "res-0805"
   (id "baa5f673")
   (nets "LF1_5901_1" "CPOUT_1")
 )
-(part "R32" "13b75ffb-17f3-55e0-b212-492aa7784413" "res-0805"
+(part "R40" "13b75ffb-17f3-55e0-b212-492aa7784413" "res-0805"
   (id "b9a5dfcb")
   (nets "LF1_5901_1" "LF2_5901_1")
 )
-(part "R33" "4d516b01-d277-5837-8c58-663e6abc6d45" "res-0805"
+(part "R41" "4d516b01-d277-5837-8c58-663e6abc6d45" "res-0805"
   (id "bc4578f1")
   (nets "LF2_5901_1" "VTUNE_1")
 )
-(part "C31" "8f4fb16e-c567-5182-8a38-814f80b556d7" "cap-0805"
+(part "C39" "8f4fb16e-c567-5182-8a38-814f80b556d7" "cap-0805"
   (id "c3cc119a")
   (nets "LF1_5901_1" "GND")
 )
-(part "C32" "36093613-2872-56d5-9492-8215c847fa83" "cap-0805"
+(part "C40" "36093613-2872-56d5-9492-8215c847fa83" "cap-0805"
   (id "ae353a7e")
   (nets "GND" "CPOUT_1")
 )
-(part "C33" "2ec820ff-d1bb-59f0-9c35-b79ca7e90b99" "cap-0805"
+(part "C41" "2ec820ff-d1bb-59f0-9c35-b79ca7e90b99" "cap-0805"
   (id "dcb5921d")
   (nets "GND" "LF2_5901_1")
 )
@@ -387,79 +387,79 @@
   (nets "TX_EN" "DVDD_5901_2" "RSET_5901_2" "RF_SPI_MOSI" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "AUX_5901_2" "TX2_TERM_5901_2" "TX2_RFOUT" "ADF5901_2_LO_OUT" "VTUNE_2" "RADAR_REF_AC" "AUXB_5901_2" "ATEST_5901_2" "CS_ADF5901_2" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "VREG_5901_2" "AVDD_5901_2" "MUXOUT_5901_2")
   (description "ADF5901 24GHz Tx MMIC")
 )
-(part "C34" "b3cd88b5-0b40-58b2-9389-2f5e74eba90d" "cap-0402"
+(part "C42" "b3cd88b5-0b40-58b2-9389-2f5e74eba90d" "cap-0402"
   (id "d2f3f28f")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C35" "59419be5-fe07-517e-b05f-233cff3409f0" "cap-0402"
+(part "C43" "59419be5-fe07-517e-b05f-233cff3409f0" "cap-0402"
   (id "ed092f1c")
   (nets "GND" "AVDD_5901_1")
 )
-(part "C36" "df9ef2d5-3ea0-5d56-aafe-048530609f40" "cap-0402"
+(part "C44" "df9ef2d5-3ea0-5d56-aafe-048530609f40" "cap-0402"
   (id "eabf9432")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Murata")
   (mpn "GRM1555C1H100GA01D")
 )
-(part "C37" "253cd63d-00b3-5a69-9c9e-3cc6f35e6d3c" "cap-0805"
+(part "C45" "253cd63d-00b3-5a69-9c9e-3cc6f35e6d3c" "cap-0805"
   (id "fcd5cc25")
   (nets "GND" "AVDD_5901_1")
   (manufacturer "Samsung")
   (mpn "CL21A106KAYNNNE")
 )
-(part "C38" "4195b9af-d86a-581f-adb8-da6d5e1c4434" "cap-0402"
+(part "C46" "4195b9af-d86a-581f-adb8-da6d5e1c4434" "cap-0402"
   (id "b6abe3d7")
   (nets "GND" "AVDD_5901_2")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C39" "fb2df739-6528-5b08-8871-450a21d8557c" "cap-0402"
+(part "C47" "fb2df739-6528-5b08-8871-450a21d8557c" "cap-0402"
   (id "fbe34f2b")
   (nets "DVDD_5901_2" "GND")
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "C40" "08eb5579-aad2-5b69-b33a-b7dee34e9283" "cap-0402"
+(part "C48" "08eb5579-aad2-5b69-b33a-b7dee34e9283" "cap-0402"
   (id "c78d587c")
   (nets "GND" "VREG_5901_2")
 )
-(part "C41" "b7a8d581-6612-5837-be19-270e6c9f66c5" "cap-0402"
+(part "C49" "b7a8d581-6612-5837-be19-270e6c9f66c5" "cap-0402"
   (id "dbfe1c5d")
   (nets "GND" "VREG_5901_2")
 )
-(part "R34" "a48bc563-6046-502b-9d7d-ab233c8ac92e" "res-0402"
+(part "R42" "a48bc563-6046-502b-9d7d-ab233c8ac92e" "res-0402"
   (id "b265207d")
   (nets "RSET_5901_2" "GND")
   (manufacturer "Yageo")
   (mpn "RC0402FR-075K1L")
 )
-(part "R35" "bfe8f0b3-a138-5669-ba02-87d155b813d5" "res-0201"
+(part "R43" "bfe8f0b3-a138-5669-ba02-87d155b813d5" "res-0201"
   (id "c96fbf1e")
   (nets "GND" "TX2_TERM_5901_2")
 )
-(part "R36" "f921f43d-43bf-5a61-95ee-81621c915a37" "res-0805"
+(part "R44" "f921f43d-43bf-5a61-95ee-81621c915a37" "res-0805"
   (id "a05f6c9c")
   (nets "CPOUT_2" "LF1_5901_2")
 )
-(part "R37" "1e313198-dfdd-5624-9b28-f1267cac5584" "res-0805"
+(part "R45" "1e313198-dfdd-5624-9b28-f1267cac5584" "res-0805"
   (id "cef78324")
   (nets "LF2_5901_2" "LF1_5901_2")
 )
-(part "R38" "aed4e369-80e1-5625-982d-1be13e34b8a4" "res-0805"
+(part "R46" "aed4e369-80e1-5625-982d-1be13e34b8a4" "res-0805"
   (id "bc571549")
   (nets "LF2_5901_2" "VTUNE_2")
 )
-(part "C42" "4c4b0b4e-1493-53e6-a086-1d284d90911b" "cap-0805"
+(part "C50" "4c4b0b4e-1493-53e6-a086-1d284d90911b" "cap-0805"
   (id "ffc4be49")
   (nets "GND" "LF1_5901_2")
 )
-(part "C43" "a915cc2c-f984-5469-b7b4-e25930887547" "cap-0805"
+(part "C51" "a915cc2c-f984-5469-b7b4-e25930887547" "cap-0805"
   (id "f0533f49")
   (nets "CPOUT_2" "GND")
 )
-(part "C44" "92de7bda-bc04-58fd-a8b4-be48838a9c75" "cap-0805"
+(part "C52" "92de7bda-bc04-58fd-a8b4-be48838a9c75" "cap-0805"
   (id "b3567253")
   (nets "GND" "LF2_5901_2")
 )
@@ -468,7 +468,7 @@
   (nets "LF1_5901_1" "GND" "BPSK_GATE_1")
   (description "N2N7002 NMOS SOT-23")
 )
-(part "R39" "dd2de517-e70e-5403-97ff-c601987f2768" "res-0402"
+(part "R47" "dd2de517-e70e-5403-97ff-c601987f2768" "res-0402"
   (id "eb452576")
   (nets "GND" "BPSK_GATE_1")
 )
@@ -477,73 +477,11 @@
   (nets "GND" "BPSK_GATE_2" "LF1_5901_2")
   (description "N2N7002 NMOS SOT-23")
 )
-(part "R40" "eebca63c-817c-54d7-a793-653530bb50cb" "res-0402"
+(part "R48" "eebca63c-817c-54d7-a793-653530bb50cb" "res-0402"
   (id "e714a196")
   (nets "GND" "BPSK_GATE_2")
 )
-(part "U10" "296a2ff1-dbcd-5034-9712-bccaf8668a5a" "pma3-24323ln+"
-  (id "ed60c466")
-  (nets "BEAM1_RFIN" "LNA1_NC1" "BEAM1_LNAOUT" "GND" "GND" "GND" "GND" "GND" "VDD_LNA1" "VDD_LNA1" "VDD_LNA1" "VDD_LNA1" "LNA1_NC2")
-  (description "RF Amplifier SMT Low Noise Amplifier, 24 - 32 GHz, 50 Ohm")
-  (manufacturer "Mini-Circuits")
-  (mpn "PMA3-24323LN+")
-)
-(part "U11" "a93cb6b4-eb79-51a7-82df-a3730f82707b" "ind-0402"
-  (id "dd63836d")
-  (nets "VDD_LNA1" "AVDD_5901_1")
-)
-(part "C45" "9a89cf49-b952-5a33-aa8a-3b38fbaabc52" "cap-0402"
-  (id "baf95d85")
-  (nets "GND" "VDD_LNA1")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
-)
-(part "C46" "ef18f12d-aa03-5d2f-9bed-e73d6bd814f0" "cap-0402"
-  (id "c1ca2acc")
-  (nets "GND" "VDD_LNA1")
-)
-(part "C47" "76effe45-0d62-5bdb-9a95-9cf0867cad15" "cap-0201"
-  (id "af77115c")
-  (nets "GND" "VDD_LNA1")
-)
-(part "C48" "fdc71fd1-6a78-5063-8c16-46be599c1129" "cap-0805"
-  (id "f1a99655")
-  (nets "GND" "AVDD_5901_1")
-  (manufacturer "Samsung")
-  (mpn "CL21A106KAYNNNE")
-)
-(part "U12" "a80b5c0a-399b-54aa-a4ab-3e516de7b680" "pma3-24323ln+"
-  (id "bf507e47")
-  (nets "BEAM2_RFIN" "LNA2_NC2" "BEAM2_LNAOUT" "GND" "GND" "GND" "GND" "GND" "LNA2_NC1" "VDD_LNA2" "VDD_LNA2" "VDD_LNA2" "VDD_LNA2")
-  (description "RF Amplifier SMT Low Noise Amplifier, 24 - 32 GHz, 50 Ohm")
-  (manufacturer "Mini-Circuits")
-  (mpn "PMA3-24323LN+")
-)
-(part "U13" "8842d13a-14e6-58f1-82ab-b2df8232e040" "ind-0402"
-  (id "b7f5aa39")
-  (nets "VDD_LNA2" "AVDD_5901_1")
-)
-(part "C49" "3dd9ff0d-3ee3-5d5f-9aee-556e06f42daf" "cap-0402"
-  (id "ad951158")
-  (nets "GND" "VDD_LNA2")
-  (manufacturer "Samsung")
-  (mpn "CL05B104KO5NNNC")
-)
-(part "C50" "2427c75f-8c15-5fba-a8ed-b9c05c7e8b14" "cap-0402"
-  (id "c8487d7c")
-  (nets "GND" "VDD_LNA2")
-)
-(part "C51" "ad10b697-59c1-5d5d-a9d6-a30683c7f8d9" "cap-0201"
-  (id "e3fc5c92")
-  (nets "GND" "VDD_LNA2")
-)
-(part "C52" "02e9ee89-f34a-5929-912a-992a837594b6" "cap-0805"
-  (id "fc4dd373")
-  (nets "GND" "AVDD_5901_1")
-  (manufacturer "Samsung")
-  (mpn "CL21A106KAYNNNE")
-)
-(part "U14" "a7ac26bf-9792-5e88-8b77-08aa8e35d12f" "adar2001accz"
+(part "U10" "a7ac26bf-9792-5e88-8b77-08aa8e35d12f" "adar2001accz"
   (id "cf0ada80")
   (nets "MADV_1V8" "TX_EMVS_Hx-" "TxRST_1V8" "TX_EMVS_VREG" "TX_EMVS_VREG" "TX_EMVS_Ex-" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "TX_EMVS_Hx+" "CS_ADAR2001_1V8" "MRST_1V8" "LMX_RFOUTB_SE" "TX_EMVS_Ex+" "RF_SPI_MOSI_1V8" "TX_EMVS_Hy+" "V_RX_2P5" "V_RX_2P5" "V_RX_2P5" "V_RX_2P5" "TX_EMVS_Ey+" "TX_EMVS_Hy-" "TX_EMVS_Ey-" "TxADV_1V8" "RF_SPI_MISO_1V8" "RF_SPI_SCK_1V8")
   (description "ADAR2001 10 GHz to 40 GHz 1:4 Channel 4x Frequency Multiplier/Filter Tx")
@@ -594,18 +532,18 @@
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "R41" "f03a970a-70e6-59c8-ae74-fef8a642808c" "res-0402"
+(part "R49" "f03a970a-70e6-59c8-ae74-fef8a642808c" "res-0402"
   (id "c5dcf268")
   (nets "TX_EMVS_VREG" "CS_ADAR2001_1V8")
 )
-(part "U15" "764ea638-91d1-5877-9ebc-8ca016adc59c" "lmx2594rhat"
+(part "U11" "764ea638-91d1-5877-9ebc-8ca016adc59c" "lmx2594rhat"
   (id "a53fee4c")
   (nets "LMX_CPOUT" "LD_LMX2594_1V8" "VREFVCO_BYP" "LMX_RFOUTAM_TERM" "VBIASVARAC_BYP" "LMX_SYNC" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "VBIASVCO_BYP" "LMX_RFOUTB_SE" "LMX_VTUNE" "RF_SPI_MOSI_1V8" "VREGVCO_BYP" "LMX_CE" "RAMPCLK_AC" "RADAR_REF_AC" "SYSREFREQ_AC" "LMX_RFOUTA_SE" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "AVDD_5901_1" "CS_LMX2594_1V8" "LMX_RFOUTBM_TERM" "VBIASVCO2_BYP" "RF_SPI_SCK_1V8" "RAMPDIR_AC" "OSCINM_AC" "VREFVCO2_BYP")
   (description "15 GHz Wideband PLLatinum&#153; RF Synthesizer with Phase Synchronization and JESD204B support")
   (manufacturer "Texas Instruments")
   (mpn "LMX2594RHAT")
 )
-(part "R42" "98ad5d5e-cb39-55b2-bf5e-3b97b6b724e0" "res-0402"
+(part "R50" "98ad5d5e-cb39-55b2-bf5e-3b97b6b724e0" "res-0402"
   (id "e0014b90")
   (nets "LMX_CE" "AVDD_5901_1")
   (manufacturer "Yageo")
@@ -723,7 +661,7 @@
   (manufacturer "Samsung")
   (mpn "CL05B104KO5NNNC")
 )
-(part "R43" "5618ef17-22c5-51a8-80c9-9eafd2b8adf8" "res-0805"
+(part "R51" "5618ef17-22c5-51a8-80c9-9eafd2b8adf8" "res-0805"
   (id "a99ba07e")
   (nets "LMX_CPOUT" "LMX_LF_NODE1")
 )
@@ -735,7 +673,7 @@
   (id "a9a9f820")
   (nets "GND" "LMX_LF_NODE1")
 )
-(part "R44" "962bbfca-1f93-5136-9dc4-24706713927f" "res-0805"
+(part "R52" "962bbfca-1f93-5136-9dc4-24706713927f" "res-0805"
   (id "f67261e9")
   (nets "LMX_VTUNE" "LMX_LF_NODE1")
 )
@@ -743,15 +681,15 @@
   (id "e6981228")
   (nets "GND" "LMX_VTUNE")
 )
-(part "R45" "0275268b-ee63-5de2-861d-e9440bda975a" "res-0201"
+(part "R53" "0275268b-ee63-5de2-861d-e9440bda975a" "res-0201"
   (id "d6d4c72f")
   (nets "LMX_RFOUTAM_TERM" "GND")
 )
-(part "R46" "09120ebd-8635-5be1-9379-b06d5f96678e" "res-0201"
+(part "R54" "09120ebd-8635-5be1-9379-b06d5f96678e" "res-0201"
   (id "fc3a4147")
   (nets "GND" "LMX_RFOUTBM_TERM")
 )
-(part "R47" "bb848f96-34ff-5e49-a01e-01c0cdb4cf2e" "res-0402"
+(part "R55" "bb848f96-34ff-5e49-a01e-01c0cdb4cf2e" "res-0402"
   (id "e6ab2118")
   (nets "LO_RX1" "LO_RX2")
 )
@@ -765,7 +703,7 @@
 )
 (part "U1" "cb485216-b838-51b6-8290-b56b92b2180e" "adar2004accz"
   (id "b70251e5")
-  (nets "MRST" "RF_SPI_MOSI" "ADF_CH5P" "RX1_RFIN4-" "RX1_RFIN2-" "RX1_RFIN4+" "ADF_CH6P" "U1_VREG" "U1_VREG" "RX1_RFIN3-" "MADV" "CS_RX1" "RX1_RFIN1-" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "RxADV" "ADF_CH6N" "ADF_CH5N" "LO_RX1" "RX1_RFIN2+" "ADF_CH8P" "RX1_RFIN3+" "ADF_CH7P" "RX1_RFIN1+" "ADF_CH8N" "V_RX_2P5" "V_RX_2P5" "V_RX_2P5" "RxRST" "ADF_CH7N")
+  (nets "MRST" "RF_SPI_MOSI" "ADF_CH5P" "RX1_RFIN4-" "RX1_RFIN2-" "RX1_RFIN4+" "ADF_CH6P" "U1_VREG" "U1_VREG" "RX1_RFIN3-" "MADV" "CS_RX1" "RX1_RFIN1-" "RF_SPI_SCK" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "GND" "RF_SPI_MISO" "RxADV" "ADF_CH6N" "ADF_CH5N" "LO_RX1" "RX1_RFIN2+" "ADF_CH8P" "RX1_RFIN3+" "RX1_RFIN1+" "ADF_CH7P" "ADF_CH8N" "V_RX_2P5" "V_RX_2P5" "V_RX_2P5" "RxRST" "ADF_CH7N")
   (description "ADAR2004 10 GHz to 40 GHz 4-Channel Rx Mixer with 4x LO Multiplier/Filter")
   (manufacturer "Analog Devices")
   (mpn "ADAR2004ACCZ")
@@ -800,7 +738,7 @@
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "R48" "fcf94cee-0e16-5561-8b61-3033be2a827d" "res-0402"
+(part "R56" "fcf94cee-0e16-5561-8b61-3033be2a827d" "res-0402"
   (id "c76e1446")
   (nets "U1_VREG" "CS_RX1")
 )
@@ -841,7 +779,85 @@
   (manufacturer "Samsung")
   (mpn "CL05A105KA5NQNC")
 )
-(part "R49" "12b0e3d8-9294-55ac-bab6-0dd48e27704d" "res-0402"
+(part "R57" "12b0e3d8-9294-55ac-bab6-0dd48e27704d" "res-0402"
   (id "d3bd82eb")
   (nets "CS_RX2" "U2_VREG")
+)
+(part "lna1/U12" "080ca45f-ae08-553f-9301-550ffa75ef75" "pma3-24323ln+"
+  (id "c891b3ec")
+  (nets "RFIN" "VDD_4" "VDD_10" "GND" "GND" "GND" "GND" "GND" "LNAOUT" "VDD_6" "NC2" "VDD_12" "NC1")
+  (description "RF Amplifier SMT Low Noise Amplifier, 24 - 32 GHz, 50 Ohm")
+  (manufacturer "Mini-Circuits")
+  (mpn "PMA3-24323LN+")
+)
+(part "lna1/R58" "43cfa1ab-6fe5-57d3-975a-8da1f332a0c9" "res-0402"
+  (id "e96a6742")
+  (nets "V_RF_3P3" "VDD_6")
+)
+(part "lna1/C101" "ee739d3d-24c4-5275-88f3-864e2b133d5b" "cap-0201"
+  (id "c0e75ebc")
+  (nets "GND" "VDD_6")
+)
+(part "lna1/R59" "21119cc2-9759-5c84-830c-f1a36ed92cb7" "res-0402"
+  (id "f2ccb7bb")
+  (nets "V_RF_3P3" "VDD_10")
+)
+(part "lna1/C102" "c101cf8d-2874-52d6-b3b7-8c546685e952" "cap-0201"
+  (id "b4a18b31")
+  (nets "VDD_10" "GND")
+)
+(part "lna1/R60" "bcd6d4f2-5ba2-59f5-b5cc-97a343da5098" "res-0201"
+  (id "d39c9f0d")
+  (nets "V_RF_3P3" "VDD_4")
+)
+(part "lna1/C103" "893f43fb-a1f6-561c-8064-f73af10a83b4" "cap-0402"
+  (id "ac7d3b5c")
+  (nets "VDD_4" "GND")
+)
+(part "lna1/R61" "7bf235de-3215-5b63-9f36-88fdacd80efd" "res-0201"
+  (id "d3b1d483")
+  (nets "V_RF_3P3" "VDD_12")
+)
+(part "lna1/C104" "6e526835-24fe-59ae-baac-2cf798789e13" "cap-0402"
+  (id "ffec691f")
+  (nets "GND" "VDD_12")
+)
+(part "lna2/U13" "27f67d59-48fa-5712-9f8c-f9de07049dc0" "pma3-24323ln+"
+  (id "bcb0de39")
+  (nets "RFIN" "VDD_4" "VDD_10" "GND" "GND" "GND" "GND" "GND" "LNAOUT" "VDD_6" "NC2" "VDD_12" "NC1")
+  (description "RF Amplifier SMT Low Noise Amplifier, 24 - 32 GHz, 50 Ohm")
+  (manufacturer "Mini-Circuits")
+  (mpn "PMA3-24323LN+")
+)
+(part "lna2/R62" "462a553a-bfd4-53d0-a856-f3b98675e153" "res-0402"
+  (id "b1455f31")
+  (nets "V_RF_3P3" "VDD_6")
+)
+(part "lna2/C105" "67eb578f-dc68-5a54-ab28-63498690964a" "cap-0201"
+  (id "ec8ec682")
+  (nets "GND" "VDD_6")
+)
+(part "lna2/R63" "9424b9ff-5ac2-51a3-8cc0-ae97ddb2072b" "res-0402"
+  (id "aa5c563c")
+  (nets "V_RF_3P3" "VDD_10")
+)
+(part "lna2/C106" "10af1a00-62c3-53b6-811d-5a4b06f63985" "cap-0201"
+  (id "c53b0a34")
+  (nets "VDD_10" "GND")
+)
+(part "lna2/R64" "59a3d93c-1f0e-55ad-b158-d7476e9d1202" "res-0201"
+  (id "ab49655a")
+  (nets "V_RF_3P3" "VDD_4")
+)
+(part "lna2/C107" "13cfb466-07e9-5b18-be2b-46d30c7b05d6" "cap-0402"
+  (id "e7d3cec6")
+  (nets "VDD_4" "GND")
+)
+(part "lna2/R65" "ecd1bea0-a7f2-54f8-a8a7-4184962cde4f" "res-0201"
+  (id "cff170ee")
+  (nets "V_RF_3P3" "VDD_12")
+)
+(part "lna2/C108" "c7ad27b6-26fa-5bf5-80b9-240c01f43ff9" "cap-0402"
+  (id "ae45030e")
+  (nets "GND" "VDD_12")
 )
