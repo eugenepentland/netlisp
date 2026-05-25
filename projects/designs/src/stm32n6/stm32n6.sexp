@@ -22,6 +22,35 @@
   ;; Target board for the file-based KiCad sync ("Push to KiCad PCB").
   (kicad-pcb "/mnt/nas/Cyclops/Cyclops Digital/Cyclops Digital.kicad_pcb")
 
+  ;; Up-front design document: the critical ICs this board is built around.
+  ;; The schematic page's Traceability panel marches each one through
+  ;; footprint → datasheet → requirements → placed+verified.
+  (design-doc
+    (critical-ic stm32n657l0h3q
+      (role "Main MCU")
+      (rationale "Cortex-M55 + Neural-ART NPU — runs the whole system")
+      (mpn "STM32N657L0H3Q"))
+    (critical-ic mx66uw1g45gxdi00
+      (role "Boot / XIP flash")
+      (rationale "1Gb Octal-SPI flash for code + assets")
+      (mpn "MX66UW1G45GXDI00"))
+    (critical-ic aps256xxn-ob9-bg
+      (role "Working RAM")
+      (rationale "256Mb Octal PSRAM for framebuffers + model weights")
+      (mpn "APS256XXN-OB9R-BG"))
+    (critical-ic bno08x
+      (role "IMU")
+      (rationale "9-axis fusion sensor for orientation")
+      (mpn "BNO086"))
+    (critical-ic ad7380-4bcpz
+      (role "Precision ADC")
+      (rationale "Dual 16-bit SAR ADC for the sensor front-end")
+      (mpn "AD7380-4BCPZ"))
+    (critical-ic ltc6655bhms8-2-5#pbf
+      (role "Voltage reference")
+      (rationale "2.5V low-noise reference for the ADC")
+      (mpn "LTC6655BHMS8-2.5#PBF")))
+
   (instance "stm32" stm32n657l0h3q (id b22d91d5))
 
   ;; House decouple defaults: a (decouple …) may omit its component (a leading

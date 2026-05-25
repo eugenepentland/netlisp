@@ -83,6 +83,73 @@
   (hierarchical-ids)
 
   ;; ─────────────────────────────────────────────────────────────────────
+  ;; DESIGN DOCUMENT — critical ICs this board is built around
+  ;; ─────────────────────────────────────────────────────────────────────
+  ;; The schematic page's Traceability panel marches each one through
+  ;; footprint → datasheet → requirements → placed+verified. ICs still on the
+  ;; TBD list in the header (no lib/components file yet) show all stages red
+  ;; until their .kicad_sym is imported and run through regenerate_pinout.
+  (design-doc
+    ;; K-band TX chain
+    (critical-ic adf4159
+      (role "K-band chirp PLL")
+      (rationale "FMCW chirp generator driving the ADF5901 TX VCO")
+      (mpn "ADF4159"))
+    (critical-ic adf5901acpz-rl7
+      (role "24 GHz TX VCO + PA")
+      (rationale "K-band transmit source, ×2 for TX1/TX2 patches")
+      (mpn "ADF5901ACPZ-RL7"))
+    (critical-ic hmc1131lc4
+      (role "24-35 GHz medium-power amp")
+      (rationale "Boosts ADF5901 output to the TX antennas")
+      (mpn "HMC1131LC4"))
+    ;; K-band RX chain
+    (critical-ic adf5904acpz
+      (role "4-ch K-band downconverter")
+      (rationale "Main RX receiver, IF Ch A/B → AD7380-4 #3 on the digital board")
+      (mpn "ADF5904ACPZ"))
+    ;; EMVS chains
+    (critical-ic adar2004accz
+      (role "4-ch EMVS Rx mixer")
+      (rationale "EMVS receive front-end, ×2 (Cell 1/Cell 2) → IF CH1-CH8")
+      (mpn "ADAR2004ACCZ"))
+    (critical-ic adar2001accz
+      (role "4-ch EMVS Tx (10-40 GHz)")
+      (rationale "Rev E wideband EMVS transmit, replaces the bow-tie antennas")
+      (mpn "ADAR2001ACCZ"))
+    ;; LO synthesis + reference
+    (critical-ic lmx2594rhat
+      (role "6 GHz LO PLL+VCO")
+      (rationale "Wilkinson-split LO to ADAR2004 ×2 and direct to ADAR2001")
+      (mpn "LMX2594RHAT"))
+    (critical-ic sit5157ai-fa-33e0-100-000000
+      (role "100 MHz reference TCXO")
+      (rationale "Fans out to ADF4159 ×2, ADF5901 ×2, ADF5904, LMX2594")
+      (mpn "SiT5157AI-FA-33E0-100.000000"))
+    ;; Control + level translation
+    (critical-ic max7301atl+
+      (role "28-port SPI I/O expander")
+      (rationale "Generates all RF chip-selects, master enables and lock-detect inputs")
+      (mpn "MAX7301ATL+"))
+    (critical-ic txs0108e
+      (role "8-bit level shifter")
+      (rationale "3.3 V host SPI/control ↔ 1.8 V for ADAR/LMX")
+      (mpn "TXS0108EPWR"))
+    ;; Power tree
+    (critical-ic tps63806
+      (role "Buck-boost → 3.3 V analog")
+      (rationale "VBATT 3.0-4.2 V to 3.3 V, handles end-of-discharge")
+      (mpn "TPS63806"))
+    (critical-ic lt3045edd
+      (role "LDO → 2.5 V EMVS")
+      (rationale "Low-noise 2.5 V rail for the EMVS chains")
+      (mpn "LT3045EDD"))
+    (critical-ic lp5907mfx-1-8-nopb
+      (role "LDO → 1.8 V VCCA")
+      (rationale "Level-shifter VCCA supply")
+      (mpn "LP5907MFX-1.8/NOPB")))
+
+  ;; ─────────────────────────────────────────────────────────────────────
   ;; MEZZANINE CONNECTOR
   ;; ─────────────────────────────────────────────────────────────────────
 
