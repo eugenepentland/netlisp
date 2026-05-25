@@ -84,4 +84,5 @@
     (ref "pma3-24323ln+.pdf" (page 6) (quote "Human Body Model (HBM) 1A 250V to <500V")))
 
   (requirement "Moisture sensitivity level is MSL1 per IPC/JEDEC J-STD-020E / J-STD-033C; no special pre-bake required, but follow standard reflow practice"
-    (ref "pma3-24323ln+.pdf" (page 6) (quote "Moisture Sensitivity: MSL1 in accordance with IPC/JEDEC J-STD-020E/JEDEC J-STD-033C"))))
+    (ref "pma3-24323ln+.pdf" (page 6) (quote "Moisture Sensitivity: MSL1 in accordance with IPC/JEDEC J-STD-020E/JEDEC J-STD-033C")))
+  (datasheet "PMA3-24323LN_.pdf"))

@@ -792,7 +792,7 @@
 )
 (part "lna1/R58" "43cfa1ab-6fe5-57d3-975a-8da1f332a0c9" "res-0402"
   (id "e96a6742")
-  (nets "V_RF_3P3" "VDD_6")
+  (nets "VDD_6" "V5P0")
 )
 (part "lna1/C101" "ee739d3d-24c4-5275-88f3-864e2b133d5b" "cap-0201"
   (id "c0e75ebc")
@@ -800,7 +800,7 @@
 )
 (part "lna1/R59" "21119cc2-9759-5c84-830c-f1a36ed92cb7" "res-0402"
   (id "f2ccb7bb")
-  (nets "V_RF_3P3" "VDD_10")
+  (nets "VDD_10" "V5P0")
 )
 (part "lna1/C102" "c101cf8d-2874-52d6-b3b7-8c546685e952" "cap-0201"
   (id "b4a18b31")
@@ -808,7 +808,7 @@
 )
 (part "lna1/R60" "bcd6d4f2-5ba2-59f5-b5cc-97a343da5098" "res-0201"
   (id "d39c9f0d")
-  (nets "V_RF_3P3" "VDD_4")
+  (nets "VDD_4" "V5P0")
 )
 (part "lna1/C103" "893f43fb-a1f6-561c-8064-f73af10a83b4" "cap-0402"
   (id "ac7d3b5c")
@@ -816,7 +816,7 @@
 )
 (part "lna1/R61" "7bf235de-3215-5b63-9f36-88fdacd80efd" "res-0201"
   (id "d3b1d483")
-  (nets "V_RF_3P3" "VDD_12")
+  (nets "VDD_12" "V5P0")
 )
 (part "lna1/C104" "6e526835-24fe-59ae-baac-2cf798789e13" "cap-0402"
   (id "ffec691f")
@@ -831,7 +831,7 @@
 )
 (part "lna2/R62" "462a553a-bfd4-53d0-a856-f3b98675e153" "res-0402"
   (id "b1455f31")
-  (nets "V_RF_3P3" "VDD_6")
+  (nets "VDD_6" "V5P0")
 )
 (part "lna2/C105" "67eb578f-dc68-5a54-ab28-63498690964a" "cap-0201"
   (id "ec8ec682")
@@ -839,7 +839,7 @@
 )
 (part "lna2/R63" "9424b9ff-5ac2-51a3-8cc0-ae97ddb2072b" "res-0402"
   (id "aa5c563c")
-  (nets "V_RF_3P3" "VDD_10")
+  (nets "VDD_10" "V5P0")
 )
 (part "lna2/C106" "10af1a00-62c3-53b6-811d-5a4b06f63985" "cap-0201"
   (id "c53b0a34")
@@ -847,7 +847,7 @@
 )
 (part "lna2/R64" "59a3d93c-1f0e-55ad-b158-d7476e9d1202" "res-0201"
   (id "ab49655a")
-  (nets "V_RF_3P3" "VDD_4")
+  (nets "VDD_4" "V5P0")
 )
 (part "lna2/C107" "13cfb466-07e9-5b18-be2b-46d30c7b05d6" "cap-0402"
   (id "e7d3cec6")
@@ -855,7 +855,7 @@
 )
 (part "lna2/R65" "ecd1bea0-a7f2-54f8-a8a7-4184962cde4f" "res-0201"
   (id "cff170ee")
-  (nets "V_RF_3P3" "VDD_12")
+  (nets "VDD_12" "V5P0")
 )
 (part "lna2/C108" "c7ad27b6-26fa-5bf5-80b9-240c01f43ff9" "cap-0402"
   (id "ae45030e")

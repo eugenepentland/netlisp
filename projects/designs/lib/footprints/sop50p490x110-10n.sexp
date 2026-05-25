@@ -1,0 +1,22 @@
+(footprint "SOP50P490X110-10N"
+  (description "DGS0010A HEIGHT=1.1")
+
+  (pad 1 smd rect (pos -2.20 -1.00) (size 1.40 0.30))
+  (pad 2 smd rect (pos -2.20 -0.50) (size 1.40 0.30))
+  (pad 3 smd rect (pos -2.20 0.00) (size 1.40 0.30))
+  (pad 4 smd rect (pos -2.20 0.50) (size 1.40 0.30))
+  (pad 5 smd rect (pos -2.20 1.00) (size 1.40 0.30))
+  (pad 6 smd rect (pos 2.20 1.00) (size 1.40 0.30))
+  (pad 7 smd rect (pos 2.20 0.50) (size 1.40 0.30))
+  (pad 8 smd rect (pos 2.20 0.00) (size 1.40 0.30))
+  (pad 9 smd rect (pos 2.20 -0.50) (size 1.40 0.30))
+  (pad 10 smd rect (pos 2.20 -1.00) (size 1.40 0.30))
+  (courtyard (rect -3.150 -1.800 3.150 1.800))
+  (silkscreen
+    (line (-1.15 -1.50) (1.15 -1.50))
+    (line (1.15 -1.50) (1.15 1.50))
+    (line (1.15 1.50) (-1.15 1.50))
+    (line (-1.15 1.50) (-1.15 -1.50))
+    (line (-2.90 -1.50) (-1.50 -1.50))
+  )
+)
